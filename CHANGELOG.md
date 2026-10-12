@@ -3,6 +3,55 @@
 All notable changes to MediaFlyouts are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] — 2026-10-09
+
+Adds a stacked widget layout and a "Pause all" media control, fixes taskbar
+widget placement on secondary monitors and Logitech receiver detection, and
+surfaces unavailable Windows subsystems in the dashboard.
+
+### Added
+
+- Widget layout option. Media and peripheral widgets can sit side by side or
+  share one taskbar slot as a scrollable stack. In stack mode the scroll wheel
+  pages between the media widget and separate 2.4 GHz, Bluetooth and wired
+  peripheral pages. Every page uses one frame sized to the largest widget,
+  with the content centered.
+- Slide-and-fade transitions when switching media sources on the media widget
+  and when paging through the widget stack.
+- Media widget "Pause all" button that pauses every playing media source at
+  once. An optional follow-up turns the same button into "Play all" whenever
+  every source is paused, and resumes them. With the follow-up off, the button
+  hides while everything is paused but keeps its slot.
+- Dashboard status banner and tray tooltip that name any Windows subsystem
+  (audio, media sessions, lock keys, media keys) that did not answer, so a
+  disabled setting is explained instead of failing silently.
+
+### Changed
+
+- Flyout hover and seekbar drag handling moved to shared `PeekArea` and
+  `ScrubArea` components, and animation durations are centralized in
+  `Anim.qml`.
+- One app-wide monitor map (`MonitorMapper`) now backs taskbar, flyout
+  placement and fullscreen detection instead of each resolving monitors on
+  its own. Placement math lives in the unit-tested `TaskbarLayout` model.
+- Battery providers share one set of device-node helpers for PnP properties
+  and Bluetooth address lookups.
+- The build script's `-ShowOutput` switch was replaced by `-Quiet`.
+- Removed the obsolete `run_app.ps1` and `setup_env.ps1` scripts; use
+  `mediaflyouts.ps1` instead.
+
+### Fixed
+
+- Taskbar widgets on a secondary monitor no longer leave the primary tray's
+  gap. Each monitor's own taskbar is measured, and on Windows 11 the tray and
+  clock are read through UI Automation when the Win32 child window is missing.
+- "Play all" now resumes every paused media source. It used to resume only
+  the sources that "Pause all" had paused, so a source paused by hand before
+  stayed silent.
+- Logitech devices on Bolt and Unifying receivers are now detected. HID++
+  requests use the long-report collection, all receiver slots are probed at
+  once, and the device reports its own name, type and charging state.
+
 ## [1.3.0] — 2026-09-10
 
 Adds wired peripheral support and improves peripheral management, charger
@@ -121,9 +170,9 @@ written from scratch in Qt 6 / C++ / QML.
 - Caps / Num / Scroll / Insert indicators with per-key toggles, a configurable
   duration and a bold-UI option.
 
-### Now Playing / Up next
+### Now Playing / Now Playing
 
-- Fires on track change; selectable "now playing card" or compact "Up next"
+- Fires on track change; selectable "now playing card" or compact "Now Playing"
   pill style; sizes to its track text; configurable duration.
 
 ### Taskbar widget & visualizer
@@ -169,3 +218,4 @@ written from scratch in Qt 6 / C++ / QML.
 [1.0.0]: https://github.com/scleaverzer0ne/MediaFlyouts/releases/tag/v1.0.0
 [1.2.0]: https://github.com/scleaverzer0ne/MediaFlyouts/releases/tag/v1.2.0
 [1.3.0]: https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases/tag/v1.3.0
+[1.4.0]: https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases/tag/v1.4.0

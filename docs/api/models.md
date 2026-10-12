@@ -4,8 +4,10 @@ The `Model/` sources build into the `mediaflyout_core` static library
 (`Qt6::Core` only) and hold the app's portable, unit-tested domain logic.
 
 ## Settings
+
 `Settings : QObject` — persisted application settings backed by `QSettings`,
 exposed to QML as the `settings` context property.
+
 - One `Q_PROPERTY` per setting with a `changed()` notify signal.
 - `exportTo(QUrl)` / `importFrom(QUrl)` — backup and restore.
 - `playerAllowed(name)`, `filterMode`, `filterList`, `addFilterEntry` /
@@ -16,29 +18,61 @@ exposed to QML as the `settings` context property.
   the store, so a later system change never moves a widget the user has placed.
 
 ## TrackInfo (`namespace mf`)
+
 Plain struct describing the current track (title, artist, album, source app,
 `PlaybackState`, position/duration, repeat/shuffle, capability flags) plus
 helpers: `formatDuration(ms)`, `formatTrackLine(track)`,
 `playbackProgress(track)`.
 
 ## PlaybackController
+
 `IPlaybackController` — transport abstraction (`play`, `pause`, `next`,
 `previous`, optional `seek` / `setRepeatMode` / `setShuffle` / session cycling)
 so playback logic stays mockable. `togglePlayPause(controller, state)` is a free
 helper.
 
 ## Fft
+
 `mf::fft`, `mf::magnitudeSpectrum`, `mf::spectrumBands`, and `mf::frequencyBars`
 — a radix-2 FFT and log-spaced, dB-mapped band extraction used by the visualizer.
 
 ## FlyoutPositioner
+
 Pure geometry that computes a flyout's on-screen rectangle from a position enum,
 screen bounds and size — the testable core behind `FlyoutPlacement`.
 
+## TaskbarLayout (`namespace mf`)
+
+`TaskbarReserve` holds the leading (Start / task buttons) and trailing (tray,
+clock, show-desktop) taskbar rects a widget must not cover.
+`taskbarWidgetX(screen, reserve, side, offset, width, margin)` returns the
+widget's left edge; a reserve counts only when it sits within `kEdgeTolerance`
+of its screen edge, and `kUnmeasuredTrayWidth` is held back when the tray could
+not be measured. The testable core behind `TaskbarInfo`.
+
 ## AlbumArtProvider
+
 A `QQuickImageProvider` that serves the current album art to QML (`image://…`).
 
+## Capabilities
+
+`Capabilities : QObject` — tracks which platform subsystems answered, exposed to
+QML as the `capabilities` context property. Every flag starts `true` and clears
+only after a controller reports failure, so a working machine never flickers
+into a degraded state at startup.
+
+- `audioAvailable`, `mediaSessionAvailable`, `lockKeysAvailable`,
+  `mediaKeysAvailable`, `chargerAvailable` — one flag per subsystem, each fed by
+  the matching controller's `availabilityChanged` signal in
+  `MainControllerClass`.
+- `degraded` / `unavailableNames` — drive the dashboard status banner so a lost
+  subsystem is explained instead of silently disabling settings.
+- `statusSummary()` — one-line text used for the tray icon tooltip.
+- `chargerAvailable` is excluded from `degraded`: a desktop with no battery is
+  normal, not a failure.
+
 ## Peripheral battery helpers
+
 Pure, unit-tested logic shared by the battery providers, so the protocol and
 policy rules can be exercised without real hardware:
 
@@ -53,7 +87,9 @@ policy rules can be exercised without real hardware:
 - **RazerProtocol** — builds the 90-byte feature reports and reads the battery
   level (reported on a 0-255 scale) and charging state.
 - **HidppProtocol** — Logitech HID++ 2.0 requests and replies, covering both the
-  modern `0x1004` UnifiedBattery and the legacy `0x1000` feature.
+  modern `0x1004` UnifiedBattery and the legacy `0x1000` feature, plus the
+  `0x0005` DeviceName feature (name, type), charging state, long-report
+  rewriting and request / reply matching.
 - **BatteryAlertPolicy** — decides which changes deserve an alert: battery
   buckets, downward threshold crossings with hysteresis, connect/disconnect
   debouncing, and baseline seeding so launching the app is silent.
@@ -65,5 +101,6 @@ Repeated connect/disconnect events are debounced, and the initial snapshot is
 seeded without producing an alert burst.
 
 ## WinMediaProvider *(Windows)*
+
 Bridges the WinRT **System Media Transport Controls** to `TrackInfo`, feeding
 `NowPlaying`.

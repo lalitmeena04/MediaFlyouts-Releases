@@ -1,5 +1,53 @@
 # MediaFlyouts Release Notes
 
+## Version 1.4.0 — Widget stack, Pause all and multi-monitor fixes (October 2026)
+
+Version 1.4.0 adds a stacked taskbar widget layout and a "Pause all" media
+control, fixes widget placement on secondary monitors and Logitech receiver
+detection, and explains unavailable Windows subsystems in the dashboard.
+
+### Taskbar widgets
+
+- Adds a **Widget layout** option on the Media Widget page: keep the media and
+  peripheral widgets side by side, or stack them in one taskbar slot and scroll
+  between the media page and separate 2.4 GHz, Bluetooth and wired pages.
+  Stacked pages share one frame sized to the largest widget.
+- Adds slide-and-fade transitions when switching media sources and when paging
+  through the widget stack.
+- Adds a **Pause all** button to the media widget that pauses every playing
+  source. An optional follow-up turns it into **Play all** once everything is
+  paused.
+- Fixes the gap widgets left on a secondary monitor. Each monitor's own
+  taskbar is now measured, including the Windows 11 tray and clock that have
+  no Win32 window.
+
+### Peripherals
+
+- Detects Logitech devices on Bolt and Unifying receivers. All receiver slots
+  are probed and the device reports its own name, type and charging state.
+
+### Dashboard
+
+- Shows a status banner, and a matching tray tooltip, when Windows did not
+  provide a subsystem (audio, media sessions, lock keys or media keys), so a
+  disabled setting is explained.
+
+### Engineering
+
+- One app-wide monitor map backs taskbar, flyout placement and fullscreen
+  detection; placement math is unit-tested in `TaskbarLayout`.
+- Shared `PeekArea` / `ScrubArea` flyout components and centralized animation
+  durations.
+- Shared device-node helpers for the PnP-based battery providers.
+- Build script: `-ShowOutput` replaced by `-Quiet`; obsolete `run_app.ps1` and
+  `setup_env.ps1` removed.
+
+### Downloads
+
+See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+`MediaFlyouts-1.4.0-setup.exe`, `MediaFlyouts-1.4.0.msix` (+ `MediaFlyouts.cer`),
+`MediaFlyouts-1.4.0-win64.zip`, and `MediaFlyouts-1.4.0-src.zip`.
+
 ## Version 1.3.0 — Wired peripheral and update improvements (September 2026)
 
 Version 1.3.0 extends peripheral monitoring to wired devices and improves
@@ -139,9 +187,9 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
 - Caps / Num / Scroll / Insert indicators with per-key toggles, a configurable
   duration and a bold-UI option.
 
-### ⏭️ Now Playing / Up next
+### ⏭️ Now Playing / Now Playing
 
-- Fires on track change; selectable "now playing card" or compact "Up next" pill
+- Fires on track change; selectable "now playing card" or compact "Now Playing" pill
   style; sizes to its track text.
 
 ### 📊 Taskbar widget & visualizer

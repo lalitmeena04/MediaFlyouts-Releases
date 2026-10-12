@@ -15,7 +15,7 @@ properties and QML binds to their properties/signals.
   draggable seekbar.
 - **VolumeFlyout.qml** — master volume slider + the expandable per-app mixer.
 - **LockKeysFlyout.qml** — Caps/Num/Scroll/Insert indicators.
-- **NowPlayingFlyout.qml** — the "now playing" / "up next" flyout (card or pill).
+- **NowPlayingFlyout.qml** — the "now playing" / "Now Playing" flyout (card or pill).
 - **PeripheralFlyout.qml** + **PeripheralCard.qml** — peripheral connect /
   disconnect / low-battery events, several devices side by side in one window,
   including wired devices.
@@ -29,10 +29,14 @@ properties and QML binds to their properties/signals.
   `settings.onboardingCompleted`, every `showFlyout()` returns early and the
   taskbar widget's `visible` binding stays false.
 - **TaskbarWidget.qml** + **TaskbarVisualizer.qml** — the taskbar now-playing
-  widget and its multi-style audio visualizer.
+  widget and its multi-style audio visualizer. Hosts the "Pause all" /
+  "Play all" button.
 - **PeripheralsWidget.qml** — battery rings for the selected peripherals,
   docked alongside the now-playing widget, with transport labels and custom
-  device names.
+  device names. In stack layout it provides one page per transport.
+- **WidgetStack.qml** — shares one frame between the media and peripheral
+  pages when `settings.taskbarWidgetLayout` is Stack; the scroll wheel pages
+  between them.
 - **BatteryRing.qml** — the reusable circular battery gauge.
 - **DeviceIcons.qml** (singleton) — device glyph and transport label
   ("Bluetooth", "2.4 GHz", "USB") for the battery UI.
@@ -40,7 +44,14 @@ properties and QML binds to their properties/signals.
 ## Shared components
 
 - **Fluent.qml** (singleton) — Fluent icon glyph codepoints.
-- **Anim.qml** (singleton) — animation easing helpers.
+- **Anim.qml** (singleton) — animation easing helpers and shared durations.
+- **SlideFade.qml** — slide-and-fade transition used when switching media
+  sources and widget-stack pages.
+- **PeekArea.qml** — hover region that pauses a flyout's auto-hide.
+- **ScrubArea.qml** — drag gesture handler behind the seekbar and volume
+  slider.
+- **WidgetButton.qml / WidgetTooltip.qml** — taskbar-widget button and its
+  tooltip.
 - **RoundedArt.qml** — album art with rounded corners.
 - **IconLabel.qml** — a glyph-icon label.
 - **SettingRow.qml / SettingCombo.qml / SettingSlider.qml** — dashboard controls.
@@ -58,10 +69,10 @@ result to the available screen.
 ## Context properties (from `main.cpp`)
 
 `nowPlaying`, `settings`, `theme`, `placement`, `tray`, `updateChecker`,
-`instance`, and (on Windows) `volumeController`, `volumeMixer`, `audioCapture`,
-`taskbar`, `fullscreen`, `lockKeys`, `windowEffects`. QML reads these directly,
-e.g. `nowPlaying.title`, `settings.visualizerStyle`, `theme.accent`,
-`audioCapture.bands`.
+`instance`, `capabilities`, `monitors`, and (on Windows) `volumeController`,
+`volumeMixer`, `audioCapture`, `taskbar`, `fullscreen`, `lockKeys`,
+`windowEffects`. QML reads these directly, e.g. `nowPlaying.title`,
+`settings.visualizerStyle`, `theme.accent`, `audioCapture.bands`.
 
 The QML module and its resources (including the Fluent icon font) are registered
 via `qt_add_qml_module` in [`CMakeLists.txt`](../../CMakeLists.txt).

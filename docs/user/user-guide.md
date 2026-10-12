@@ -37,7 +37,7 @@ page in Settings.
 Toggling Caps / Num / Scroll / Insert shows a brief indicator. Enable or disable
 each key, the duration, and the bold style in Settings.
 
-### Up next
+### Now Playing
 When a track auto-advances, a compact flyout shows what started playing. Choose
 the **card** or **compact pill** style in Settings.
 
@@ -50,6 +50,12 @@ center-aligned, right if it is left-aligned. You can:
 - dock it to the **left or right**, move it between **monitors**, and nudge it
   with an **offset**;
 - **scroll** or **swipe** across it to switch between multiple playing apps;
+- turn on the **Pause all button** to pause every playing app at once. With
+  **Play all after pausing** on, the same button resumes them once everything
+  is paused;
+- pick a **Widget layout** — **Side by side** keeps the media and peripheral
+  widgets next to each other, **Stack** puts them in one slot and lets you
+  scroll between the media page and the 2.4 GHz, Bluetooth and wired pages;
 - turn on the **audio visualizer** and pick a style — **Bars**, **Radial**,
   **Waveform** or **Particles**.
 
@@ -97,6 +103,10 @@ box** to jump to any setting. Highlights:
   animation speed and easing.
 - **App filtering** — blacklist or whitelist which players may trigger flyouts.
 - **Backup / restore** — export and import all settings.
+
+If Windows did not provide a subsystem (for example audio or media sessions),
+a banner at the top of the dashboard names it and the related settings are
+disabled. The tray icon tooltip shows the same summary.
 
 ## Startup & updates
 

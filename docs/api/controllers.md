@@ -8,7 +8,7 @@ controllers build everywhere; the rest are Windows-only.
 ### NowPlaying
 QML-facing now-playing model (`nowPlaying`). Applies `TrackInfo` updates, exposes
 title/artist/art/progress and transport `Q_INVOKABLE`s, and decides whether a
-change should raise the media flyout or the "up next" flyout. Forwards transport
+change should raise the media flyout or the "Now Playing" flyout. Forwards transport
 commands to an `IPlaybackController`. Windows media sessions are matched by app
 ID and refreshed through queued hooks, which keeps source and playback changes
 reliable during rapid switching.
@@ -24,7 +24,15 @@ accent.
 
 ### FlyoutPlacement
 Resolves a flyout's screen position from the placement settings for QML
-(`Q_INVOKABLE position(w, h)`, `monitorNames()`).
+(`Q_INVOKABLE position(w, h)`, `monitorNames()`). Monitors come from
+`MonitorMapper`.
+
+### MonitorMapper
+One app-wide `QScreen` → native monitor map (`HMONITOR` on Windows, built from
+`QNativeInterface::QWindowsScreen`). `TaskbarInfo`, `FlyoutPlacement` and
+`FullscreenDetector` consume it instead of resolving monitors on their own.
+Exposes `geometry(index)` / `availableGeometry(index)` to QML and converts
+native rects to logical pixels.
 
 ### SingleInstance
 Ensures a single running instance (via a local server); a second launch signals
@@ -53,14 +61,19 @@ running version comes from `MEDIAFLYOUTS_VERSION`.
   working during the first-run wizard.
 - **StartupController** — launch-on-startup via the MSIX startup-task API for
   packaged installs, or the `Run` registry key for unpackaged installs.
-- **TaskbarInfo** — taskbar geometry for placing the widget.
+- **TaskbarInfo** — taskbar geometry for placing the widget. Finds the taskbar
+  window that owns each monitor and measures its tray via UI Automation when
+  the Win32 child is missing (Windows 11 secondary taskbars). Results are
+  cached per taskbar for 2 s. Placement math is in `mf::taskbarWidgetX`.
 - **BatteryStatusController** — aggregates peripheral battery from all providers
   into one list for QML. Real providers poll on a worker thread; connect and
   disconnect events arriving mid-poll are coalesced rather than dropped.
 - **BatteryProviders/** — one per transport: Bluetooth Classic (Hands-Free
   battery property), Bluetooth LE (GATT), Fast Pair (RFCOMM message stream),
-  DualSense (raw HID), Razer (90-byte feature reports) and Logitech (HID++).
-  `HidCollections` is the shared HID enumeration helper.
+  DualSense (raw HID), Razer (90-byte feature reports) and Logitech (HID++,
+  long-report collection, all receiver slots probed at once).
+  `HidCollections` is the shared HID enumeration helper; `DevNodeHelpers`
+  holds the shared `CM_*` device-node property and Bluetooth address helpers.
 - **BluetoothConnectionWatcher / HidChangeWatcher** — instant connect and
   disconnect notifications, so the UI doesn't wait for the next poll.
 - **PeripheralAlerts** — turns battery snapshots into connect / disconnect /

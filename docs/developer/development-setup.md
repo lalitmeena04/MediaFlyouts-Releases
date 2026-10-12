@@ -35,7 +35,7 @@ Run tests directly, or use the helper's focused and repeatable test options:
 ```powershell
 .\mediaflyouts.ps1 test
 .\mediaflyouts.ps1 test -Filter "RazerProtocolTest.*"
-.\mediaflyouts.ps1 test -ShowOutput -FailFast
+.\mediaflyouts.ps1 test -Quiet -FailFast
 .\mediaflyouts.ps1 test -Shuffle -Repeat -RepeatCount 10
 ```
 

@@ -22,18 +22,19 @@ The helper script forwards useful diagnostics to GoogleTest and CTest:
 
 ```powershell
 .\mediaflyouts.ps1 test -Filter "RazerProtocolTest.*"
-.\mediaflyouts.ps1 test -ShowOutput
+.\mediaflyouts.ps1 test -Quiet
 .\mediaflyouts.ps1 test -FailFast
 .\mediaflyouts.ps1 test -Shuffle -Repeat -RepeatCount 5
 ```
 
-`-Filter` selects matching GoogleTest cases, `-ShowOutput` enables verbose CTest
-output, `-FailFast` stops on the first failure, and `-Shuffle` with
-`-RepeatCount` exercises ordering-sensitive or intermittent failures.
+Every test is listed as it runs. `-Filter` selects matching GoogleTest cases,
+`-Quiet` reduces the output to a per-target summary, `-FailFast` stops on the
+first failure, and `-Shuffle` with `-RepeatCount` exercises ordering-sensitive
+or intermittent failures.
 
 ## Layout
 
-```
+```PlainText
 tests/
   gtest_main.cpp              # GoogleTest/GMock entry point (QCoreApplication)
   CMakeLists.txt
