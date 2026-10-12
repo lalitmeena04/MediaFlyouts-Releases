@@ -1,7 +1,9 @@
 # MediaFlyouts — Features
 
-MediaFlyouts is a Windows media, volume and lock-key overlay built with
-Qt 6 / C++ / QML. This document describes the features that ship in the app.
+MediaFlyouts is a Fluent-styled overlay suite for Windows built with
+Qt 6 / C++ / QML: media, volume, lock-key, now-playing, peripheral-battery and
+charger flyouts, a per-app volume mixer, and taskbar widgets with an audio
+visualizer. This document describes the features that ship in the app.
 
 > Anything not listed here is not implemented yet. In particular there is **no
 > window acrylic/mica backdrop** (flyouts use solid, theme-matched surfaces with
@@ -36,7 +38,7 @@ Qt 6 / C++ / QML. This document describes the features that ship in the app.
 - Indicators for Caps Lock, Num Lock, Scroll Lock and Insert.
 - Per-key enable toggles, a configurable stay duration and a bold-UI option.
 
-## Now Playing / Now Playing flyout
+## Now Playing flyout
 
 - Pops when the track changes so it reflects the newly started track.
 - Two user-selectable styles: a "now playing" card or a compact "Now Playing:" pill.

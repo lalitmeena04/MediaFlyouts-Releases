@@ -1,8 +1,9 @@
 # User Guide
 
 MediaFlyouts lives in the system tray and shows overlays in response to media,
-volume and lock keys. This guide covers day-to-day use and the settings
-dashboard.
+volume and lock keys, track changes, and peripheral battery or charger events.
+It also docks now-playing and battery widgets on the taskbar. This guide covers
+day-to-day use and the settings dashboard.
 
 ## The tray icon
 

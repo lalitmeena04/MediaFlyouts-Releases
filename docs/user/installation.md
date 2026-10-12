@@ -22,19 +22,16 @@ To uninstall, use **Settings → Apps** or the Start-menu uninstaller.
 3. Run `MediaFlyouts.exe`. No installation is performed; delete the folder to
    remove it.
 
-## Option 3 — MSIX package
+## Option 3 — Microsoft Store
 
-The MSIX is signed with a **self-signed** certificate, so Windows blocks it with
-`0x800B010A` until that certificate is trusted as a root.
+Search for **Media Flyouts** in the Microsoft Store and install it from there.
+The Store build is signed by Microsoft, updates automatically, and uses the
+Windows startup-task mechanism for launch at sign-in.
 
-1. Download `MediaFlyouts-<version>.msix` and `MediaFlyouts.cer`.
-2. In an **elevated** PowerShell, trust the certificate:
-   ```powershell
-   Import-Certificate -FilePath MediaFlyouts.cer -CertStoreLocation Cert:\LocalMachine\Root
-   ```
-3. Double-click the `.msix` to install.
-
-If you'd rather not add a certificate, use the installer or portable ZIP instead.
+The `MediaFlyouts-<version>.msix` on the Releases page is the **unsigned**
+package that was submitted to the Store, published so the Store build can be
+matched to a release. Windows refuses to install an unsigned package
+(`0x800B0100`), so use the Store listing, the installer or the portable ZIP.
 
 ## Option 4 — Build from source
 

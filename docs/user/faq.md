@@ -4,15 +4,12 @@
 No. It's a self-contained C++/Qt application. Everything it needs ships with the
 installer, MSIX or portable ZIP.
 
-## The MSIX won't install (error `0x800B010A`)
-The MSIX is signed with a self-signed certificate that isn't trusted yet. In an
-**elevated** PowerShell:
-
-```powershell
-Import-Certificate -FilePath MediaFlyouts.cer -CertStoreLocation Cert:\LocalMachine\Root
-```
-
-Then install the `.msix`. Prefer the installer or portable ZIP to avoid this.
+## The MSIX from the Releases page won't install (error `0x800B0100`)
+That file is the **unsigned** package submitted to the Microsoft Store; it is
+published so the Store build can be matched to a release, not for direct
+install. Install **Media Flyouts** from the Store (Microsoft signs it), or use
+the installer or portable ZIP. Releases before 1.4.1 shipped a self-signed MSIX
+with a `MediaFlyouts.cer`; that is no longer the case.
 
 ## A flyout doesn't appear when I press media/volume keys
 - Make sure the relevant flyout is enabled in **Settings**.

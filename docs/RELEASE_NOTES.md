@@ -1,5 +1,71 @@
 # MediaFlyouts Release Notes
 
+## Version 1.4.2 — In-app updates and error reports (October 2026)
+
+Version 1.4.2 adds an in-app update dialog that downloads, verifies and runs
+the installer for you, local error reports for bug filing, a new onboarding
+step for peripherals, and much more detailed logs.
+
+### Updates
+
+- A newer release now opens an **update dialog** instead of a tray toast. You
+  can install, skip this version, or open the release page.
+- **Installer builds** download the new setup inside the app, check its size
+  and SHA-256 against the GitHub release, and start it with the usual Windows
+  permission prompt. Your settings are kept.
+- **Store builds** are sent to the Microsoft Store updates page. **Portable**
+  copies are sent to the release page to grab the new ZIP.
+
+### Report a problem
+
+- The About page and the tray's "Report a bug" entry create a **local error
+  report**: system facts, your settings and the recent logs, zipped into the
+  app data folder. The last three reports are kept.
+- "Open new issue" opens GitHub with a blank template that names the report
+  file. Nothing about your PC is placed in the URL; you attach the report
+  yourself and can inspect it first.
+
+### Onboarding and logging
+
+- First-run setup has a new **Peripherals and power** step covering the
+  peripheral flyout, the peripherals widget and the charger flyout.
+- Logs now include Qt/QML messages and the reasons when audio, startup,
+  media-key, lock-key, HID or Bluetooth setup fails, which makes error reports
+  far more useful.
+
+### Privacy
+
+- A [privacy policy](PRIVACY.md) now documents what the app reads locally and
+  confirms it sends nothing to the developer.
+
+### Downloads
+
+See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+`MediaFlyouts-1.4.2-setup.exe`, `MediaFlyouts-1.4.2-win64.zip`,
+`MediaFlyouts-1.4.2-src.zip`, and the unsigned Store package
+`MediaFlyouts-1.4.2.msix`. Install the signed MSIX from the Microsoft Store.
+
+## Version 1.4.1 — Microsoft Store release (October 2026)
+
+Version 1.4.1 is a packaging-only release. The app is identical to 1.4.0.
+
+### Packaging
+
+- The installable MSIX now ships through the **Microsoft Store**, signed by
+  Microsoft, so no certificate has to be trusted. The `.msix` on the GitHub
+  release is the unsigned package submitted to the Store, published so the
+  Store build can be matched to a release; it does not install directly.
+- Fixes the MSIX manifest so the Store accepts it: the version stamp no longer
+  overwrites the minimum Windows build, and the display names match the
+  Partner Center account and reserved app name.
+
+### Downloads
+
+See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+`MediaFlyouts-1.4.1-setup.exe`, `MediaFlyouts-1.4.1-win64.zip`,
+`MediaFlyouts-1.4.1-src.zip`, and the unsigned Store package
+`MediaFlyouts-1.4.1.msix`. Install the signed MSIX from the Microsoft Store.
+
 ## Version 1.4.0 — Widget stack, Pause all and multi-monitor fixes (October 2026)
 
 Version 1.4.0 adds a stacked taskbar widget layout and a "Pause all" media
@@ -187,7 +253,7 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
 - Caps / Num / Scroll / Insert indicators with per-key toggles, a configurable
   duration and a bold-UI option.
 
-### ⏭️ Now Playing / Now Playing
+### ⏭️ Now Playing
 
 - Fires on track change; selectable "now playing card" or compact "Now Playing" pill
   style; sizes to its track text.

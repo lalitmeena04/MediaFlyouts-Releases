@@ -3,6 +3,71 @@
 All notable changes to MediaFlyouts are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [1.4.2] — 2026-10-09
+
+In-app updates for installer builds, local error reports, a longer onboarding
+flow and much better logging.
+
+### Added
+
+- **In-app update prompt.** A newer release opens a dialog instead of a tray
+  notification. Installer builds download the setup inside the app, verify
+  its size and SHA-256 digest against the release, and launch it with a UAC
+  prompt. Store builds are sent to the Store updates page; portable builds to
+  the release page. A release can be skipped (`skippedUpdateVersion`); a manual
+  check clears the skip.
+- **Error reports.** The About page and the tray's "Report a bug" entry build
+  a local bundle (`report.txt` with system facts, `settings.ini`, recent logs)
+  under the app data folder, zipped when `tar` is available. The GitHub
+  new-issue page opens with a blank template that names the report file;
+  system details stay in the report and are never put in the URL.
+- **Onboarding** gained a "Peripherals and power" step for the peripheral
+  flyout, peripherals widget and charger flyout.
+- `Model/InstallSource` detects whether the running copy is a Store, installer
+  or portable build so update actions match the channel.
+- A privacy policy (`docs/PRIVACY.md`).
+- GitHub Actions workflow that mirrors issues to the release repository.
+
+### Changed
+
+- Logging: Qt and QML messages are routed into the rotating log; release
+  builds log at INFO; log files are capped at 2 MB × 3. Volume, startup,
+  media-key, lock-key, HID and Bluetooth watchers now log their failure
+  reasons.
+- The dashboard search popup uses the same ellipsis as the sidebar field.
+
+### Fixed
+
+- Downloaded installers are no longer marked verified after a short disk
+  write; every write is checked and the file must match both size and digest.
+- The installer is launched elevated via `ShellExecuteEx("runas")`. Before,
+  `QProcess::startDetached` could not start the all-users setup. The file is
+  re-checked (location, name, size, digest) right before launch.
+- The download fails cleanly when no temp folder is available instead of
+  writing to the working directory.
+
+## [1.4.1] — 2026-10-09
+
+Packaging-only release that moves the MSIX to the Microsoft Store. No
+application changes.
+
+### Changed
+
+- The installable MSIX now ships only through the Microsoft Store, which signs
+  it with Microsoft's certificate. `MediaFlyouts.cer` is gone, so there is no
+  certificate to trust. The `.msix` on the GitHub release is the unsigned
+  package submitted to the Store and is not installable directly. The
+  installer and portable ZIP are unchanged.
+- The release workflow builds the unsigned Store package and attaches it to
+  the GitHub release; it is uploaded to Partner Center by hand.
+
+### Fixed
+
+- The MSIX version-injection step rewrote `TargetDeviceFamily MinVersion` as
+  well as the package version, so the staged manifest claimed a minimum
+  Windows build the Store rejects. Only the `Identity Version` is stamped now.
+- `PublisherDisplayName` now matches the Partner Center publisher name.
+
 ## [1.4.0] — 2026-10-09
 
 Adds a stacked widget layout and a "Pause all" media control, fixes taskbar
@@ -170,7 +235,7 @@ written from scratch in Qt 6 / C++ / QML.
 - Caps / Num / Scroll / Insert indicators with per-key toggles, a configurable
   duration and a bold-UI option.
 
-### Now Playing / Now Playing
+### Now Playing
 
 - Fires on track change; selectable "now playing card" or compact "Now Playing"
   pill style; sizes to its track text; configurable duration.
@@ -219,3 +284,4 @@ written from scratch in Qt 6 / C++ / QML.
 [1.2.0]: https://github.com/scleaverzer0ne/MediaFlyouts/releases/tag/v1.2.0
 [1.3.0]: https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases/tag/v1.3.0
 [1.4.0]: https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases/tag/v1.4.0
+[1.4.1]: https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases/tag/v1.4.1

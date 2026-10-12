@@ -41,7 +41,26 @@ the primary, which surfaces its dashboard only if the tray icon is hidden.
 ### UpdateChecker
 Queries the GitHub releases API and exposes `updateAvailable`, `latestVersion`,
 etc. `isNewerVersion(current, latest)` does the dotted-numeric comparison. The
-running version comes from `MEDIAFLYOUTS_VERSION`.
+running version comes from `MEDIAFLYOUTS_VERSION`. A newer release emits
+`updateFound(version)`; `Views/UpdateDialog.qml` offers **Skip this version**
+(stored in `settings.skippedUpdateVersion`) or **Download & install**.
+`download()` fetches the `*-setup.exe` asset picked by `pickInstallerAsset()`
+into the temp folder, verifies the release `digest` (or size), then `install()`
+starts it and emits `installStarted` so the app quits. The in-app installer is
+offered only when `mf::detectInstallKind()` (`Model/InstallSource.h`) reports
+`Installer` — i.e. not packaged and running from the Inno Setup
+`InstallLocation`. Store copies are sent to `ms-windows-store://downloadsandupdates`
+(`openStorePage()`); portable copies to the release page.
+
+### ErrorReporter
+Builds a local diagnostics bundle for bug reports. `createReport()` writes
+`report.txt` (`systemSummary()`: version, OS, Qt, screens, capabilities),
+`settings.ini` (via `Settings::exportTo`) and copies of `logs/*.log` into
+`reportsDir()`, zips the folder with the OS `tar` when available, and prunes to
+`kReportsKept` reports. `revealReport()` selects the file in Explorer;
+`openIssuePage()` opens GitHub's new-issue page with a prefilled template
+(`issueUrlFor()`). The template names only the report file. System details
+stay in the report. Nothing is uploaded by the app.
 
 ## Windows-only
 

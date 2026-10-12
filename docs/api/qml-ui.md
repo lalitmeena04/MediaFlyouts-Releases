@@ -15,7 +15,7 @@ properties and QML binds to their properties/signals.
   draggable seekbar.
 - **VolumeFlyout.qml** — master volume slider + the expandable per-app mixer.
 - **LockKeysFlyout.qml** — Caps/Num/Scroll/Insert indicators.
-- **NowPlayingFlyout.qml** — the "now playing" / "Now Playing" flyout (card or pill).
+- **NowPlayingFlyout.qml** — the "Now Playing" flyout (card or pill).
 - **PeripheralFlyout.qml** + **PeripheralCard.qml** — peripheral connect /
   disconnect / low-battery events, several devices side by side in one window,
   including wired devices.
@@ -69,7 +69,7 @@ result to the available screen.
 ## Context properties (from `main.cpp`)
 
 `nowPlaying`, `settings`, `theme`, `placement`, `tray`, `updateChecker`,
-`instance`, `capabilities`, `monitors`, and (on Windows) `volumeController`,
+`errorReporter`, `instance`, `capabilities`, `monitors`, and (on Windows) `volumeController`,
 `volumeMixer`, `audioCapture`, `taskbar`, `fullscreen`, `lockKeys`,
 `windowEffects`. QML reads these directly, e.g. `nowPlaying.title`,
 `settings.visualizerStyle`, `theme.accent`, `audioCapture.bands`.
