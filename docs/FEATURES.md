@@ -66,10 +66,14 @@ Qt 6 / C++ / QML. This document describes the features that ship in the app.
   - **DualSense / DualSense Edge** controllers over raw HID
   - **Razer** wireless devices on their 2.4GHz dongle
   - **Logitech** HID++ devices (Unifying / Lightspeed / Bolt receivers)
+- Wired USB and 2.4 GHz devices are listed when their battery data is exposed
+  through a supported HID interface.
 - Device type (mouse / keyboard / headset / gamepad) is decoded from the
   Bluetooth Class of Device or the HID usage, not guessed from the name.
 - Connect and disconnect are picked up immediately by device watchers rather
   than waiting for the next poll.
+- User-defined peripheral names are used across the dashboard, widget and
+  flyouts. Hidden devices are omitted from dashboard lists and alerts.
 
 ## Peripherals widget
 
@@ -89,6 +93,7 @@ Qt 6 / C++ / QML. This document describes the features that ship in the app.
   repeat on every poll, and re-arms only after charging back up.
 - Per-event toggles (connect / disconnect / low battery / charging), its own
   position, monitor and duration.
+- Charging events can use the dedicated charger flyout.
 - Optional tray notification for a low battery, so it isn't missed if the
   flyout is not seen.
 

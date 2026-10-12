@@ -55,9 +55,10 @@ center-aligned, right if it is left-aligned. You can:
 
 ## Peripheral battery
 
-MediaFlyouts reads the battery of wireless peripherals — Bluetooth headsets,
-mice and keyboards, earbuds that support Google Fast Pair, DualSense
-controllers, and Razer or Logitech devices on their 2.4GHz dongles.
+MediaFlyouts reads the battery of supported wireless and wired peripherals —
+Bluetooth headsets, mice and keyboards, earbuds that support Google Fast Pair,
+DualSense controllers, and Razer or Logitech devices on their 2.4GHz dongles
+or supported USB interfaces.
 
 - The **Peripherals widget** shows a battery ring per device next to the tray.
   Choose which devices appear on the Taskbar Widget page, and hover a ring for
@@ -66,7 +67,12 @@ controllers, and Razer or Logitech devices on their 2.4GHz dongles.
 - The **Peripheral flyout** announces devices as they connect or disconnect and
   warns when a battery gets low. If several devices connect at once they appear
   side by side. Turn individual events on or off on the Taskbar Widget page.
+- Rename a device from the peripheral settings list. The custom name is shown
+  in the widget, dashboard and flyouts; hidden devices are left out of lists and
+  alerts.
 - A **low battery** also raises a tray notification, so it isn't missed.
+
+Charging events can use the dedicated charger flyout when enabled.
 
 Battery alerts use a 20% low-battery threshold and a 10% very-low threshold,
 with hysteresis so the same warning is not repeated on every poll. Connect,
@@ -97,5 +103,5 @@ box** to jump to any setting. Highlights:
 Enable **launch on startup** to have MediaFlyouts start with Windows (minimized
 to tray). Installer and portable builds use the Windows `Run` registry key;
 MSIX installs use the Windows startup-task mechanism. Turn on **automatic update
-checks** to be notified when a newer release is available; you can also check
-manually from the About page.
+checks** to be notified when a newer release is available. The About page can
+also check manually and install an available update.

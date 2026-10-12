@@ -28,12 +28,12 @@ cmake --build --preset msvc-release
 & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" packaging\MediaFlyouts.iss
 
 # 3. source zip
-git archive --format=zip -o dist\MediaFlyouts-1.2.0-src.zip HEAD
+git archive --format=zip -o dist\MediaFlyouts-1.3.0-src.zip HEAD
 
 # 4. MSIX (needs the Windows SDK: makeappx + signtool)
 #    Stage bin\ + the manifest + Images\ into a layout folder, then:
-makeappx pack /d <layout> /p dist\MediaFlyouts-1.2.0.msix
-signtool sign /fd SHA256 /a /f <cert.pfx> /p <password> dist\MediaFlyouts-1.2.0.msix
+makeappx pack /d <layout> /p dist\MediaFlyouts-1.3.0.msix
+signtool sign /fd SHA256 /a /f <cert.pfx> /p <password> dist\MediaFlyouts-1.3.0.msix
 ```
 
 The version comes from the top-level [`VERSION.txt`](../VERSION.txt) file, which
@@ -63,7 +63,7 @@ self-signed certificate, signs a package, and can export the PFX + base64 for CI
 
 ```powershell
 # sign the local package (self-signed, for testing)
-	.\tools\new-signing-cert.ps1 -Msix release\MediaFlyouts-1.2.0.msix
+	.\tools\new-signing-cert.ps1 -Msix release\MediaFlyouts-1.3.0.msix
 
 # to install a self-signed package, trust its cert once as a root (run elevated):
 Import-Certificate -FilePath signing\MediaFlyouts.cer -CertStoreLocation Cert:\LocalMachine\Root

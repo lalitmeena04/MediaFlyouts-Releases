@@ -5,7 +5,7 @@ QML. MediaFlyouts replaces the dated Windows overlays with clean, Fluent-styled
 flyouts, a per-app volume mixer, a taskbar now-playing widget and an audio
 visualizer.
 
-> **Status:** stable — `v1.2.0`. Windows 10/11 (x64).
+> **Status:** stable — `v1.3.0`. Windows 10/11 (x64).
 
 ## Highlights
 

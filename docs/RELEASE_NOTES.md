@@ -1,5 +1,36 @@
 # MediaFlyouts Release Notes
 
+## Version 1.3.0 — Wired peripheral and update improvements (September 2026)
+
+Version 1.3.0 extends peripheral monitoring to wired devices and improves
+device naming, charging alerts, update installation and release distribution.
+
+### Peripheral support
+
+- Adds wired USB and 2.4 GHz peripheral entries to the taskbar widget and
+  peripheral flyouts.
+- Adds a dedicated charger flyout for charging events.
+- Allows peripheral names to be edited and uses those names throughout the
+  dashboard, widget and flyouts.
+- Excludes hidden peripherals from dashboard lists and alerts.
+
+### Updates and release distribution
+
+- Adds an in-app action to install an available update.
+- Points update checks and release links at the separate
+  `MediaFlyouts-Releases` repository.
+- Publishes release files and documentation to the release repository.
+
+### Polish
+
+- Updates the charge-page icon.
+
+### Downloads
+
+See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+`MediaFlyouts-1.3.0-setup.exe`, `MediaFlyouts-1.3.0.msix` (+ `MediaFlyouts.cer`),
+`MediaFlyouts-1.3.0-win64.zip`, and `MediaFlyouts-1.3.0-src.zip`.
+
 ## Version 1.2.0 — Peripheral battery and dashboard improvements (September 2026)
 
 Version 1.2.0 adds a complete wireless peripheral battery experience and
@@ -7,6 +38,7 @@ improves the dashboard, media integration, fullscreen behavior and release
 packaging.
 
 ### Peripheral battery monitoring
+
 - Reads battery levels from Bluetooth Classic, Bluetooth LE, Google Fast Pair,
   DualSense / DualSense Edge, Razer and Logitech wireless devices.
 - Shows selected devices in a taskbar widget with battery rings, charging state
@@ -18,6 +50,7 @@ packaging.
   and a dedicated peripheral settings page.
 
 ### Dashboard and visual polish
+
 - Adds a collapsible, searchable dashboard sidebar with refreshed icons and page
   headers.
 - Adds an option to apply album-art accent colors across the whole app.
@@ -25,6 +58,7 @@ packaging.
   menu.
 
 ### Reliability and packaging
+
 - Fixes dashboard startup, onboarding visibility and flyout/widget recovery
   after fullscreen apps close.
 - Matches media sessions by app ID and refreshes media state more reliably.
@@ -34,6 +68,7 @@ packaging.
 - Improves MSIX signing so releases can use a persistent certificate.
 
 ### Downloads
+
 See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts/releases):
 `MediaFlyouts-1.2.0-setup.exe`, `MediaFlyouts-1.2.0.msix` (+ `MediaFlyouts.cer`),
 `MediaFlyouts-1.2.0-win64.zip`, and `MediaFlyouts-1.2.0-src.zip`.
@@ -44,6 +79,7 @@ A small follow-up to 1.0.0 that cleans up the first-run experience and adjusts
 two defaults. Existing installs keep their current settings.
 
 ### 🐣 First-run fixes
+
 - Flyouts and the taskbar widget stayed hidden until the onboarding wizard is
   finished — previously they could pop up over the wizard while you were still
   choosing your settings.
@@ -56,16 +92,19 @@ two defaults. Existing installs keep their current settings.
   your choice is kept.
 
 ### ⚙️ Changed defaults
+
 - The per-app mixer inside the volume flyout now starts **disabled**. Turn it
   back on from the dashboard under Volume flyout.
 
 ### Known limitations
+
 - **English only** — no localization yet.
 - **No window acrylic/mica backdrop** — flyouts use solid, theme-matched surfaces.
 - The MSIX is signed with a self-signed certificate; installing it requires
   trusting that certificate (see the [Installation Guide](user/installation.md)).
 
 ### Downloads
+
 See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts/releases):
 `MediaFlyouts-1.1.0-setup.exe`, `MediaFlyouts-1.1.0.msix` (+ `MediaFlyouts.cer`),
 `MediaFlyouts-1.1.0-win64.zip`, and `MediaFlyouts-1.1.0-src.zip`.
@@ -76,6 +115,7 @@ The first public release of MediaFlyouts — a complete media, volume and
 lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
 
 ### 🎵 Media flyout
+
 - Appears on media-key / volume-key presses while something is playing, driven
   by the System Media Transport Controls (SMTC).
 - Album art (rounded), title, artist and an optional media-player name.
@@ -87,6 +127,7 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
   with a close button that auto-hides when unpinned.
 
 ### 🔊 Volume flyout & per-app mixer
+
 - Replaces and suppresses the native Windows volume OSD.
 - Master volume slider with mute and a configurable duration.
 - Follows the default output device and re-binds when it changes.
@@ -94,14 +135,17 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
 - A standalone Volume Mixer window with the same per-process controls.
 
 ### 🔒 Lock-keys flyout
+
 - Caps / Num / Scroll / Insert indicators with per-key toggles, a configurable
   duration and a bold-UI option.
 
 ### ⏭️ Now Playing / Up next
+
 - Fires on track change; selectable "now playing card" or compact "Up next" pill
   style; sizes to its track text.
 
 ### 📊 Taskbar widget & visualizer
+
 - Now-playing taskbar widget: left/right docking, per-monitor placement,
   adjustable offset, center alignment, pause overlay and scrolling titles.
 - Scroll / swipe between multiple media sources; hidden over fullscreen apps and
@@ -110,6 +154,7 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
   **Waveform** and **Particles** (beat-driven) styles.
 
 ### 🎨 Theming, placement & animation
+
 - Light / dark / system theme with dark title bars.
 - Selectable accent color (default / match-system / custom) and an optional
   accent tinted from album art.
@@ -118,6 +163,7 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
   on-screen clamping; configurable animation speed and easing.
 
 ### 🧰 App filtering, dashboard & system
+
 - Blacklist / whitelist app filtering.
 - Searchable settings dashboard with scrollable pages and settings
   backup / restore.
@@ -128,6 +174,7 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
 - Launch on startup and fullscreen-app suppression.
 
 ### 🏗️ Engineering
+
 - Cross-platform domain core (settings, track info, FFT, positioning) with
   GoogleTest + Qt Test suites (7 CTest targets).
 - GitHub Actions CI building and testing both debug and release.
@@ -135,12 +182,14 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
   ZIP.
 
 ### Known limitations
+
 - **English only** — no localization yet.
 - **No window acrylic/mica backdrop** — flyouts use solid, theme-matched surfaces.
 - The MSIX is signed with a self-signed certificate; installing it requires
   trusting that certificate (see the [Installation Guide](user/installation.md)).
 
 ### Downloads
+
 See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts/releases):
 `MediaFlyouts-1.0.0-setup.exe`, `MediaFlyouts-1.0.0.msix` (+ `MediaFlyouts.cer`),
 `MediaFlyouts-1.0.0-win64.zip`, and `MediaFlyouts-1.0.0-src.zip`.

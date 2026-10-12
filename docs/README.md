@@ -25,7 +25,7 @@ volume and lock-key overlay built with Qt 6 / C++ / QML.
 - **[Packaging](../packaging/README.md)** — installer / MSIX / signing inputs
 
 ### Releases
-- **[Release Notes](RELEASE_NOTES.md)** — version history (v1.2.0)
+- **[Release Notes](RELEASE_NOTES.md)** — version history (v1.3.0)
 - **[Changelog](../CHANGELOG.md)** — concise change log
 
 ## 🚀 Quick start
