@@ -19,68 +19,51 @@ CMake reads and injects into the app as `MEDIAFLYOUTS_VERSION`.
 
 ### Version numbering
 
-`VERSION.txt` holds the plain base version (e.g. `1.4.1`). How CMake stamps it
+`VERSION.txt` holds the plain base version (e.g. `1.2.1`). How CMake stamps it
 depends on the build:
 
-- **Release** builds ship the plain version: `1.4.1`.
+- **Release** builds ship the plain version: `1.2.1`.
 - **Dev** builds (any non-Release config, or when a build number is passed
   explicitly) get a traceable `-<build number>` suffix. The number defaults to
-  the git commit count and short hash, e.g. `1.4.1-157.d28b008`.
+  the git commit count and short hash, e.g. `1.2.1-157.d28b008`.
 
 The suffix is compared away by the update checker, so a dev build is never
 flagged as out of date against the plain release. Override the number with
 `-DMEDIAFLYOUTS_BUILD_NUMBER=<n>` on the CMake command line, or
 `.\mediaflyouts.ps1 build -BuildNumber <n>`.
 
-### File logging
+### Optional file logging
 
-File logging is on by default. The compile-time level follows the build type:
-`DEBUG` for Debug builds, `INFO` for Release (so `TRC_DEBUG` lines compile
-out of shipped binaries). Override or disable it when needed:
+File logging is enabled by default for local builds. Disable it when needed:
 
 ```powershell
 .\mediaflyouts.ps1 build -NoLogging
 # or with CMake directly
 cmake --preset msvc-release -D "MEDIAFLYOUTS_ENABLE_LOGGING=OFF"
-cmake --preset msvc-release -D "MEDIAFLYOUTS_LOG_LEVEL=DEBUG"
 ```
 
-Logs are written under `%LOCALAPPDATA%\MediaFlyouts\MediaFlyouts\logs\`, with
-rotating 2 MB files and up to three retained files (`mf::kLogFileMaxBytes`,
-`mf::kLogFilesKept`). Identical lines repeated within 5 s collapse into one
-"Skipped N duplicates" line. Warnings flush at once; other levels every 2 s.
-Qt and QML messages (`qWarning`, `console.warn`, binding loops) are routed
-into the same file with a `[qt]` prefix. The logger also writes to the MSVC
-debugger output when available.
-
-`ErrorReporter` (About page → **Create error report**) copies these logs plus
-`settings.ini` and a `report.txt` system summary into
-`%LOCALAPPDATA%\MediaFlyouts\MediaFlyouts\reports\`, zips it with the built-in
-`tar.exe`, and keeps the three newest reports.
+Logs are written under `%LOCALAPPDATA%\MediaFlyouts\logs\`, with rotating
+5 MB files and up to three retained files. The logger also writes to the MSVC
+debugger output when available. Release CI builds disable file logging.
 
 ## Release artifacts
 
-The GitHub release consists of four artifacts (see the
+The release consists of four artifacts (see the
 [Installation Guide](../user/installation.md) for what each is):
 
 | Artifact | Built from |
 |----------|------------|
 | `MediaFlyouts-<ver>-setup.exe` | Inno Setup — [`packaging/MediaFlyouts.iss`](../../packaging/MediaFlyouts.iss) |
+| `MediaFlyouts-<ver>.msix` | [`packaging/msix/AppxManifest.xml`](../../packaging/msix/AppxManifest.xml) |
 | `MediaFlyouts-<ver>-win64.zip` | the deployed `bin/` folder |
 | `MediaFlyouts-<ver>-src.zip` | `git archive` of the tag |
-| `MediaFlyouts-<ver>.msix` | [`packaging/msix/AppxManifest.xml`](../../packaging/msix/AppxManifest.xml) via [`tools/stage-msix.ps1`](../../tools/stage-msix.ps1) — **unsigned**, the file uploaded to the Microsoft Store |
-
-The MSIX is not installable from the release; the Store signs it and users
-install the signed copy from the Store listing.
 
 ### Automated (CI)
 Push a `v*.*.*` tag to run
 [`.github/workflows/release.yml`](../../.github/workflows/release.yml), which
-builds, tests, packages the four artifacts and publishes a GitHub Release in
-the `MediaFlyouts-Releases` repo. The MSIX is then uploaded to Partner Center
-by hand. The MSIX step is skipped until the `STORE_IDENTITY_*` variables
-described in
-[`packaging/README.md`](../../packaging/README.md#microsoft-store-submission) exist.
+builds, tests, packages all four artifacts, signs the MSIX (with the stored
+`MSIX_CERT_*` certificate, or a self-signed one generated on the runner) and
+publishes a GitHub Release.
 
 Before tagging, make sure both of these are on `main`:
 
@@ -90,34 +73,44 @@ Before tagging, make sure both of these are on `main`:
   — its body becomes the GitHub Release description, and a missing section fails
   the release rather than publishing an empty one.
 
-### MSIX startup task and Store signing
+### MSIX startup task and signing
 
 The MSIX manifest declares `MediaFlyoutsStartupTask`, so packaged installs can
 launch at Windows sign-in through the platform startup-task API. Installer and
 portable builds use the Windows `Run` registry key instead. The Settings toggle
 selects the appropriate mechanism automatically.
 
-The Store signs the MSIX with Microsoft's certificate, so the repo holds no
-signing material and users never trust a `.cer`. [`tools/stage-msix.ps1`](../../tools/stage-msix.ps1)
-stamps the version and the Store identity (`Identity Name` / `Publisher`) that
-Partner Center reserved; the repo manifest carries placeholders.
+The release workflow can reuse a persistent certificate through the
+`MSIX_CERT_BASE64` and `MSIX_CERT_PASSWORD` secrets. Export a development
+certificate with:
+
+```powershell
+.\tools\new-signing-cert.ps1 -ExportPfx -PfxPassword (Read-Host 'PFX password' -AsSecureString)
+```
+
+Without those secrets, CI creates a new self-signed certificate for the
+release, so users must trust each release certificate separately. A trusted CA
+certificate can be used for production releases. SignTool may report the
+self-signed package as untrusted on the GitHub runner; the workflow records
+that warning but does not fail after a successful signing operation. Users
+must install `MediaFlyouts.cer` as a trusted root before installing the MSIX.
 
 ### Local
 Produce every artifact into a clean `release/` folder with one script — it does a
-clean release build, deploys Qt, and builds the source/portable/installer plus
-the unsigned Store MSIX:
+clean release build, deploys Qt, and builds the source/portable/installer/MSIX
+(signing the MSIX with the self-signed dev cert):
 
 ```powershell
-.\tools\release.ps1            # all artifacts
-.\tools\release.ps1 -StoreIdentityName <name> -StoreIdentityPublisher 'CN=<GUID>'
+.\tools\release.ps1            # all artifacts, signed MSIX
+.\tools\release.ps1 -NoSign    # skip MSIX signing
 .\tools\release.ps1 -SkipBuild # reuse the current bin\
 .\tools\release.ps1 -DevBuild  # dev (pre-release) versioned build
 ```
 
 `-DevBuild` stamps a `<base>-<git commit count>.<short sha>` version into the
-binary and every artifact name (e.g. `MediaFlyouts-1.4.1-157.d28b008-setup.exe`).
+binary and every artifact name (e.g. `MediaFlyouts-1.2.1-157.d28b008-setup.exe`).
 The MSIX and installer keep a strictly numeric version (`<base>.<count>`, e.g.
-`1.4.1.157`) since Windows packaging requires it.
+`1.2.1.157`) since Windows packaging requires it.
 
 Missing optional tools (Inno Setup, Windows SDK `makeappx`) are reported and
 skipped rather than failing the run.

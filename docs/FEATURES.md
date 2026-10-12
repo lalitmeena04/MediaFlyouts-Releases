@@ -1,9 +1,7 @@
 # MediaFlyouts — Features
 
-MediaFlyouts is a Fluent-styled overlay suite for Windows built with
-Qt 6 / C++ / QML: media, volume, lock-key, now-playing, peripheral-battery and
-charger flyouts, a per-app volume mixer, and taskbar widgets with an audio
-visualizer. This document describes the features that ship in the app.
+MediaFlyouts is a Windows media, volume and lock-key overlay built with
+Qt 6 / C++ / QML. This document describes the features that ship in the app.
 
 > Anything not listed here is not implemented yet. In particular there is **no
 > window acrylic/mica backdrop** (flyouts use solid, theme-matched surfaces with
@@ -38,29 +36,25 @@ visualizer. This document describes the features that ship in the app.
 - Indicators for Caps Lock, Num Lock, Scroll Lock and Insert.
 - Per-key enable toggles, a configurable stay duration and a bold-UI option.
 
-## Now Playing flyout
+## Now Playing / Up next flyout
 
 - Pops when the track changes so it reflects the newly started track.
-- Two user-selectable styles: a "now playing" card or a compact "Now Playing:" pill.
+- Two user-selectable styles: a "now playing" card or a compact "Up next:" pill.
 - Sizes itself to the track text; configurable stay duration.
 
 ## Taskbar widget
 
 - A compact now-playing widget docked next to the system tray.
 - Dock to the left or right side, move between monitors, and nudge with an
-  offset that can shift either direction. Each monitor's own taskbar is
-  measured, so the widget sits flush with the tray on secondary displays too.
+  offset that can shift either direction.
 - On first run it picks the taskbar edge the shell leaves free — left for a
   center-aligned taskbar, right for a left-aligned one. Your own choice is kept
   afterwards.
 - Center alignment, a pause overlay, and marquee scrolling for long titles.
 - Scroll wheel / swipe to switch between multiple simultaneous media sources,
-  with source indicator dots and a slide transition.
+  with source indicator dots.
 - Hidden automatically over fullscreen apps.
 - Optional integrated playback controls.
-- Optional "Pause all" button that pauses every playing source at once. With
-  the follow-up option on, the same button becomes "Play all" whenever every
-  source is paused, and resumes them.
 
 ## Peripheral battery
 
@@ -72,14 +66,10 @@ visualizer. This document describes the features that ship in the app.
   - **DualSense / DualSense Edge** controllers over raw HID
   - **Razer** wireless devices on their 2.4GHz dongle
   - **Logitech** HID++ devices (Unifying / Lightspeed / Bolt receivers)
-- Wired USB and 2.4 GHz devices are listed when their battery data is exposed
-  through a supported HID interface.
 - Device type (mouse / keyboard / headset / gamepad) is decoded from the
   Bluetooth Class of Device or the HID usage, not guessed from the name.
 - Connect and disconnect are picked up immediately by device watchers rather
   than waiting for the next poll.
-- User-defined peripheral names are used across the dashboard, widget and
-  flyouts. Hidden devices are omitted from dashboard lists and alerts.
 
 ## Peripherals widget
 
@@ -87,11 +77,6 @@ visualizer. This document describes the features that ship in the app.
 - Pick which devices appear; hover for the exact level, charging state and the
   per-component breakdown.
 - Follows the now-playing widget's monitor, side and offset so the two line up.
-- Widget layout: side by side, or a scrollable stack that shares one taskbar
-  slot. In stack mode the scroll wheel pages between the media widget and
-  separate 2.4 GHz, Bluetooth and wired peripheral pages. All pages share one
-  frame sized to the largest widget, with content centered and slide-and-fade
-  transitions between pages.
 - Optional accent-coloured rings instead of green / amber / red.
 
 ## Peripheral flyout
@@ -104,7 +89,6 @@ visualizer. This document describes the features that ship in the app.
   repeat on every poll, and re-arms only after charging back up.
 - Per-event toggles (connect / disconnect / low battery / charging), its own
   position, monitor and duration.
-- Charging events can use the dedicated charger flyout.
 - Optional tray notification for a low battery, so it isn't missed if the
   flyout is not seen.
 
@@ -140,9 +124,6 @@ visualizer. This document describes the features that ship in the app.
 
 - Sidebar navigation with scrollable pages and a settings search box.
 - Backup and restore of all settings via export / import.
-- A status banner names any Windows subsystem (audio, media sessions, lock
-  keys, media keys) that did not answer, and the related settings are
-  disabled. The tray icon tooltip shows the same summary.
 
 ## System tray & single instance
 

@@ -1,33 +1,29 @@
 # MediaFlyouts
 
-Fluent-styled flyouts and taskbar widgets for Windows, built with Qt 6 / C++ /
-QML. MediaFlyouts replaces the dated Windows media and volume popups and adds
-lock-key, now-playing, peripheral-battery and charger flyouts, a per-app volume
-mixer, and a taskbar widget stack with a now-playing readout, battery rings and
-a live audio visualizer.
+Modern media, volume and lock-key flyouts for Windows, built with Qt 6 / C++ /
+QML. MediaFlyouts replaces the dated Windows overlays with clean, Fluent-styled
+flyouts, a per-app volume mixer, a taskbar now-playing widget and an audio
+visualizer.
 
-> **Status:** stable — `v1.4.2`. Windows 10/11 (x64).
+> **Status:** stable — `v1.2.0`. Windows 10/11 (x64).
 
 ## Highlights
 
-- **Media flyout** on media/volume keys with album art, transport controls,
-  repeat / shuffle and a draggable seekbar.
+- **Media flyout** on media/volume keys with album art, transport controls and a
+  draggable seekbar.
 - **Volume flyout** that replaces the native OSD, follows the default output
   device, and expands into an optional **per-app mixer** with real app icons.
 - **Lock-keys flyout** for Caps / Num / Scroll / Insert.
-- **Now Playing** flyout on track change, in a card or compact-pill style.
-- **Taskbar widgets** — a now-playing widget with transport controls, a
-  "Pause all" button and a multi-style **audio visualizer** (bars, radial,
-  waveform, beat-driven particles), plus a **peripheral battery widget**; side
-  by side or stacked in one scrollable slot.
-- **Peripheral battery monitoring** over Bluetooth Classic / LE, Google Fast
-  Pair, DualSense, Razer and Logitech (Unifying / Bolt / Lightspeed) plus wired
-  USB, with connect / disconnect / low-battery flyouts and a **charger flyout**.
+- **Now Playing / Up next** flyout with a card or compact-pill style.
+- **Taskbar widget** with a now-playing readout and a multi-style **audio
+  visualizer** (bars, radial, waveform, beat-driven particles).
+- **Peripheral battery monitoring** with Bluetooth, Fast Pair, DualSense, Razer
+  and Logitech support, a battery widget and event flyouts.
 - **Theming** — light / dark / system, dark title bars, and a selectable accent
   (default, match-system, or custom, or tinted from album art).
-- **App filtering**, a searchable **settings dashboard** with a status banner
-  for unavailable Windows subsystems, settings **backup/restore**, a first-run
-  **onboarding** wizard, launch on startup and an **update checker**.
+- **App filtering**, a searchable **settings dashboard**, settings
+  **backup/restore**, a first-run **onboarding** wizard and an **update
+  checker**.
 
 See [docs/FEATURES.md](docs/FEATURES.md) for the full list, and
 [CHANGELOG.md](CHANGELOG.md) for release notes.
@@ -36,7 +32,7 @@ See [docs/FEATURES.md](docs/FEATURES.md) for the full list, and
 
 Full documentation lives in [docs/](docs/README.md):
 
-- **Users** — [Installation](docs/user/installation.md) · [User Guide](docs/user/user-guide.md) · [FAQ](docs/user/faq.md) · [Privacy Policy](docs/PRIVACY.md)
+- **Users** — [Installation](docs/user/installation.md) · [User Guide](docs/user/user-guide.md) · [FAQ](docs/user/faq.md)
 - **Developers** — [Architecture](docs/developer/architecture.md) · [Development Setup](docs/developer/development-setup.md) · [Build Guide](docs/developer/build-guide.md) · [Testing](docs/developer/testing.md) · [Contributing](docs/developer/contributing.md)
 - **Reference** — [Features](docs/FEATURES.md) · [Controllers](docs/api/controllers.md) · [Model](docs/api/models.md) · [QML UI](docs/api/qml-ui.md)
 - **Releases** — [Release Notes](docs/RELEASE_NOTES.md)
@@ -46,16 +42,26 @@ Full documentation lives in [docs/](docs/README.md):
 Grab the latest build from the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts/releases):
 
 - **Installer** — `MediaFlyouts-<version>-setup.exe`. Recommended for most users.
-- **Microsoft Store** — search for **Media Flyouts** in the Store. Signed by
-  Microsoft and updated automatically.
+- **MSIX package** — `MediaFlyouts-<version>.msix`. Signed with a self-signed
+  certificate, so you must trust it once before installing (see below).
 - **Portable ZIP** — `MediaFlyouts-<version>-win64.zip`. Unzip and run
   `MediaFlyouts.exe`; no installation required.
 - **Source ZIP** — `MediaFlyouts-<version>-src.zip` for building yourself.
-- **MSIX** — `MediaFlyouts-<version>.msix` is the **unsigned** package that is
-  submitted to the Store, published for transparency. Windows will not install
-  it directly; use the Store listing instead.
 
 MediaFlyouts is a self-contained C++ app; no .NET runtime is required.
+
+### Installing the MSIX
+
+The MSIX is signed with a self-signed certificate, so Windows will reject it
+(`0x800B010A`) until that certificate is trusted as a root. Download
+`MediaFlyouts.cer` from the release, then in an **elevated** PowerShell run:
+
+```powershell
+Import-Certificate -FilePath MediaFlyouts.cer -CertStoreLocation Cert:\LocalMachine\Root
+```
+
+Now double-click the `.msix` to install. Prefer the installer or portable ZIP if
+you'd rather not add a certificate.
 
 ## Build from source
 

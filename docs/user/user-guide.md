@@ -1,9 +1,8 @@
 # User Guide
 
 MediaFlyouts lives in the system tray and shows overlays in response to media,
-volume and lock keys, track changes, and peripheral battery or charger events.
-It also docks now-playing and battery widgets on the taskbar. This guide covers
-day-to-day use and the settings dashboard.
+volume and lock keys. This guide covers day-to-day use and the settings
+dashboard.
 
 ## The tray icon
 
@@ -38,7 +37,7 @@ page in Settings.
 Toggling Caps / Num / Scroll / Insert shows a brief indicator. Enable or disable
 each key, the duration, and the bold style in Settings.
 
-### Now Playing
+### Up next
 When a track auto-advances, a compact flyout shows what started playing. Choose
 the **card** or **compact pill** style in Settings.
 
@@ -51,21 +50,14 @@ center-aligned, right if it is left-aligned. You can:
 - dock it to the **left or right**, move it between **monitors**, and nudge it
   with an **offset**;
 - **scroll** or **swipe** across it to switch between multiple playing apps;
-- turn on the **Pause all button** to pause every playing app at once. With
-  **Play all after pausing** on, the same button resumes them once everything
-  is paused;
-- pick a **Widget layout** — **Side by side** keeps the media and peripheral
-  widgets next to each other, **Stack** puts them in one slot and lets you
-  scroll between the media page and the 2.4 GHz, Bluetooth and wired pages;
 - turn on the **audio visualizer** and pick a style — **Bars**, **Radial**,
   **Waveform** or **Particles**.
 
 ## Peripheral battery
 
-MediaFlyouts reads the battery of supported wireless and wired peripherals —
-Bluetooth headsets, mice and keyboards, earbuds that support Google Fast Pair,
-DualSense controllers, and Razer or Logitech devices on their 2.4GHz dongles
-or supported USB interfaces.
+MediaFlyouts reads the battery of wireless peripherals — Bluetooth headsets,
+mice and keyboards, earbuds that support Google Fast Pair, DualSense
+controllers, and Razer or Logitech devices on their 2.4GHz dongles.
 
 - The **Peripherals widget** shows a battery ring per device next to the tray.
   Choose which devices appear on the Taskbar Widget page, and hover a ring for
@@ -74,12 +66,7 @@ or supported USB interfaces.
 - The **Peripheral flyout** announces devices as they connect or disconnect and
   warns when a battery gets low. If several devices connect at once they appear
   side by side. Turn individual events on or off on the Taskbar Widget page.
-- Rename a device from the peripheral settings list. The custom name is shown
-  in the widget, dashboard and flyouts; hidden devices are left out of lists and
-  alerts.
 - A **low battery** also raises a tray notification, so it isn't missed.
-
-Charging events can use the dedicated charger flyout when enabled.
 
 Battery alerts use a 20% low-battery threshold and a 10% very-low threshold,
 with hysteresis so the same warning is not repeated on every poll. Connect,
@@ -105,14 +92,10 @@ box** to jump to any setting. Highlights:
 - **App filtering** — blacklist or whitelist which players may trigger flyouts.
 - **Backup / restore** — export and import all settings.
 
-If Windows did not provide a subsystem (for example audio or media sessions),
-a banner at the top of the dashboard names it and the related settings are
-disabled. The tray icon tooltip shows the same summary.
-
 ## Startup & updates
 
 Enable **launch on startup** to have MediaFlyouts start with Windows (minimized
 to tray). Installer and portable builds use the Windows `Run` registry key;
 MSIX installs use the Windows startup-task mechanism. Turn on **automatic update
-checks** to be notified when a newer release is available. The About page can
-also check manually and install an available update.
+checks** to be notified when a newer release is available; you can also check
+manually from the About page.
