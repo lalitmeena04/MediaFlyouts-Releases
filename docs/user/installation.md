@@ -4,7 +4,7 @@ MediaFlyouts runs on **Windows 10/11 (x64)**. It is self-contained — no .NET
 runtime is required.
 
 Download the latest build from the
-[Releases page](https://github.com/scleaverzer0ne/MediaFlyouts/releases).
+[Releases page](https://github.com/lalitmeena04/MediaFlyouts/releases).
 
 ## Option 1 — Installer (recommended)
 

@@ -68,4 +68,4 @@ key). It starts minimized to the tray.
 
 ## How do I report a bug or request a feature?
 Use **Report a Bug** in the tray menu, or open an issue on the
-[repository](https://github.com/scleaverzer0ne/MediaFlyouts).
+[repository](https://github.com/lalitmeena04/MediaFlyouts).

@@ -71,7 +71,7 @@ MediaFlyouts makes exactly one kind of network request, and only if you let it:
 
 - **Update check and download** — when "check for updates" is enabled (or
   triggered manually from the dashboard), the app sends an HTTPS `GET` to
-  `https://api.github.com/repos/scleaverzer0ne/MediaFlyouts-Releases/releases/latest`
+  `https://api.github.com/repos/lalitmeena04/MediaFlyouts-Releases/releases/latest`
   to compare version numbers. If you installed with the setup program and then
   choose **Download & install**, the app downloads the installer file listed in
   that release from `github.com` over HTTPS, verifies its checksum, and starts
@@ -131,4 +131,4 @@ changelog. The effective date at the top is updated with each change.
 ## 8. Contact
 
 Questions about this policy: open an issue at
-<https://github.com/scleaverzer0ne/MediaFlyouts-Releases/issues>.
+<https://github.com/lalitmeena04/MediaFlyouts-Releases/issues>.

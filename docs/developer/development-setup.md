@@ -11,7 +11,7 @@
 ## Get the code
 
 ```powershell
-git clone https://github.com/scleaverzer0ne/MediaFlyouts.git
+git clone https://github.com/lalitmeena04/MediaFlyouts.git
 cd MediaFlyouts
 ```
 

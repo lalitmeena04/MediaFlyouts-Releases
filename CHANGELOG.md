@@ -348,9 +348,9 @@ written from scratch in Qt 6 / C++ / QML.
 - GitHub Actions CI building and testing both debug and release, running on
   Node 24 action runtimes.
 
-[1.1.0]: https://github.com/scleaverzer0ne/MediaFlyouts/releases/tag/v1.1.0
-[1.0.0]: https://github.com/scleaverzer0ne/MediaFlyouts/releases/tag/v1.0.0
-[1.2.0]: https://github.com/scleaverzer0ne/MediaFlyouts/releases/tag/v1.2.0
-[1.3.0]: https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases/tag/v1.3.0
-[1.4.0]: https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases/tag/v1.4.0
-[1.4.1]: https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases/tag/v1.4.1
+[1.1.0]: https://github.com/lalitmeena04/MediaFlyouts/releases/tag/v1.1.0
+[1.0.0]: https://github.com/lalitmeena04/MediaFlyouts/releases/tag/v1.0.0
+[1.2.0]: https://github.com/lalitmeena04/MediaFlyouts/releases/tag/v1.2.0
+[1.3.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.3.0
+[1.4.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.0
+[1.4.1]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.1

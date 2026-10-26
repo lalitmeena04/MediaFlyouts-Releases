@@ -43,7 +43,7 @@ diagnostics and fixes display-change and report-location issues.
 
 ### Downloads
 
-See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.5.0-setup.exe`, `MediaFlyouts-1.5.0-win64.zip`,
 `MediaFlyouts-1.5.0-src.zip`, and the unsigned Store package
 `MediaFlyouts-1.5.0.msix`. Install the signed MSIX from the Microsoft Store.
@@ -88,7 +88,7 @@ step for peripherals, and much more detailed logs.
 
 ### Downloads
 
-See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.4.2-setup.exe`, `MediaFlyouts-1.4.2-win64.zip`,
 `MediaFlyouts-1.4.2-src.zip`, and the unsigned Store package
 `MediaFlyouts-1.4.2.msix`. Install the signed MSIX from the Microsoft Store.
@@ -109,7 +109,7 @@ Version 1.4.1 is a packaging-only release. The app is identical to 1.4.0.
 
 ### Downloads
 
-See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.4.1-setup.exe`, `MediaFlyouts-1.4.1-win64.zip`,
 `MediaFlyouts-1.4.1-src.zip`, and the unsigned Store package
 `MediaFlyouts-1.4.1.msix`. Install the signed MSIX from the Microsoft Store.
@@ -158,7 +158,7 @@ detection, and explains unavailable Windows subsystems in the dashboard.
 
 ### Downloads
 
-See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.4.0-setup.exe`, `MediaFlyouts-1.4.0.msix` (+ `MediaFlyouts.cer`),
 `MediaFlyouts-1.4.0-win64.zip`, and `MediaFlyouts-1.4.0-src.zip`.
 
@@ -189,7 +189,7 @@ device naming, charging alerts, update installation and release distribution.
 
 ### Downloads
 
-See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.3.0-setup.exe`, `MediaFlyouts-1.3.0.msix` (+ `MediaFlyouts.cer`),
 `MediaFlyouts-1.3.0-win64.zip`, and `MediaFlyouts-1.3.0-src.zip`.
 
@@ -231,7 +231,7 @@ packaging.
 
 ### Downloads
 
-See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts/releases):
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts/releases):
 `MediaFlyouts-1.2.0-setup.exe`, `MediaFlyouts-1.2.0.msix` (+ `MediaFlyouts.cer`),
 `MediaFlyouts-1.2.0-win64.zip`, and `MediaFlyouts-1.2.0-src.zip`.
 
@@ -267,7 +267,7 @@ two defaults. Existing installs keep their current settings.
 
 ### Downloads
 
-See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts/releases):
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts/releases):
 `MediaFlyouts-1.1.0-setup.exe`, `MediaFlyouts-1.1.0.msix` (+ `MediaFlyouts.cer`),
 `MediaFlyouts-1.1.0-win64.zip`, and `MediaFlyouts-1.1.0-src.zip`.
 
@@ -352,6 +352,6 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
 
 ### Downloads
 
-See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts/releases):
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts/releases):
 `MediaFlyouts-1.0.0-setup.exe`, `MediaFlyouts-1.0.0.msix` (+ `MediaFlyouts.cer`),
 `MediaFlyouts-1.0.0-win64.zip`, and `MediaFlyouts-1.0.0-src.zip`.
