@@ -48,13 +48,16 @@ processed in memory on your device and is never transmitted anywhere.
   verbose level.
 - **Error reports** — only when you click **Create error report** on the About
   page (or **Report a Bug** in the tray menu, which opens that page). The app
-  writes a report under `%LOCALAPPDATA%\MediaFlyouts\MediaFlyouts\reports\`
+  writes a report under `C:\ProgramData\MediaFlyouts\reports\` (or
+  `Downloads\MediaFlyouts\reports\` when that folder is not writable)
   containing: `report.txt` (app version, Windows version and build, CPU
   architecture, Qt version, locale, monitor layout, which subsystems are
   unavailable, the path of your settings file), `settings.ini` (a copy of your
   settings, which includes custom peripheral names and your app filter list),
   and `logs/` (the log files above). It is zipped when the Windows archiver is
-  available. At most three reports are kept. **The report stays on your PC.**
+  available. At most three reports are kept. `ProgramData` is shared by every
+  account on the PC, so other users of the same PC can read a report there.
+  **The report stays on your PC.**
   You decide whether to attach it to a GitHub issue; **Open new issue** only
   opens your browser with a prefilled issue template that contains the short
   system summary from `report.txt`. You can open and edit the report before

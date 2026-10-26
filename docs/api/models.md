@@ -90,6 +90,10 @@ policy rules can be exercised without real hardware:
   modern `0x1004` UnifiedBattery and the legacy `0x1000` feature, plus the
   `0x0005` DeviceName feature (name, type), charging state, long-report
   rewriting and request / reply matching.
+- **JabraGnpProtocol** — Jabra GN protocol frames (64-byte report 5 on the
+  `0xFF00` vendor collection): GET requests addressed to a headset behind a
+  Link adapter or on USB, reply matching by sequence, NACK reasons, battery
+  level / charging flag and the length-prefixed headset name.
 - **BatteryAlertPolicy** — decides which changes deserve an alert: battery
   buckets, downward threshold crossings with hysteresis, connect/disconnect
   debouncing, and baseline seeding so launching the app is silent.

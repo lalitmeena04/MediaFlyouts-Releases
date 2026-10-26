@@ -3,6 +3,75 @@
 All notable changes to MediaFlyouts are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] — 2026-10-26
+
+Jabra headset battery support, charging indicators, swipe-to-dismiss flyouts
+and a restart-with-report action, plus fixes for stale album art, display
+changes and report locations on Store installs.
+
+### Added
+
+- **Restart with a report.** **Restart MediaFlyouts** in the tray menu and
+  **Save report and restart** on the About page save an error report (log,
+  settings, system facts), then close and reopen the app. The new process
+  waits for the old one to exit, so the single-instance guard does not send
+  it away. Use it when a flyout or widget looks wrong: the report keeps the
+  log of the session that misbehaved.
+- **Jabra headsets.** Battery level and charging state for Jabra headsets
+  paired to a Jabra Link USB adapter (Link 390 verified) or plugged in by
+  their own USB cable, read over Jabra's GN protocol. A headset behind a
+  Link adapter is listed under Bluetooth, named after the headset rather
+  than the adapter. Wired devices that report a level now show the battery
+  ring, which also covers a DualSense on USB.
+- **Charging indicator.** A charging device shows a bolt badge on the bottom
+  of its battery ring and a light sweeping along the ring, in the taskbar
+  widget, the dashboard and the peripheral flyout card.
+- **Swipe to dismiss.** Drag any flyout quickly left, right, up or down, with
+  the mouse or a finger, to close it. The card follows the pointer, slides
+  out along the swipe and fades. A short or slow drag springs back. Works on
+  pinned flyouts too; they return on their next event. Switch it off under
+  Settings → Flyouts → "Swipe to dismiss".
+
+### Changed
+
+- The release workflow mirrors the published GitHub Release (tag, artifacts,
+  notes) from `MediaFlyouts-Releases` back into the main repository, so both
+  repos carry the same release files.
+
+### Fixed
+
+- **Stale album art.** Closing every media player left the last cover in the
+  flyouts, taskbar widget and dashboard. The media provider now clears its
+  cached metadata and publishes a null image when the system reports no
+  session.
+- **Display changes.** Flyouts and taskbar widgets now re-place themselves
+  when a monitor's resolution, scale or work area changes, instead of only
+  when a setting changes. Screen events are coalesced so a change triggers
+  one relayout. Measured taskbar tray rects are tied to the monitor layout
+  they came from and drop on change. A visible widget or pinned flyout no
+  longer shrinks after a Windows scale change: the app restores its size
+  when Qt misses the native resize. The tray icon is rendered at every shell
+  icon size and re-applied after a change, so it stays sharp at any DPI.
+  The monitor lists in Settings refresh when displays are added, removed or
+  change mode, keep their selection, and show the native resolution.
+- **Oversized flyouts after a monitor is unplugged and plugged back in.**
+  Windows holds back the DPI change of a hidden window until it is shown.
+  When the laptop screen and the external monitor run at different scales,
+  a flyout that was last shown on one of them came back on the other at
+  1.5x or 2x its size (or shrunk), with the text at the normal size, and the
+  wrong size stuck. Window sizes are now ignored while the native window and
+  the screen Qt binds it to disagree on DPI, and the size the app asked for
+  is put back once they agree.
+- **"Show report" opened the wrong folder on Store installs.** Packaged
+  (Microsoft Store) apps have their `AppData` writes redirected into the
+  package's `LocalCache`, so nothing appeared under `%APPDATA%\MediaFlyouts`
+  and Explorer, which runs outside the package, fell back to a default
+  folder. Reports are now written to `C:\ProgramData\MediaFlyouts\reports`,
+  or the Downloads folder when that is not writable. The tray's **Open
+  Config Folder** and the report's "Settings file" line point at the real
+  on-disk location in packaged installs. "Show report" opens the reports
+  folder when the last report was deleted.
+
 ## [1.4.2] — 2026-10-09
 
 In-app updates for installer builds, local error reports, a longer onboarding

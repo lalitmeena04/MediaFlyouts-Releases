@@ -14,6 +14,9 @@ Right-click the tray icon for the menu:
 - **Volume Mixer** — open the standalone per-app mixer.
 - **Repository / Report a Bug** — open the project on GitHub.
 - **Open Config Folder** — open the folder holding your settings file.
+- **Restart MediaFlyouts** — save an error report, then close and reopen the
+  app. Use it when a flyout or widget looks wrong; the report keeps the log
+  of the session that misbehaved. The same button is on the About page.
 - **Quit** — exit the app.
 
 Left-click behavior (open Settings vs. show the flyout) is configurable; with the

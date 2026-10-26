@@ -6,7 +6,7 @@ lock-key, now-playing, peripheral-battery and charger flyouts, a per-app volume
 mixer, and a taskbar widget stack with a now-playing readout, battery rings and
 a live audio visualizer.
 
-> **Status:** stable — `v1.4.2`. Windows 10/11 (x64).
+> **Status:** stable — `v1.5.0`. Windows 10/11 (x64).
 
 ## Highlights
 

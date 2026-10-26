@@ -72,6 +72,8 @@ visualizer. This document describes the features that ship in the app.
   - **DualSense / DualSense Edge** controllers over raw HID
   - **Razer** wireless devices on their 2.4GHz dongle
   - **Logitech** HID++ devices (Unifying / Lightspeed / Bolt receivers)
+  - **Jabra** headsets behind a Jabra Link USB adapter or on their own
+    cable, via Jabra's GN protocol (name, level and charging state)
 - Wired USB and 2.4 GHz devices are listed when their battery data is exposed
   through a supported HID interface.
 - Device type (mouse / keyboard / headset / gamepad) is decoded from the
@@ -147,8 +149,9 @@ visualizer. This document describes the features that ship in the app.
 ## System tray & single instance
 
 - Tray icon with a dark, Fluent-style context menu (Settings, Show Media
-  Flyout, Volume Mixer, Repository, Report a Bug, Open Config Folder, Quit),
-  each with an icon.
+  Flyout, Volume Mixer, Repository, Report a Bug, Open Config Folder, Restart,
+  Quit), each with an icon. Restart saves an error report first, then
+  relaunches the app; the new process waits for the old one to exit.
 - Option to hide the tray icon and to choose the left-click behavior; the
   dashboard opens on double-click when single-click is set to show the flyout.
 - Single-instance handling: a second launch exits after signaling the running

@@ -57,10 +57,45 @@ Builds a local diagnostics bundle for bug reports. `createReport()` writes
 `report.txt` (`systemSummary()`: version, OS, Qt, screens, capabilities),
 `settings.ini` (via `Settings::exportTo`) and copies of `logs/*.log` into
 `reportsDir()`, zips the folder with the OS `tar` when available, and prunes to
-`kReportsKept` reports. `revealReport()` selects the file in Explorer;
+`kReportsKept` reports. `reportsDir()` is the first writable entry of
+`reportRootCandidates()`: `%ProgramData%\MediaFlyouts\reports`, then
+`Downloads\MediaFlyouts\reports`, then `AppDataLocation/reports`. AppData is
+last because Store (MSIX) builds have it redirected into the package
+`LocalCache`, invisible to Explorer. `revealReport()` selects the file in
+Explorer, or opens the reports folder when the file is gone;
 `openIssuePage()` opens GitHub's new-issue page with a prefilled template
 (`issueUrlFor()`). The template names only the report file. System details
 stay in the report. Nothing is uploaded by the app.
+`mf::hostVisiblePath()` (`Model/InstallSource.h`) maps a virtualised AppData
+path to its real `LocalCache` location for packaged installs; the tray's
+**Open Config Folder** and the report's "Settings file" line use it.
+
+### AppRestarter
+Restarts the app from the tray menu (**Restart MediaFlyouts**) or the About
+page (**Save report and restart**). `restart()` first calls
+`ErrorReporter::createReport()`, so the log of the session that misbehaved is
+kept, flushes logging, starts a new process with
+`relaunchArguments()` (the current arguments plus `--wait-for-pid <pid>`) and
+quits. At startup `waitForPredecessor()` reads that switch and blocks (up to
+`kPredecessorTimeoutMs`) until the old process is gone, *before*
+`SingleInstance` is created; otherwise the new process would hand over to the
+one it replaces and exit. `status` tells QML whether the relaunch failed.
+
+### WindowScaleRefresher
+Keeps every top-level window at the logical size the app asked for across
+DPI changes. Windows defers `WM_DPICHANGED` for hidden windows, so after a
+monitor is removed or added a hidden flyout can be bound by Qt to a screen
+whose DPI differs from the DPI its native window still has. Qt then scales the
+native size for the new screen and Windows scales it again on show. The
+refresher calls a window *settled* only when `GetDpiForWindow` equals the DPI
+of `QWindow::screen()` (`mf::scaleIsSettled`). Resize events seen while
+unsettled, or that do not match what Qt computes now, are not recorded
+(`mf::resizeIsAuthoritative`). Once settled, drift from the recorded size is
+undone (`mf::sizeToRestore`), with a one pixel nudge when Qt already reports
+the target size but the last resize event did not (`mf::needsNudge`). Checks
+run on `MonitorMapper::changed`, on `Show`, on `DevicePixelRatioChange`, and
+after each suspicious resize. The pure rules live in
+`Model/WindowScalePolicy.h`.
 
 ## Windows-only
 
@@ -89,8 +124,10 @@ stay in the report. Nothing is uploaded by the app.
   disconnect events arriving mid-poll are coalesced rather than dropped.
 - **BatteryProviders/** — one per transport: Bluetooth Classic (Hands-Free
   battery property), Bluetooth LE (GATT), Fast Pair (RFCOMM message stream),
-  DualSense (raw HID), Razer (90-byte feature reports) and Logitech (HID++,
-  long-report collection, all receiver slots probed at once).
+  DualSense (raw HID), Razer (90-byte feature reports), Logitech (HID++,
+  long-report collection, all receiver slots probed at once) and Jabra (GN
+  protocol through a Link adapter or the headset cable; wired-provider nodes
+  of the same product are suppressed).
   `HidCollections` is the shared HID enumeration helper; `DevNodeHelpers`
   holds the shared `CM_*` device-node property and Bluetooth address helpers.
 - **BluetoothConnectionWatcher / HidChangeWatcher** — instant connect and

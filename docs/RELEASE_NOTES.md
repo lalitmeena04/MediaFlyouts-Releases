@@ -1,5 +1,53 @@
 # MediaFlyouts Release Notes
 
+## Version 1.5.0 — Jabra support and flyout improvements (October 2026)
+
+Version 1.5.0 adds battery support for Jabra headsets, clearer charging
+feedback and a quick way to dismiss flyouts. It also improves restart
+diagnostics and fixes display-change and report-location issues.
+
+### Peripherals
+
+- Shows battery level and charging state for Jabra headsets connected through
+  a Jabra Link USB adapter or directly by USB. A headset behind a Link adapter
+  appears under its own name, not the adapter name.
+- Adds a charging badge and animated battery ring to the taskbar widget,
+  dashboard and peripheral flyout. Wired devices that report a battery level
+  also show a ring.
+
+### Flyouts and diagnostics
+
+- Dismiss any flyout with a quick mouse or touch swipe in any direction. A
+  short or slow drag returns the flyout to its original position. Pinned
+  flyouts return on their next event, and swipe dismissal can be turned off in
+  Settings.
+- Save an error report and restart from the tray menu or About page. The app
+  waits for the old process to exit before reopening, so the report preserves
+  the session that had the problem.
+
+### Display and reliability
+
+- Repositions flyouts and taskbar widgets when monitor resolution, scale or
+  work area changes. Window sizes and tray icons now recover more reliably
+  when monitors are unplugged, reconnected or use different display scales.
+- Refreshes monitor choices in Settings when displays are added, removed or
+  reconfigured.
+- Clears old album art when no media session remains.
+- Saves reports outside the Microsoft Store package's redirected data folder
+  when possible, and opens the actual report and configuration folders.
+
+### Release automation
+
+- Mirrors the published GitHub release, including its tag, artifacts and
+  notes, from the releases repository back to the main repository.
+
+### Downloads
+
+See the [Releases page](https://github.com/scleaverzer0ne/MediaFlyouts-Releases/releases):
+`MediaFlyouts-1.5.0-setup.exe`, `MediaFlyouts-1.5.0-win64.zip`,
+`MediaFlyouts-1.5.0-src.zip`, and the unsigned Store package
+`MediaFlyouts-1.5.0.msix`. Install the signed MSIX from the Microsoft Store.
+
 ## Version 1.4.2 — In-app updates and error reports (October 2026)
 
 Version 1.4.2 adds an in-app update dialog that downloads, verifies and runs

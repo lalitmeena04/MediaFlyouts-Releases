@@ -55,8 +55,12 @@ debugger output when available.
 
 `ErrorReporter` (About page → **Create error report**) copies these logs plus
 `settings.ini` and a `report.txt` system summary into
-`%LOCALAPPDATA%\MediaFlyouts\MediaFlyouts\reports\`, zips it with the built-in
-`tar.exe`, and keeps the three newest reports.
+`C:\ProgramData\MediaFlyouts\reports\` (falling back to
+`Downloads\MediaFlyouts\reports\`, then the app data folder), zips it with the
+built-in `tar.exe`, and keeps the three newest reports. The report does not go
+under `AppData` because packaged (Store) builds have `AppData` writes
+redirected into `%LOCALAPPDATA%\Packages\<family>\LocalCache`, where Explorer
+cannot be pointed at it.
 
 ## Release artifacts
 
@@ -77,7 +81,9 @@ install the signed copy from the Store listing.
 Push a `v*.*.*` tag to run
 [`.github/workflows/release.yml`](../../.github/workflows/release.yml), which
 builds, tests, packages the four artifacts and publishes a GitHub Release in
-the `MediaFlyouts-Releases` repo. The MSIX is then uploaded to Partner Center
+the `MediaFlyouts-Releases` repo. Once that Release exists, the same tag,
+artifacts and notes are mirrored as a GitHub Release in this repo, so both
+repos carry identical files. The MSIX is then uploaded to Partner Center
 by hand. The MSIX step is skipped until the `STORE_IDENTITY_*` variables
 described in
 [`packaging/README.md`](../../packaging/README.md#microsoft-store-submission) exist.

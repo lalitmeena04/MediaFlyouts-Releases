@@ -14,7 +14,8 @@ MediaFlyouts ships four GitHub release artifacts, all produced by
 The MSIX is the exact file uploaded to the Microsoft Store, which signs and
 distributes it. It is unsigned, so it cannot be installed from the release
 directly; it is published so the Store build can be matched to a tag. See
-[Microsoft Store submission](#microsoft-store-submission).
+[Microsoft Store submission](#microsoft-store-submission). For a package you
+can install on your own PC see [Local (sideload) MSIX](#local-sideload-msix).
 
 All artifacts are built from the **release** preset with the Qt runtime staged
 next to the executable by `windeployqt`.
@@ -54,12 +55,53 @@ them after changing the design:
 powershell -ExecutionPolicy Bypass -File tools\generate_icon.ps1
 ```
 
+## Local (sideload) MSIX
+
+To test the packaged (Store-like) build on your own PC, produce a second MSIX
+signed with a self-signed certificate:
+
+```powershell
+.\mediaflyouts.ps1 package -SignLocal        # add -SkipBuild to reuse bin\
+.\tools\install-local-msix.ps1               # trusts the .cer (asks for elevation), then installs
+```
+
+`-SignLocal` adds two artifacts next to the Store MSIX:
+
+| File | Purpose |
+|------|---------|
+| `MediaFlyouts-<ver>-local.msix` | Same bits as the Store MSIX, `Publisher="CN=MediaFlyouts"`, signed |
+| `MediaFlyouts-<ver>-local.cer` | Public certificate to trust before installing |
+
+[`tools/sign-msix-local.ps1`](../tools/sign-msix-local.ps1) keeps one
+self-signed code-signing certificate (`CN=MediaFlyouts`, friendly name
+"MediaFlyouts local MSIX signing", 5 years) in `Cert:\CurrentUser\My`, creates
+it on first use, signs with `signtool` and exports the `.cer`. The private key
+never leaves your certificate store and nothing is written into the repo.
+`-NewCertificate` replaces the certificate; trust the new `.cer` again.
+
+Installing needs the certificate in the machine **Trusted People** store
+(elevated) and sideloading allowed (Settings → System → For developers; on by
+default on Windows 11):
+
+```powershell
+Import-Certificate -FilePath release\MediaFlyouts-<ver>-local.cer -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+Add-AppxPackage release\MediaFlyouts-<ver>-local.msix
+```
+
+The local package has a different publisher than the Store package, so it
+installs side by side with a Store copy and keeps its own settings (packaged
+apps get `AppData` redirected into `%LOCALAPPDATA%\Packages\<family>\LocalCache`).
+Packages are not timestamped: they stop installing when the certificate
+expires. Only you should trust this certificate; do not ship the `-local`
+files to users.
+
 ## Microsoft Store submission
 
 The Store signs the MSIX with Microsoft's certificate, so no code-signing
-certificate is needed anywhere in this repo and users never have to trust a
-`.cer`. The installer and ZIP artifacts are unsigned. The signed, installable
-MSIX exists only in the Store; the one on GitHub is the unsigned input.
+certificate is needed for shipping and users never have to trust a `.cer`.
+The installer and ZIP artifacts are unsigned. The signed, installable MSIX
+exists only in the Store; the one on GitHub is the unsigned input. The
+self-signed certificate from `-SignLocal` is for your own PC only.
 
 [`tools/stage-msix.ps1`](../tools/stage-msix.ps1) stages `bin\`, the manifest
 and the tile images, stamps the version and the Store identity, and packs the
