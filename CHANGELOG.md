@@ -34,6 +34,9 @@ changes and report locations on Store installs.
 
 ### Changed
 
+- The privacy policy now covers the new report location (`ProgramData`),
+  the restart actions that save a report, and states that "Open new issue"
+  puts only the report file name in the URL.
 - The release workflow mirrors the published GitHub Release (tag, artifacts,
   notes) from `MediaFlyouts-Releases` back into the main repository, so both
   repos carry the same release files.

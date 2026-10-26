@@ -1,6 +1,6 @@
 # MediaFlyouts Privacy Policy
 
-**Effective date:** 9 October 2026
+**Effective date:** 26 October 2026
 **Applies to:** MediaFlyouts / "Media Flyouts" for Windows, all distribution
 channels (Microsoft Store, installer, portable ZIP, source build).
 
@@ -46,8 +46,11 @@ processed in memory on your device and is never transmitted anywhere.
   identical lines are collapsed. Delete the folder at any time; the app
   recreates an empty log on next start. Developer builds log at a more
   verbose level.
-- **Error reports** — only when you click **Create error report** on the About
-  page (or **Report a Bug** in the tray menu, which opens that page). The app
+- **Error reports** — only when you ask for one: **Create error report** or
+  **Save report and restart** on the About page, or **Restart MediaFlyouts**
+  in the tray menu (**Report a Bug** in the tray menu opens the About page).
+  The restart actions save a report first so the log of the session you are
+  restarting is kept. The app
   writes a report under `C:\ProgramData\MediaFlyouts\reports\` (or
   `Downloads\MediaFlyouts\reports\` when that folder is not writable)
   containing: `report.txt` (app version, Windows version and build, CPU
@@ -59,11 +62,12 @@ processed in memory on your device and is never transmitted anywhere.
   account on the PC, so other users of the same PC can read a report there.
   **The report stays on your PC.**
   You decide whether to attach it to a GitHub issue; **Open new issue** only
-  opens your browser with a prefilled issue template that contains the short
-  system summary from `report.txt`. You can open and edit the report before
-  posting. Once posted, it is public under GitHub's policies.
+  opens your browser on a blank issue template that names the report file.
+  No system details are placed in the URL. You can open and edit the report
+  before posting. Once posted, it is public under GitHub's policies.
 
-Nothing is written outside your user profile and nothing is uploaded.
+Apart from error reports, nothing is written outside your user profile.
+Nothing is uploaded.
 
 ## 3. Network access
 
