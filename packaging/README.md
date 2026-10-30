@@ -1,14 +1,14 @@
 # Packaging
 
-MediaFlyouts ships four GitHub release artifacts, all produced by
+MediaFlyouts ships three GitHub release artifacts, all produced by
 [`.github/workflows/release.yml`](../.github/workflows/release.yml) when a
-`v*.*.*` tag is pushed:
+`v*.*.*` tag is pushed. No source archive is published; the source is
+proprietary (see [LICENSE](../LICENSE)).
 
 | Artifact | File | Built from |
 |----------|------|------------|
 | Installer | `MediaFlyouts-<ver>-setup.exe` | [`MediaFlyouts.iss`](MediaFlyouts.iss) (Inno Setup) |
 | Portable ZIP | `MediaFlyouts-<ver>-win64.zip` | the deployed `bin/` folder |
-| Source ZIP | `MediaFlyouts-<ver>-src.zip` | `git archive` of the tag |
 | Store MSIX (unsigned) | `MediaFlyouts-<ver>.msix` | [`msix/AppxManifest.xml`](msix/AppxManifest.xml) via [`tools/stage-msix.ps1`](../tools/stage-msix.ps1) |
 
 The MSIX is the exact file uploaded to the Microsoft Store, which signs and
@@ -31,10 +31,7 @@ cmake --build --preset msvc-release
 # 2. installer (needs Inno Setup 6; version is read from the VERSION file)
 & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" packaging\MediaFlyouts.iss
 
-# 3. source zip
-git archive --format=zip -o dist\MediaFlyouts-1.4.1-src.zip HEAD
-
-# 4. unsigned Store MSIX (needs the Windows SDK: makeappx)
+# 3. unsigned Store MSIX (needs the Windows SDK: makeappx)
 .\tools\stage-msix.ps1 -Version 1.4.1.0 -Output dist\MediaFlyouts-1.4.1.msix `
     -IdentityName <Store Identity Name> -IdentityPublisher 'CN=<GUID>'
 ```

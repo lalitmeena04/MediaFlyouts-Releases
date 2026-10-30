@@ -2,10 +2,10 @@
 
 **Effective date:** 26 October 2026
 **Applies to:** MediaFlyouts / "Media Flyouts" for Windows, all distribution
-channels (Microsoft Store, installer, portable ZIP, source build).
+channels (Microsoft Store, installer, portable ZIP).
 
-MediaFlyouts is an open-source desktop utility published by ScleaverZer0ne.
-The source code is available under the MIT License; the Microsoft Store
+MediaFlyouts is a proprietary desktop utility published by ScleaverZer0ne.
+All rights to the source code are reserved; the Microsoft Store
 edition is a paid listing. Paying for it does not change anything in this
 policy: the app has no account, no licence server and no in-app purchases.
 This policy explains what information the app handles and what it does with

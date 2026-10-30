@@ -33,10 +33,6 @@ package that was submitted to the Store, published so the Store build can be
 matched to a release. Windows refuses to install an unsigned package
 (`0x800B0100`), so use the Store listing, the installer or the portable ZIP.
 
-## Option 4 — Build from source
-
-See the [Build Guide](../developer/build-guide.md).
-
 ## First run
 
 On first launch a short **onboarding wizard** introduces the main features. While

@@ -64,14 +64,14 @@ cannot be pointed at it.
 
 ## Release artifacts
 
-The GitHub release consists of four artifacts (see the
-[Installation Guide](../user/installation.md) for what each is):
+The GitHub release consists of three artifacts (see the
+[Installation Guide](../user/installation.md) for what each is). No source
+archive is published; the source is proprietary (see [LICENSE](../../LICENSE)).
 
 | Artifact | Built from |
 |----------|------------|
 | `MediaFlyouts-<ver>-setup.exe` | Inno Setup — [`packaging/MediaFlyouts.iss`](../../packaging/MediaFlyouts.iss) |
 | `MediaFlyouts-<ver>-win64.zip` | the deployed `bin/` folder |
-| `MediaFlyouts-<ver>-src.zip` | `git archive` of the tag |
 | `MediaFlyouts-<ver>.msix` | [`packaging/msix/AppxManifest.xml`](../../packaging/msix/AppxManifest.xml) via [`tools/stage-msix.ps1`](../../tools/stage-msix.ps1) — **unsigned**, the file uploaded to the Microsoft Store |
 
 The MSIX is not installable from the release; the Store signs it and users
@@ -134,8 +134,7 @@ To run the steps by hand instead, after a release build:
 $ver = (Get-Content VERSION.txt -Raw).Trim()
 New-Item -ItemType Directory -Force release | Out-Null
 
-# source + portable
-git archive --format=zip -o "release/MediaFlyouts-$ver-src.zip" HEAD
+# portable
 Compress-Archive bin\* "release/MediaFlyouts-$ver-win64.zip"
 
 # installer (needs Inno Setup 6)

@@ -45,7 +45,7 @@ diagnostics and fixes display-change and report-location issues.
 
 See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.5.0-setup.exe`, `MediaFlyouts-1.5.0-win64.zip`,
-`MediaFlyouts-1.5.0-src.zip`, and the unsigned Store package
+and the unsigned Store package
 `MediaFlyouts-1.5.0.msix`. Install the signed MSIX from the Microsoft Store.
 
 ## Version 1.4.2 — In-app updates and error reports (October 2026)
@@ -90,7 +90,7 @@ step for peripherals, and much more detailed logs.
 
 See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.4.2-setup.exe`, `MediaFlyouts-1.4.2-win64.zip`,
-`MediaFlyouts-1.4.2-src.zip`, and the unsigned Store package
+and the unsigned Store package
 `MediaFlyouts-1.4.2.msix`. Install the signed MSIX from the Microsoft Store.
 
 ## Version 1.4.1 — Microsoft Store release (October 2026)
@@ -111,7 +111,7 @@ Version 1.4.1 is a packaging-only release. The app is identical to 1.4.0.
 
 See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.4.1-setup.exe`, `MediaFlyouts-1.4.1-win64.zip`,
-`MediaFlyouts-1.4.1-src.zip`, and the unsigned Store package
+and the unsigned Store package
 `MediaFlyouts-1.4.1.msix`. Install the signed MSIX from the Microsoft Store.
 
 ## Version 1.4.0 — Widget stack, Pause all and multi-monitor fixes (October 2026)
@@ -160,7 +160,7 @@ detection, and explains unavailable Windows subsystems in the dashboard.
 
 See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.4.0-setup.exe`, `MediaFlyouts-1.4.0.msix` (+ `MediaFlyouts.cer`),
-`MediaFlyouts-1.4.0-win64.zip`, and `MediaFlyouts-1.4.0-src.zip`.
+and `MediaFlyouts-1.4.0-win64.zip`.
 
 ## Version 1.3.0 — Wired peripheral and update improvements (September 2026)
 
@@ -191,7 +191,7 @@ device naming, charging alerts, update installation and release distribution.
 
 See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
 `MediaFlyouts-1.3.0-setup.exe`, `MediaFlyouts-1.3.0.msix` (+ `MediaFlyouts.cer`),
-`MediaFlyouts-1.3.0-win64.zip`, and `MediaFlyouts-1.3.0-src.zip`.
+and `MediaFlyouts-1.3.0-win64.zip`.
 
 ## Version 1.2.0 — Peripheral battery and dashboard improvements (September 2026)
 
@@ -233,7 +233,7 @@ packaging.
 
 See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts/releases):
 `MediaFlyouts-1.2.0-setup.exe`, `MediaFlyouts-1.2.0.msix` (+ `MediaFlyouts.cer`),
-`MediaFlyouts-1.2.0-win64.zip`, and `MediaFlyouts-1.2.0-src.zip`.
+and `MediaFlyouts-1.2.0-win64.zip`.
 
 ## Version 1.1.0 — First-run polish (August 2026)
 
@@ -269,7 +269,7 @@ two defaults. Existing installs keep their current settings.
 
 See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts/releases):
 `MediaFlyouts-1.1.0-setup.exe`, `MediaFlyouts-1.1.0.msix` (+ `MediaFlyouts.cer`),
-`MediaFlyouts-1.1.0-win64.zip`, and `MediaFlyouts-1.1.0-src.zip`.
+and `MediaFlyouts-1.1.0-win64.zip`.
 
 ## Version 1.0.0 — Initial Release (August 2026)
 
@@ -354,4 +354,4 @@ lock-key overlay for Windows, written from scratch in Qt 6 / C++ / QML.
 
 See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts/releases):
 `MediaFlyouts-1.0.0-setup.exe`, `MediaFlyouts-1.0.0.msix` (+ `MediaFlyouts.cer`),
-`MediaFlyouts-1.0.0-win64.zip`, and `MediaFlyouts-1.0.0-src.zip`.
+and `MediaFlyouts-1.0.0-win64.zip`.

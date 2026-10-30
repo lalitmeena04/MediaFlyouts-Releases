@@ -50,7 +50,6 @@ Grab the latest build from the [Releases page](https://github.com/lalitmeena04/M
   Microsoft and updated automatically.
 - **Portable ZIP** — `MediaFlyouts-<version>-win64.zip`. Unzip and run
   `MediaFlyouts.exe`; no installation required.
-- **Source ZIP** — `MediaFlyouts-<version>-src.zip` for building yourself.
 - **MSIX** — `MediaFlyouts-<version>.msix` is the **unsigned** package that is
   submitted to the Store, published for transparency. Windows will not install
   it directly; use the Store listing instead.
@@ -99,10 +98,10 @@ Packaging the installer / MSIX / ZIP artifacts is described in
 
 ## Contributing
 
-Issues and pull requests are welcome. Please run the test suite
-(`ctest --preset msvc-release`) and format C++ with the repository
-[`.clang-format`](.clang-format) before submitting.
+Bug reports and feature requests are welcome as issues. The source is
+proprietary, so external pull requests are not accepted.
 
 ## License
 
-MediaFlyouts is released under the [MIT License](LICENSE).
+MediaFlyouts is proprietary software. All rights reserved.
+See [LICENSE](LICENSE) for the terms.
