@@ -10,6 +10,8 @@ exposed to QML as the `settings` context property.
 
 - One `Q_PROPERTY` per setting with a `changed()` notify signal.
 - `exportTo(QUrl)` / `importFrom(QUrl)` — backup and restore.
+- `resetToDefaults()` — clears every stored value and reloads the defaults.
+  `onboardingCompleted` is kept when it was set, so the wizard does not return.
 - `playerAllowed(name)`, `filterMode`, `filterList`, `addFilterEntry` /
   `removeFilterEntry` — app filtering.
 - `configDir()` — the settings folder (for "Open Config Folder").
@@ -49,6 +51,16 @@ clock, show-desktop) taskbar rects a widget must not cover.
 widget's left edge; a reserve counts only when it sits within `kEdgeTolerance`
 of its screen edge, and `kUnmeasuredTrayWidth` is held back when the tray could
 not be measured. The testable core behind `TaskbarInfo`.
+
+## BackdropContrast (`namespace mf`)
+
+The testable core behind `TaskbarBackdrop`. `pixelLuma` / `meanLuma` turn
+0xAARRGGBB pixels into a Rec. 601 luma (transparent pixels are skipped).
+`BackdropTone` smooths samples and flips between dark and light with
+hysteresis (`ToneThresholds`), so a live wallpaper does not make widget text
+flicker. `readableLightness` returns the HSL lightness a foreground color needs
+over the current backdrop. `sampleStripsBeside` builds the rects to sample on
+each side of a widget, clipped to the screen and skipping sibling widgets.
 
 ## AlbumArtProvider
 

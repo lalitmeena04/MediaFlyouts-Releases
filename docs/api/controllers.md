@@ -119,6 +119,13 @@ after each suspicious resize. The pure rules live in
   window that owns each monitor and measures its tray via UI Automation when
   the Win32 child is missing (Windows 11 secondary taskbars). Results are
   cached per taskbar for 2 s. Placement math is in `mf::taskbarWidgetX`.
+- **TaskbarBackdrop** — reads the taskbar pixels beside a docked widget with
+  `BitBlt` from the screen DC and reports `light` / `luminance` to QML. Two
+  small strips left and right of the widget are sampled, never the widget
+  itself, so it stays visible in captures. Windows passed to `sample()` earlier
+  are kept out of later samples, so a sibling widget never skews the result.
+  `readable(color, lightBackdrop)` returns an accent with a lightness that
+  stays visible. Smoothing and hysteresis live in `mf::BackdropTone`.
 - **BatteryStatusController** — aggregates peripheral battery from all providers
   into one list for QML. Real providers poll on a worker thread; connect and
   disconnect events arriving mid-poll are coalesced rather than dropped.

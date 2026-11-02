@@ -54,6 +54,11 @@ visualizer. This document describes the features that ship in the app.
   center-aligned taskbar, right for a left-aligned one. Your own choice is kept
   afterwards.
 - Center alignment, a pause overlay, and marquee scrolling for long titles.
+- Backdrop-aware colors. The widgets read the taskbar pixels beside them and
+  switch between light and dark text, so they stay readable over a
+  transparent taskbar or a live wallpaper that changes color. The widget's
+  own pixels are never sampled, so it still shows up in screenshots and
+  recordings. Can be turned off.
 - Scroll wheel / swipe to switch between multiple simultaneous media sources,
   with source indicator dots and a slide transition.
 - Hidden automatically over fullscreen apps.

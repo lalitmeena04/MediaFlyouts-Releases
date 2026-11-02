@@ -1,5 +1,48 @@
 # MediaFlyouts Release Notes
 
+## Version 1.6.0 — Backdrop-aware widgets and a new look (October 2026)
+
+Version 1.6.0 makes the taskbar widgets readable on any taskbar color, adds a
+one-click way to restore default settings, ships a new app icon, and moves the
+project to a proprietary license. It also fixes a bug where running the unit
+tests wiped the app's settings.
+
+### Taskbar widgets
+
+- Widgets now sample the taskbar pixels beside them and switch between light
+  and dark text, icons and accents. They stay readable over a transparent
+  taskbar, a light taskbar or a live wallpaper that changes color. The widget's
+  own pixels are never sampled, so it still appears in screenshots and
+  recordings. Turn it off with **Adapt colors to the taskbar** in the Taskbar
+  widget settings.
+
+### Settings
+
+- **Additional Settings** has a **Restore default settings…** button. After a
+  confirmation prompt, every setting returns to its factory value. The
+  first-run wizard stays done.
+
+### Look and licensing
+
+- A new "MF" app icon replaces the blue music-note tile. It is used for the
+  exe, installer, MSIX tiles, tray icon, window frames, taskbar buttons and
+  the headers of the dashboard, onboarding window and update dialog.
+- MediaFlyouts is now proprietary, all rights reserved. End users may install
+  and run the official binaries. The `LICENSE` file ships next to the README
+  in the releases repository.
+
+### Fixed
+
+- Running the unit tests reset the app's settings. The tests now use a scratch
+  settings folder and a guard test keeps it there.
+
+### Downloads
+
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
+`MediaFlyouts-1.6.0-setup.exe`, `MediaFlyouts-1.6.0-win64.zip`, and the
+unsigned Store package `MediaFlyouts-1.6.0.msix`. Install the signed MSIX from
+the Microsoft Store. Releases no longer include a source ZIP.
+
 ## Version 1.5.0 — Jabra support and flyout improvements (October 2026)
 
 Version 1.5.0 adds battery support for Jabra headsets, clearer charging

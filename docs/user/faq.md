@@ -55,6 +55,12 @@ either, there is nothing for MediaFlyouts to read.
 Use **Open Config Folder** in the tray menu. Settings live in a per-user `.ini`
 file; you can also **export/import** them from the dashboard.
 
+## How do I reset everything to the defaults?
+Open the dashboard, go to **Additional Settings** and click **Restore default
+settings…**. Confirm the prompt and every setting returns to its factory value.
+The first-run wizard does not show again. Export your settings first if you
+may want them back.
+
 ## Where are the log files?
 
 When file logging is enabled, diagnostic logs are stored in

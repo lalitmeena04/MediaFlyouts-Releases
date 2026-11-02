@@ -42,15 +42,29 @@ tests/
                               # FlyoutPositioner, AlbumArtProvider, Fft
   Controllers/                # NowPlaying, ThemeController, UpdateChecker,
                               # Win32ControllersTest (Windows-only smoke tests)
+  TestSupport/                # Shared helpers (isolated settings store)
 ```
 
 - **GoogleTest / GMock** — pure-logic and mock-based tests (e.g. transport
   forwarding through a mocked `IPlaybackController`, FFT behavior, settings).
 - **Qt Test** — one guiless executable per class for the Qt-flavored cases.
 
+### Settings isolation
+
+Tests that touch `Settings` must never read or wipe the developer's real
+`%APPDATA%\MediaFlyouts\MediaFlyouts.ini`. `QStandardPaths::setTestModeEnabled`
+does **not** move `QSettings` ini files on Windows, so
+`tests/TestSupport/IsolatedSettings.h` points user-scope ini settings at a
+scratch folder with `QSettings::setPath`. `gtest_main.cpp` applies it once for
+the whole GoogleTest run; Qt Test executables call
+`mftest::isolateUserSettings()` in `initTestCase()`. Use
+`mftest::clearUserSettings()` in fixtures instead of clearing a `QSettings`
+object by hand. A guard test fails if the store ever lands under the profile.
+
 ## What is covered
 
-- **Settings** — defaults, setters/signals, persistence, export/import, app
+- **Settings** — defaults, setters/signals, persistence, export/import, reset
+  to defaults, app
   filtering, and the once-only first-run seeding of `taskbarWidgetSide`.
 - **Peripheral battery** — protocol parsing (Fast Pair, DualSense, Razer,
   HID++), Class of Device and HID usage decoding, and the alert policy

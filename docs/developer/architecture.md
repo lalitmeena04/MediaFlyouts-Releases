@@ -40,7 +40,8 @@ Qt objects that wire the model to Windows and to QML:
 - Windows-only: **VolumeController**, **VolumeMixer**, **AudioCapture**,
   **AccentWatcher**, **WindowEffects** (dark title bar), **LockKeysController**,
   **MediaKeyController**, **FullscreenDetector**, **NativeFlyoutSuppressor**,
-  **StartupController**, **TaskbarInfo**, **BatteryStatusController**,
+  **StartupController**, **TaskbarInfo**, **TaskbarBackdrop**,
+  **BatteryStatusController**,
   **PeripheralAlerts**, and the Bluetooth/HID battery providers.
 
 ### Views (`Views/`, QML)

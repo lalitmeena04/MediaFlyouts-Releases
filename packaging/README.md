@@ -42,11 +42,19 @@ workflow.
 
 ## Icon assets
 
-The app icon (`packaging/assets/MediaFlyouts.ico`, embedded into the exe via
-[`MediaFlyouts.rc`](MediaFlyouts.rc)) and the MSIX tile logos
-(`packaging/msix/Images/`) are generated from code by
-[`tools/generate_icon.ps1`](../tools/generate_icon.ps1). Re-run it to regenerate
-them after changing the design:
+The master logo is `packaging/assets/media-flyouts.png` (square PNG,
+transparent background). [`tools/generate_icon.ps1`](../tools/generate_icon.ps1)
+crops the mark and renders every derived asset from it:
+
+- `packaging/assets/MediaFlyouts.ico` — multi-size icon embedded into the exe
+  via [`MediaFlyouts.rc`](MediaFlyouts.rc), used by the installer, and
+  compiled into the app (`:/icons/MediaFlyouts.ico`) for the tray and window
+  frames.
+- `packaging/assets/icon-256.png` — in-app logo (`qrc:/icons/icon-256.png`)
+  shown by `Views/AppLogo.qml` in the dashboard, onboarding and update dialog.
+- `packaging/msix/Images/*.png` — MSIX tile logos.
+
+Replace the master PNG and re-run the script to change the icon everywhere:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools\generate_icon.ps1

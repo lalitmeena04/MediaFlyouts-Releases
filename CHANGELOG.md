@@ -3,6 +3,46 @@
 All notable changes to MediaFlyouts are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+## [1.6.0] — 2026-10-30
+
+Backdrop-aware taskbar widget colors, a restore-defaults option, a new app
+icon, and a fix for the unit tests wiping the app's settings.
+
+### Added
+
+- **Backdrop-aware widget colors.** The taskbar widgets now read the taskbar
+  pixels beside them and switch between light and dark text, icons and
+  accents. This keeps them readable over a transparent taskbar, a light
+  taskbar, or a live wallpaper that changes color. The widget's own pixels
+  are never sampled, so it still appears in screenshots and recordings.
+  **Adapt colors to the taskbar** in the Taskbar widget settings turns it off.
+- **Restore default settings.** **Additional Settings** has a
+  **Restore default settings…** button. After a confirmation prompt, every
+  setting goes back to its factory value. The first-run wizard stays done.
+
+### Fixed
+
+- **Running the unit tests reset the app's settings.** The settings tests
+  cleared the user-scope `QSettings` store and relied on `QStandardPaths` test
+  mode to redirect it, which Qt ignores for ini files on Windows. Every
+  `build -RunTests` or `test` run wiped `%APPDATA%\MediaFlyouts\MediaFlyouts.ini`,
+  so the next launch showed the onboarding wizard with defaults. Tests now
+  point the store at a scratch folder and a guard test keeps it there.
+
+### Changed
+
+- **Proprietary license.** MediaFlyouts is no longer MIT-licensed. The
+  source code is all rights reserved; end users may install and run the
+  official binaries. Releases no longer include a source ZIP, and the
+  release repository ships the `LICENSE` file next to the README.
+- **New app icon.** The "MF" mark replaces the blue music-note tile. It is
+  now used everywhere: the exe and installer, the MSIX tiles, the tray icon,
+  window frames and taskbar buttons, and the headers of the dashboard,
+  onboarding window and update dialog. All sizes are rendered from one master
+  PNG by `tools/generate_icon.ps1`.
+
 ## [1.5.0] — 2026-10-26
 
 Jabra headset battery support, charging indicators, swipe-to-dismiss flyouts
@@ -357,3 +397,6 @@ written from scratch in Qt 6 / C++ / QML.
 [1.3.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.3.0
 [1.4.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.0
 [1.4.1]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.1
+[1.4.2]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.2
+[1.5.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.5.0
+[1.6.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.6.0
