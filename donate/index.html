@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#4cc2ff">
+  <title>Support MediaFlyouts</title>
+  <meta name="description" content="Say thanks for MediaFlyouts with a voluntary donation via UPI or bank transfer. Donations unlock nothing.">
+  <meta property="og:title" content="Support MediaFlyouts">
+  <meta property="og:description" content="Fluent-style media, volume and lock-key flyouts for Windows. Voluntary donations keep it going.">
+  <meta property="og:image" content="icon-256.png">
+  <link rel="icon" href="icon-256.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Do I get anything for donating?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. A donation is a thank-you, nothing more. Pro features are a separate one-time purchase in the Microsoft Store app, and the installer and portable builds already include everything." } },
+      { "@type": "Question", "name": "Is it safe to pay to a UPI ID from a web page?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Paying to a UPI ID is a push payment: only you can start it, from your own app, with your own PIN. Never approve an incoming request for money you did not initiate, and check that the payee name your app shows matches the one on this page." } },
+      { "@type": "Question", "name": "Which amount should I give?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Whatever you like. The quick amounts are only suggestions; scanning the code without an amount lets you type one in your UPI app." } },
+      { "@type": "Question", "name": "I paid by mistake. Can I get a refund?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Open an issue with the date and the last four digits of the transaction reference. The refund goes back to the account the payment came from." } },
+      { "@type": "Question", "name": "Can I donate from outside India?",
+        "acceptedAnswer": { "@type": "Answer", "text": "UPI and NEFT are domestic Indian payment rails. From abroad, the tips in the Microsoft Store version are the simplest way, and they are charged in your local currency." } },
+      { "@type": "Question", "name": "Does this page track me?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. It has no analytics, no cookies and no third-party scripts. The QR code is drawn in your browser from the details shown above, and the Copy buttons only write to your clipboard." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#ways">Skip to donation options</a>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <img class="logo" src="icon-256.png" width="96" height="96" alt="">
+      <div>
+        <p class="eyebrow">MediaFlyouts</p>
+        <h1>Support MediaFlyouts</h1>
+        <p class="lead">
+          MediaFlyouts is built and maintained by one developer. If it has earned a place on
+          your taskbar, a donation helps keep it going.
+        </p>
+        <p class="pill-row">
+          <span class="pill">Voluntary</span>
+          <span class="pill">Unlocks nothing</span>
+          <span class="pill">No account needed</span>
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="ways">
+    <section class="notice" role="note">
+      <strong>Before you pay.</strong> Donations are voluntary and give nothing in return: every
+      feature, including <em>MediaFlyouts&nbsp;Pro</em>, is sold only through the Microsoft Store.
+      Microsoft is not the fundraiser or sponsor of these donations. Always check that the payee
+      name your payment app shows matches the one on this page.
+    </section>
+
+    <div class="cards">
+      <!-- UPI -->
+      <section class="card" id="upi" hidden>
+        <header class="card-head">
+          <h2>UPI</h2>
+          <p>Scan with any UPI app, or open it directly on your phone.</p>
+        </header>
+
+        <div class="upi-grid">
+          <div class="qr-box">
+            <canvas id="qr" width="256" height="256" aria-label="UPI QR code"></canvas>
+            <p class="qr-caption">Scanning works without an amount. Pick one below to prefill it.</p>
+          </div>
+
+          <div class="upi-details">
+            <div class="field">
+              <span class="label">UPI ID</span>
+              <div class="value-row">
+                <code id="upi-id" class="value"></code>
+                <button class="btn copy" data-copy="#upi-id" type="button">Copy</button>
+              </div>
+            </div>
+            <div class="field">
+              <span class="label">Payee name</span>
+              <div class="value-row">
+                <span id="upi-payee" class="value"></span>
+              </div>
+            </div>
+
+            <div class="field">
+              <span class="label">Amount (optional)</span>
+              <div class="amounts" id="amounts" role="group" aria-label="Quick amounts"></div>
+              <div class="value-row">
+                <label class="sr-only" for="amount">Custom amount in rupees</label>
+                <span class="currency">₹</span>
+                <input id="amount" class="amount-input" type="number" inputmode="numeric" min="1" step="1" placeholder="Any amount">
+                <button class="btn ghost" id="amount-clear" type="button">Clear</button>
+              </div>
+            </div>
+
+            <div class="actions">
+              <a id="upi-link" class="btn primary" href="#" rel="noopener">Open in UPI app</a>
+              <button class="btn copy" data-copy="#upi-link" data-copy-attr="href" type="button">Copy pay link</button>
+            </div>
+            <p class="hint">The <strong>Open in UPI app</strong> button works on a phone. On a PC, scan the code instead.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bank -->
+      <section class="card" id="bank" hidden>
+        <header class="card-head">
+          <h2>Bank transfer <span class="muted">(NEFT / IMPS)</span></h2>
+          <p>For larger amounts or if you do not use UPI.</p>
+        </header>
+        <dl class="kv">
+          <div><dt>Account holder</dt><dd><span id="bank-holder" class="value"></span><button class="btn copy" data-copy="#bank-holder" type="button">Copy</button></dd></div>
+          <div><dt>Bank</dt><dd><span id="bank-name" class="value"></span><button class="btn copy" data-copy="#bank-name" type="button">Copy</button></dd></div>
+          <div><dt>Account number</dt><dd><code id="bank-account" class="value"></code><button class="btn copy" data-copy="#bank-account" type="button">Copy</button></dd></div>
+          <div><dt>IFSC</dt><dd><code id="bank-ifsc" class="value"></code><button class="btn copy" data-copy="#bank-ifsc" type="button">Copy</button></dd></div>
+        </dl>
+      </section>
+
+      <!-- Store -->
+      <section class="card" id="store">
+        <header class="card-head">
+          <h2>Microsoft Store</h2>
+          <p>Using the Store version? Its <strong>Support</strong> page offers one-time tips through the Microsoft Store, and <strong>MediaFlyouts Pro</strong> unlocks the extra features.</p>
+        </header>
+        <div class="actions">
+          <a id="store-link" class="btn" href="#" rel="noopener">Open in Microsoft Store</a>
+        </div>
+      </section>
+    </div>
+
+    <section class="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">Questions &amp; answers</h2>
+      <dl class="qa-list">
+        <div class="qa">
+          <dt><span class="qa-mark" aria-hidden="true">Q</span><span class="qa-text">Do I get anything for donating?</span></dt>
+          <dd><span class="qa-mark" aria-hidden="true">A</span><span class="qa-text">No. A donation is a thank-you, nothing more. Pro features are a separate one-time purchase in the Microsoft Store app, and the installer and portable builds already include everything.</span></dd>
+        </div>
+        <div class="qa">
+          <dt><span class="qa-mark" aria-hidden="true">Q</span><span class="qa-text">Is it safe to pay to a UPI ID from a web page?</span></dt>
+          <dd><span class="qa-mark" aria-hidden="true">A</span><span class="qa-text">Yes. Paying to a UPI ID is a push payment: only you can start it, from your own app, with your own PIN. Never approve an incoming <em>request</em> for money you did not initiate, and check that the payee name your app shows matches the one on this page.</span></dd>
+        </div>
+        <div class="qa">
+          <dt><span class="qa-mark" aria-hidden="true">Q</span><span class="qa-text">Which amount should I give?</span></dt>
+          <dd><span class="qa-mark" aria-hidden="true">A</span><span class="qa-text">Whatever you like. The quick amounts are only suggestions; scanning the code without an amount lets you type one in your UPI app.</span></dd>
+        </div>
+        <div class="qa">
+          <dt><span class="qa-mark" aria-hidden="true">Q</span><span class="qa-text">I paid by mistake. Can I get a refund?</span></dt>
+          <dd><span class="qa-mark" aria-hidden="true">A</span><span class="qa-text">Yes. Open an issue with the date and the last four digits of the transaction reference. The refund goes back to the account the payment came from.</span></dd>
+        </div>
+        <div class="qa">
+          <dt><span class="qa-mark" aria-hidden="true">Q</span><span class="qa-text">Can I donate from outside India?</span></dt>
+          <dd><span class="qa-mark" aria-hidden="true">A</span><span class="qa-text">UPI and NEFT are domestic Indian payment rails. From abroad, the tips in the Microsoft Store version are the simplest way, and they are charged in your local currency.</span></dd>
+        </div>
+        <div class="qa">
+          <dt><span class="qa-mark" aria-hidden="true">Q</span><span class="qa-text">Does this page track me?</span></dt>
+          <dd><span class="qa-mark" aria-hidden="true">A</span><span class="qa-text">No. It has no analytics, no cookies and no third-party scripts. The QR code is drawn in your browser from the details shown above, and the Copy buttons only write to your clipboard.</span></dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <p>
+      <a id="repo-link" href="#" rel="noopener">MediaFlyouts on GitHub</a> ·
+      <a id="issues-link" href="#" rel="noopener">Questions &amp; issues</a> ·
+      <a id="privacy-link" href="#" rel="noopener">Privacy</a>
+    </p>
+    <p class="muted small">This page sends nothing anywhere. The QR code is drawn in your browser from the details above. QR code generation by <a href="https://www.nayuki.io/page/qr-code-generator-library" rel="noopener">Project Nayuki</a> (MIT).</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="vendor/qrcodegen.js"></script>
+  <script src="donate.js"></script>
+</body>
+</html>

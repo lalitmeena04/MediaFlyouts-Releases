@@ -101,6 +101,15 @@ Packaging the installer / MSIX / ZIP artifacts is described in
 Bug reports and feature requests are welcome as issues. The source is
 proprietary, so external pull requests are not accepted.
 
+## Support the project
+
+If MediaFlyouts has earned a place on your taskbar, you can say thanks on the
+[donation page](https://lalitmeena04.github.io/MediaFlyouts-Releases/donate/)
+(UPI or bank transfer). Donations are voluntary and unlock nothing; the Store
+version offers one-time tips through the Microsoft Store instead. The page
+source lives in [`donate/`](donate/); payee details are in
+`donate/config.js`.
+
 ## License
 
 MediaFlyouts is proprietary software. All rights reserved.
