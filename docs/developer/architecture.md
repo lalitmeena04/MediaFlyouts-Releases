@@ -18,6 +18,8 @@ Portable, dependency-light C++ (only `Qt6::Core`) that is unit-tested in
 isolation:
 
 - **Settings** — persisted app settings (`QSettings`), exposed to QML.
+- **Localization** — the shipped language list and the pure
+  settings-plus-system → language-code resolution (`mf::resolveLanguage`).
 - **TrackInfo / PlaybackController** — track model + transport abstraction
   (`IPlaybackController`) so playback logic is mockable.
 - **Fft** — radix-2 FFT and frequency-band mapping for the visualizer.
@@ -26,21 +28,34 @@ isolation:
 - **WinMediaProvider** *(Windows)* — SMTC bridge feeding `TrackInfo`.
 - **Peripheral battery models** — protocol parsers and `BatteryAlertPolicy`
   keep provider-specific parsing and alert rules portable and testable.
+- **Entitlement / EntitlementStore** — pure Pro-tier resolution (add-on,
+  grandfathering, trial, offline fallback) and its tamper-checked cache file.
 
 ### Controllers (`Controllers/`)
 Qt objects that wire the model to Windows and to QML:
 
 - **NowPlaying** — QML-facing now-playing model; forwards transport commands.
 - **TrayController** — tray icon + context menu.
+- **AppTranslator** — loads the app and Qt `.qm` files for the chosen language
+  and swaps them at run time (`i18n` context property; see
+  [localization.md](localization.md)).
 - **ThemeController** — theme/accent palette exposed to QML.
 - **FlyoutPlacement** — screen placement from settings.
 - **SingleInstance** — single-instance guard (surfaces the dashboard on relaunch
   only when the tray icon is hidden).
 - **UpdateChecker** — GitHub releases update check.
+- **EntitlementController** — the Pro paywall as seen by QML (`entitlement`);
+  resolves the tier from install kind, Store answer and cache, drives purchases
+  through the `StoreGateway` interface.
+- **ProGate** — effective values of the gated settings (`pro`): stored value
+  when unlocked, free-tier default when locked.
+- **DonationController** — the Support page (`donate`): page link, UPI/NEFT
+  details for unpackaged builds, Store tips for the Store build.
 - Windows-only: **VolumeController**, **VolumeMixer**, **AudioCapture**,
   **AccentWatcher**, **WindowEffects** (dark title bar), **LockKeysController**,
   **MediaKeyController**, **FullscreenDetector**, **NativeFlyoutSuppressor**,
-  **StartupController**, **TaskbarInfo**, **TaskbarBackdrop**,
+  **StartupController**, **StoreLicensing** (Microsoft Store licenses and
+  purchases), **TaskbarInfo**, **TaskbarBackdrop**,
   **BatteryStatusController**,
   **PeripheralAlerts**, and the Bluetooth/HID battery providers.
 
@@ -75,6 +90,9 @@ fullscreen suppression and taskbar z-order behavior consistent.
 - **Accent:** WinRT `UISettings`.
 - **Startup:** MSIX startup task for packaged installs, Windows `Run` registry
   key for installer and portable installs.
+- **Store:** `Windows.Services.Store` (`StoreContext`) for the Pro add-on
+  license, the app's acquisition date and purchases; DPAPI
+  (`CryptProtectData`) seals the local entitlement cache.
 
 See the [Controllers API](../api/controllers.md) and [Model API](../api/models.md)
 for class-level detail.

@@ -112,10 +112,30 @@ If Windows did not provide a subsystem (for example audio or media sessions),
 a banner at the top of the dashboard names it and the related settings are
 disabled. The tray icon tooltip shows the same summary.
 
+## MediaFlyouts Pro (Store version)
+
+The Microsoft Store version is free. The audio visualizer, the per-app mixer,
+peripheral battery, the Now Playing styles and the media widget options are
+**Pro**. New installs get all of them for 15 days; after that they switch off
+quietly and their toggles show a **PRO** badge. The card on the **Home** page
+shows the days left and the price, and a click opens the Store purchase. Your
+settings are kept, so buying Pro brings everything back as you had it. If you
+bought MediaFlyouts while it was a paid app, you already have Pro. The
+installer and portable builds are not gated.
+
+## Support
+
+The **Support** page in the dashboard is where to say thanks. Every build links
+to the donation page; the installer and portable builds also show a UPI QR
+code and bank transfer details with Copy buttons, and the Store build offers
+one-time tips through the Microsoft Store. Donations unlock nothing.
+
 ## Startup & updates
 
 Enable **launch on startup** to have MediaFlyouts start with Windows (minimized
 to tray). Installer and portable builds use the Windows `Run` registry key;
 MSIX installs use the Windows startup-task mechanism. Turn on **automatic update
 checks** to be notified when a newer release is available. The About page can
-also check manually and install an available update.
+also check manually and install an available update. After an update, the
+first launch shows a short **What's new** note; **About → What's new** shows
+it again.

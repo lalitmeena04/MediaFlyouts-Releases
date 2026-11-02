@@ -41,7 +41,9 @@ tests/
   Model/                      # Settings, TrackInfo, PlaybackController,
                               # FlyoutPositioner, AlbumArtProvider, Fft
   Controllers/                # NowPlaying, ThemeController, UpdateChecker,
+                              # AppTranslator, TrayControllerQtTest,
                               # Win32ControllersTest (Windows-only smoke tests)
+  I18n/                       # Shipped .ts files are complete and consistent
   TestSupport/                # Shared helpers (isolated settings store)
 ```
 
@@ -76,6 +78,22 @@ object by hand. A guard test fails if the store ever lands under the profile.
   forwarding, player-name parsing, art accent.
 - **TrackInfo / PlaybackController** — formatting, progress, play/pause toggle.
 - **ThemeController / UpdateChecker** — palettes, accent modes, version compare.
+- **Localization** — language matching (`pt-BR` → `pt_BR`, `de-AT` → `de`,
+  script tags dropped), system fallback, RTL flag. `AppTranslatorTest` loads
+  the embedded `.qm` files and checks that `tr()` strings, a live QML
+  `qsTr()` binding (via `QQmlEngine::retranslate()`), Qt's own `qtbase`
+  strings and the default `QLocale` all switch. `TrayControllerQtTest`
+  (Qt Test, needs `QApplication`) checks the tray menu and tooltip follow
+  `retranslate()` and the `languageChanged` signal. `TranslationFilesTest`
+  parses every `i18n/*.ts`: one file per shipped language, the CMake language
+  list matches `Localization.cpp`, no `unfinished` entries, `%1`/`%2`
+  placeholders preserved, same source set in every file, most entries differ
+  from English, and — the main drift guard — every `qsTr()` / `tr()` literal
+  in `Views/`, `Controllers/`, `Model/` and the root sources has a matching
+  `<source>` and vice versa (fails with a hint to run `update_translations`).
+  `QmlContractTest` fails on a `text:`/`label:`/… string literal in `Views/`
+  that is not wrapped in `qsTr()`, and on `qsTr("…") + x` concatenation that
+  should be `qsTr("… %1").arg(x)`.
 - **Windows controllers** — default-state smoke tests for `VolumeMixer`,
   `AudioCapture`, `WindowEffects`.
 

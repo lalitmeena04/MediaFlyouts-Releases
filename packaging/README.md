@@ -121,6 +121,8 @@ submission is not automated.
    shipped package):
    - `STORE_IDENTITY_NAME` — Product identity → Package/Identity/Name
    - `STORE_IDENTITY_PUBLISHER` — Product identity → Package/Identity/Publisher (`CN=<GUID>`)
+   - From v2.0.0 also the Pro add-on and donation variables listed in the
+     [Release Guide §7](../docs/developer/release-guide.md#7-pro-add-on-cutover-and-donations).
 
 Until the variables exist the MSIX step is skipped and the GitHub release
 ships only the installer and ZIPs.
@@ -138,7 +140,10 @@ ships only the installer and ZIPs.
    keeps the Store build byte-identical to the tag.
 3. Review the listing, paste the release notes, and **Submit**. On the first
    submission also justify the `runFullTrust` restricted capability (keyboard
-   hook, taskbar placement, WASAPI loopback capture).
+   hook, taskbar placement, WASAPI loopback capture). From v2.0.0 the listing
+   must also name the in-app purchases (MediaFlyouts Pro, tips) with their
+   price range and the 15-day trial, and the notes must declare the external
+   donation link.
 
 ### Manifest rules the Store enforces
 

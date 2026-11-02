@@ -15,9 +15,22 @@ exposed to QML as the `settings` context property.
 - `playerAllowed(name)`, `filterMode`, `filterList`, `addFilterEntry` /
   `removeFilterEntry` — app filtering.
 - `configDir()` — the settings folder (for "Open Config Folder").
+- `language` — UI language code (`"de"`, `"pt_BR"`, …). Empty follows the
+  Windows display language. `AppTranslator` applies it.
 - Most defaults are literals in `reload()`; `taskbarWidgetSide` is the exception
   — on first run it is seeded from the system taskbar alignment and written to
   the store, so a later system change never moves a widget the user has placed.
+
+## Localization (`namespace mf`)
+
+The shipped language list and the pure resolution logic, with no Qt GUI
+dependency. `supportedLanguages()` returns `{code, nativeName}` entries in
+picker order (English first). `matchLanguage("pt-BR")` normalises separators,
+case and script tags and falls back to the base language (`de-AT` → `de`,
+`pt-PT` → `pt_BR`). `resolveLanguage(requested, systemUiLanguages)` prefers an
+explicit request, then the first system language that matches, then English.
+`translationFileName(code)` and `isRightToLeft(code)` round it out. See
+[localization.md](../developer/localization.md).
 
 ## TrackInfo (`namespace mf`)
 
@@ -82,6 +95,75 @@ into a degraded state at startup.
 - `statusSummary()` — one-line text used for the tray icon tooltip.
 - `chargerAvailable` is excluded from `degraded`: a desktop with no battery is
   normal, not a failure.
+
+## Entitlement (`namespace mf`)
+
+The pure core of the Pro paywall (see
+[dev-notes/PRO-PAYWALL-PLAN.md](../../dev-notes/PRO-PAYWALL-PLAN.md)). No Store
+or Windows dependency, so every branch is unit-tested.
+
+- `Tier` (`Free`, `Trial`, `Pro`), `ProFeature` (the gated features) and
+  `EntitlementSource` (why a tier was granted: `AddOn`, `Grandfathered`,
+  `StoreTrial`, `LocalTrial`, `Cached`, `Expired`, `Unlocked`).
+- `resolveEntitlement(EntitlementInputs)` takes the install kind, what the
+  Store answered (`StoreFacts`: add-on licensed, acquisition date), the last
+  `EntitlementCache`, the `EntitlementPolicy` (gating flag, cutover, trial
+  days) and `now`. It fails open: non-Store installs, gating off or a missing
+  cutover are `Pro`. An acquisition before the cutover is grandfathered. A
+  trial runs `trialDays` from the acquisition date, or from the first run when
+  the Store does not answer. The clock cannot move backwards:
+  `effectiveNow = max(now, cache.lastSeen)`.
+- `cacheFrom(state)` is what a caller persists after a resolution.
+- `isUnlocked(feature, tier)`, `trialDaysLeft(now, end)`, stable ids
+  (`tierId`, `sourceId`, `featureId`, `featureFromId`, `allFeatureIds`) for
+  QML and logs, and `describeEntitlement(state)` for one-line diagnostics.
+
+## EntitlementStore (`namespace mf`)
+
+Persists the `EntitlementCache` in one sealed file
+(`MediaFlyouts/Entitlement.dat`, next to the user settings ini), apart from
+`Settings`, so a settings export, import or reset never copies or restarts a
+trial. The payload is compact JSON (`tier`, `trialEnd`, `lastSeen`, UTC)
+passed through an `IEntitlementCodec` before it hits the disk:
+
+- `DpapiCodec` *(Windows, default)* — `CryptProtectData` bound to the signed-in
+  Windows user. Another user or PC cannot open the file. No key ships in the
+  app; the OS holds it. An altered payload fails DPAPI's own integrity check.
+- `ChecksumCodec` *(portable, tests)* — salted SHA-256 tag in front of the
+  plain bytes. Detects edits, not copies.
+
+File layout: `MFE1` magic, one codec id byte, sealed bytes. A file from another
+codec, user or machine, a truncated or edited file, or malformed JSON all load
+as an invalid cache (logged), which resolves like a first run. Writes go
+through `QSaveFile`. `load()`, `save()`, `clear()`; `serializeEntitlementCache`
+/ `parseEntitlementCache` are exposed for tests.
+
+## ProBuildConfig (`namespace mf`)
+
+The Store identifiers and gating policy compiled into the binary
+(`MEDIAFLYOUTS_PRO_ADDON_STORE_ID`, `MEDIAFLYOUTS_STORE_CUTOVER_UTC`,
+`MEDIAFLYOUTS_TRIAL_DAYS`, `MEDIAFLYOUTS_TIP_ADDON_STORE_IDS`).
+`parseProBuildConfig()` is the pure parser: trims, reads the cutover as UTC
+(a bare date-time counts as UTC, offsets are normalised), falls back to 15
+trial days on bad input, de-duplicates tip ids. A bad or empty cutover leaves
+gating off. `proBuildConfig()` returns the parsed build values and logs them
+once.
+
+## Donation (`namespace mf`)
+
+`DonationConfig` holds the public payee details compiled in
+(`MEDIAFLYOUTS_DONATE_*`): page URL (http(s) only), UPI VPA (must contain
+`@`), payee name, and the NEFT fields (bank, account, IFSC upper-cased,
+holder). `donationLayoutFor(kind)` is the policy rule: `StoreLink` for Store
+installs, `Direct` otherwise. `upiPaymentUri(vpa, payee, note)` builds the
+`upi://pay?pa=…&pn=…&cu=INR&tn=…` deep link with the `@` kept literal.
+
+## QrCode
+
+`mf::renderQrCode(text, modulePx, quiet)` draws a QR code (qrcodegen, MIT,
+fetched by CMake) into a `QImage`; null for empty or oversized text.
+`QrImageProvider` serves it as `image://qr/<base64url text>`, scaling by
+whole modules so edges stay crisp at the requested `sourceSize`.
 
 ## Peripheral battery helpers
 

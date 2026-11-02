@@ -1,13 +1,15 @@
 # MediaFlyouts Privacy Policy
 
-**Effective date:** 26 October 2026
+**Effective date:** 2 November 2026
 **Applies to:** MediaFlyouts / "Media Flyouts" for Windows, all distribution
 channels (Microsoft Store, installer, portable ZIP).
 
 MediaFlyouts is a proprietary desktop utility published by ScleaverZer0ne.
-All rights to the source code are reserved; the Microsoft Store
-edition is a paid listing. Paying for it does not change anything in this
-policy: the app has no account, no licence server and no in-app purchases.
+All rights to the source code are reserved. The Microsoft Store edition is
+free and offers a one-time **MediaFlyouts Pro** add-on and optional tips as
+in-app purchases, all processed by Microsoft. Buying any of them does not
+change anything in this policy: the app has no account and no licence server
+of its own.
 This policy explains what information the app handles and what it does with
 it. The short version: **MediaFlyouts collects no personal data, contains no
 telemetry, analytics or advertising, and sends nothing about you to the
@@ -34,6 +36,13 @@ processed in memory on your device and is never transmitted anywhere.
   your user profile. "Open Config Folder" in the tray menu shows where. You can
   export, import or delete this file at any time; uninstalling the Store or
   installer version removes it.
+- **Pro entitlement cache** (Store version) — a small file
+  (`Entitlement.dat`, next to the settings file) remembers the last answer the
+  Store gave: your tier (free, trial or Pro), the trial end date and the last
+  time the app ran. It lets Pro features keep working when you are offline. It
+  is encrypted with Windows Data Protection for your Windows account, holds no
+  account identifiers or payment data, and is not included in settings export
+  or error reports. Deleting it is harmless; the app asks the Store again.
 - **Logs** — the app writes a diagnostic log under its local data folder
   (`%LOCALAPPDATA%\MediaFlyouts\MediaFlyouts\logs\`). It records app events:
   start and exit, which subsystems came up or failed (audio, media session,
@@ -71,8 +80,21 @@ Nothing is uploaded.
 
 ## 3. Network access
 
-MediaFlyouts makes exactly one kind of network request, and only if you let it:
+MediaFlyouts makes two kinds of network request, and only in the situations
+described here:
 
+- **Microsoft Store licence check (Store version only)** — at start, after a
+  purchase, and when Windows reports a licence change, the app asks the
+  Windows Store APIs (`Windows.Services.Store`) for three things: whether your
+  account owns the **MediaFlyouts Pro** add-on, the date your account
+  acquired the app (this decides the 15-day trial and keeps earlier buyers on
+  Pro), and the localized add-on prices. Windows performs these requests
+  against Microsoft's Store services under the
+  [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement);
+  the app sends nothing of its own and never talks to a server run by the
+  developer. The installer and portable versions do not make this request.
+  Buying Pro or a tip opens the Microsoft Store purchase dialog; Microsoft
+  handles the payment and the developer receives no personal or payment data.
 - **Update check and download** — when "check for updates" is enabled (or
   triggered manually from the dashboard), the app sends an HTTPS `GET` to
   `https://api.github.com/repos/lalitmeena04/MediaFlyouts-Releases/releases/latest`
@@ -89,8 +111,11 @@ MediaFlyouts makes exactly one kind of network request, and only if you let it:
   [GitHub Privacy Statement](https://docs.github.com/site-policy/privacy-policies/github-privacy-statement).
   MediaFlyouts sends no identifiers, settings or usage data with them.
 
-Links in the tray menu or dashboard (Repository, Open new issue, release page)
-open in your default browser; those sites have their own policies.
+Links in the tray menu or dashboard (Repository, Open new issue, release page,
+the donation page on the **Support** page) open in your default browser; those
+sites have their own policies. The Support page itself shows payment details
+that are compiled into the app; it sends nothing anywhere, and **Copy** only
+writes to your clipboard.
 
 Album art is obtained from the media player through Windows, not downloaded by
 MediaFlyouts.
@@ -107,10 +132,10 @@ If you install from the **Microsoft Store**, Microsoft may collect install and
 usage statistics under the
 [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement);
 the developer only sees aggregated, anonymous Store statistics. Your purchase
-is processed entirely by Microsoft: the developer never receives your name,
-email address or payment details, only anonymous sales totals. The Store
-licence is checked by Windows when the app is launched, not by the app itself,
-and MediaFlyouts never contacts any server to verify it.
+of the app, of **MediaFlyouts Pro** or of a tip is processed entirely by
+Microsoft: the developer never receives your name, email address or payment
+details, only anonymous sales totals. The app checks your licence through the
+Windows Store APIs (§3) and never contacts a developer server to verify it.
 
 If you open an issue on GitHub, anything you post there is public and governed
 by GitHub's policies.

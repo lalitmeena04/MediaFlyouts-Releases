@@ -28,6 +28,10 @@ properties and QML binds to their properties/signals.
 - **OnboardingWindow.qml** — first-run wizard. Until it sets
   `settings.onboardingCompleted`, every `showFlyout()` returns early and the
   taskbar widget's `visible` binding stays false.
+- **WhatsNewDialog.qml** — the bundled `WHATS_NEW.md` rendered as Markdown.
+  `App.qml` opens it once after an update (`whatsNew.pending`, never over
+  the onboarding wizard) and on demand from **About → What's new**. Closing
+  it calls `whatsNew.markSeen()`.
 - **TaskbarWidget.qml** + **TaskbarVisualizer.qml** — the taskbar now-playing
   widget and its multi-style audio visualizer. Hosts the "Pause all" /
   "Play all" button.
@@ -55,6 +59,18 @@ properties and QML binds to their properties/signals.
 - **RoundedArt.qml** — album art with rounded corners.
 - **IconLabel.qml** — a glyph-icon label.
 - **SettingRow.qml / SettingCombo.qml / SettingSlider.qml** — dashboard controls.
+  `SettingRow` and `SettingCombo` take `locked: true` to grey out a Pro-only
+  option and show a `ProBadge`; the bound setting keeps its stored value.
+- **ProBadge.qml** — the small "PRO" pill.
+- **UpgradeCard.qml** — home-page card shown while `entitlement.gatingEnabled
+  && !entitlement.isPro`. Shows the trial days left or "trial ended", the
+  localized price, and maps `purchaseFinished` status ids to text. The whole
+  card is clickable and calls `entitlement.purchase(ownerWindow)`.
+- **SupportPage.qml** — the Dashboard **Support** page. Shows the donation
+  page link, and depending on `donate.showDirect` / `donate.showStoreTips`
+  either the UPI QR + NEFT details with Copy buttons, or the Store tip
+  buttons (`entitlement.purchaseAddOn`). States that Microsoft is not the
+  fundraiser and that donations unlock nothing.
 - **FlyoutBase.qml** — shared frameless flyout window chrome, positioning,
   animations and auto-hide methods (`present()`, `hideFlyout()`,
   `stopAutoHide()`, `restartAutoHide()`, `afterHide()`).
@@ -69,10 +85,19 @@ result to the available screen.
 ## Context properties (from `main.cpp`)
 
 `nowPlaying`, `settings`, `theme`, `placement`, `tray`, `updateChecker`,
-`errorReporter`, `restarter`, `instance`, `capabilities`, `monitors`, and (on Windows) `volumeController`,
+`errorReporter`, `restarter`, `instance`, `capabilities`, `entitlement`, `pro`,
+`donate`, `whatsNew`, `monitors`, and (on Windows) `volumeController`,
 `volumeMixer`, `audioCapture`, `taskbar`, `fullscreen`, `lockKeys`,
 `windowEffects`. QML reads these directly, e.g. `nowPlaying.title`,
 `settings.visualizerStyle`, `theme.accent`, `audioCapture.bands`.
+
+Pro gating has two faces in QML. `entitlement` (tier, trial days, purchase) is
+for the Dashboard: toggles bind to `settings.*` and set
+`locked: !entitlement.isUnlocked("<feature>")`. `pro` (`ProGate`) holds the
+*effective* values — the stored setting when unlocked, the free-tier default
+when locked — and every flyout or widget binds its behaviour to `pro.*`
+(`pro.visualizerEnabled`, `pro.mixerEnabled`, `pro.nextUpStyle`, …), never to
+the gated `settings.*` key. `QmlContractTest` enforces this split.
 
 The QML module and its resources (including the Fluent icon font) are registered
 via `qt_add_qml_module` in [`CMakeLists.txt`](../../CMakeLists.txt).

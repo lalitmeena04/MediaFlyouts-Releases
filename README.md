@@ -6,7 +6,7 @@ lock-key, now-playing, peripheral-battery and charger flyouts, a per-app volume
 mixer, and a taskbar widget stack with a now-playing readout, battery rings and
 a live audio visualizer.
 
-> **Status:** stable — `v1.6.0`. Windows 10/11 (x64).
+> **Status:** stable — `v1.7.0`. Windows 10/11 (x64).
 
 ## Highlights
 
@@ -106,9 +106,7 @@ proprietary, so external pull requests are not accepted.
 If MediaFlyouts has earned a place on your taskbar, you can say thanks on the
 [donation page](https://lalitmeena04.github.io/MediaFlyouts-Releases/donate/)
 (UPI or bank transfer). Donations are voluntary and unlock nothing; the Store
-version offers one-time tips through the Microsoft Store instead. The page
-source lives in [`donate/`](donate/); payee details are in
-`donate/config.js`.
+version offers one-time tips through the Microsoft Store instead.
 
 ## License
 

@@ -19,6 +19,7 @@ taskbar widgets for Windows, built with Qt 6 / C++ / QML.
 - **[Release Guide](developer/release-guide.md)** — preparing, tagging and publishing a release
 - **[Contributing Guide](developer/contributing.md)** — coding standards and workflow
 - **[Testing Guide](developer/testing.md)** — running and writing tests
+- **[Localization](developer/localization.md)** — languages, `.ts` workflow, translatable code
 
 ### Reference
 - **[Feature List](FEATURES.md)** — the full, shipped feature set
@@ -28,7 +29,7 @@ taskbar widgets for Windows, built with Qt 6 / C++ / QML.
 - **[Packaging](../packaging/README.md)** — installer / Store MSIX / release inputs
 
 ### Releases
-- **[Release Notes](RELEASE_NOTES.md)** — version history (v1.6.0)
+- **[Release Notes](RELEASE_NOTES.md)** — version history (v1.7.0)
 - **[Changelog](../CHANGELOG.md)** — concise change log
 
 ## 🚀 Quick start

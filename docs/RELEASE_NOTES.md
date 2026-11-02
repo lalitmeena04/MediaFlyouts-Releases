@@ -1,5 +1,39 @@
 # MediaFlyouts Release Notes
 
+## Version 1.7.0 — Eleven languages and a Support page (November 2026)
+
+Version 1.7.0 speaks your language: the whole app, including the tray menu,
+is now available in eleven languages and switches without a restart. A new
+**Support** page in the dashboard is the place to say thanks, and after each
+update the app now tells you what changed.
+
+### Languages
+
+- English, Spanish, Simplified Chinese, Japanese, German, French, Korean,
+  Brazilian Portuguese, Hindi, Arabic and Indonesian. The app follows your
+  Windows display language by default. Pick a different one under
+  **Additional Settings → Language** (also offered in the first-run wizard);
+  every window, flyout and the tray menu switch at once.
+
+### Support page
+
+- The dashboard has a new **Support** page. Every build links to the
+  donation page. The installer and portable builds also show a UPI QR code
+  and bank transfer details with Copy buttons. Donations are voluntary and
+  unlock nothing; Microsoft is not the fundraiser or sponsor.
+
+### What's new after an update
+
+- The first launch after an update shows a short note of what changed. Find
+  it again any time under **About → What's new**.
+
+### Downloads
+
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
+`MediaFlyouts-1.7.0-setup.exe`, `MediaFlyouts-1.7.0-win64.zip`, and the
+unsigned Store package `MediaFlyouts-1.7.0.msix`. Install the signed MSIX from
+the Microsoft Store.
+
 ## Version 1.6.0 — Backdrop-aware widgets and a new look (October 2026)
 
 Version 1.6.0 makes the taskbar widgets readable on any taskbar color, adds a

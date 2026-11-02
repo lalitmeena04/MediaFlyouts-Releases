@@ -53,6 +53,7 @@ Every file below carries the version. Update all of them in one commit.
 | File | What to change |
 |------|----------------|
 | [`VERSION.txt`](../../VERSION.txt) | The plain version, e.g. `1.6.0`. CMake, Inno Setup, `tools/release.ps1` and the release workflow all read this file. |
+| [`WHATS_NEW.md`](../../WHATS_NEW.md) | Rewrite for the release. First line `Version 1.6.0`, then a short `- ` bullet list in plain language. See [Write the release notes](#3-write-the-release-notes). |
 | [`packaging/msix/AppxManifest.xml`](../../packaging/msix/AppxManifest.xml) | `Version="1.6.0.0"` on the `<Identity>` element. Four parts, last part `0`. |
 | [`CHANGELOG.md`](../../CHANGELOG.md) | Rename `## [Unreleased]` to `## [1.6.0] — YYYY-MM-DD`. Add a new empty `## [Unreleased]` above it. Add a `[1.6.0]: …/releases/tag/v1.6.0` link at the bottom. |
 | [`docs/RELEASE_NOTES.md`](../RELEASE_NOTES.md) | Add a `## Version 1.6.0 — <title> (<Month Year>)` section at the top. See [Write the release notes](#3-write-the-release-notes). |
@@ -76,7 +77,18 @@ Files that do **not** need a manual edit:
 
 ## 3. Write the release notes
 
-Two documents describe each release. They have different readers.
+Three documents describe each release. They have different readers.
+
+**`WHATS_NEW.md`** is for the person who just updated. The app shows it once
+on the first launch after an update (and from **About → What's new**), and
+the same text goes into the Partner Center **What's new in this version**
+field. Rules, enforced by `WhatsNewTest`:
+
+- First line is exactly `Version <ver>`; it must match `VERSION.txt`.
+- Then a blank line and `- ` bullets. Plain text only: no `**`, `#` or links,
+  because the Store field shows markup literally. At most 1500 characters.
+- Three to five bullets, each one sentence or two, naming the setting that
+  controls the feature. Skip internals and fixes nobody saw.
 
 **`CHANGELOG.md`** is for developers. Keep the Keep-a-Changelog layout:
 a one-paragraph summary, then `### Added`, `### Fixed`, `### Changed` as
@@ -182,6 +194,81 @@ Then do by hand:
    version and the download succeeds.
 4. Upload `MediaFlyouts-<ver>.msix` to Partner Center. See
    [`packaging/README.md`](../../packaging/README.md#microsoft-store-submission).
+   Paste `WHATS_NEW.md` (without the `Version` line if you prefer) into
+   **What's new in this version**.
+
+## 7. Pro add-on, cutover and donations
+
+From v2.0.0 the Store app is free and sells a **MediaFlyouts Pro** durable
+add-on (plan: `dev-notes/PRO-PAYWALL-PLAN.md`, user view:
+[FEATURES.md](../FEATURES.md#mediaflyouts-pro-microsoft-store-build)). The
+binary learns about it only through CMake cache variables, which the release
+workflow fills from **repository variables**. Nothing is hard-coded.
+
+| Repository variable | CMake variable | Meaning |
+|---|---|---|
+| `PRO_STORE_CUTOVER_UTC` | `MEDIAFLYOUTS_STORE_CUTOVER_UTC` | Instant the Store app became free, ISO-8601 UTC. **Unset = gating off, everything unlocked.** |
+| `PRO_ADDON_STORE_ID` | `MEDIAFLYOUTS_PRO_ADDON_STORE_ID` | Store ID of the Pro add-on (`9N…`). Unset = no purchase button. |
+| `PRO_TRIAL_DAYS` | `MEDIAFLYOUTS_TRIAL_DAYS` | Trial length. Default 15. |
+| `PRO_TIP_ADDON_STORE_IDS` | `MEDIAFLYOUTS_TIP_ADDON_STORE_IDS` | Comma-separated consumable tip add-on IDs. |
+| `DONATE_URL`, `DONATE_UPI_ID`, `DONATE_PAYEE_NAME`, `DONATE_BANK_NAME`, `DONATE_BANK_ACCOUNT`, `DONATE_BANK_IFSC`, `DONATE_BANK_HOLDER` | `MEDIAFLYOUTS_DONATE_*` | Support page details. All optional. |
+
+Locally, pass the same values with `-Define`:
+
+```powershell
+.\tools\release.ps1 -StoreIdentityName <name> -StoreIdentityPublisher 'CN=<GUID>' `
+    -Define MEDIAFLYOUTS_STORE_CUTOVER_UTC=2026-12-04T12:00:00Z,MEDIAFLYOUTS_PRO_ADDON_STORE_ID=9NXXXXXXXXXX
+```
+
+The configure log prints `MediaFlyouts Pro gating: ...`. Read it before you
+upload: a Store build that says `off (no cutover)` sells nothing.
+
+### One-time Partner Center setup (before v2.0.0)
+
+1. **Create the add-on**: Partner Center → the app → **Add-ons** → **Create a
+   new add-on** → *Durable*, product lifetime *Forever*, name
+   **MediaFlyouts Pro**. Set the base price and an India override of ₹200
+   (nearest tier). Publish it. Copy its **Store ID** into `PRO_ADDON_STORE_ID`.
+2. **Create the tips** (optional): one or more *Consumable* (developer-managed)
+   add-ons, e.g. "Tip ₹100", "Tip ₹300". Publish. Copy the IDs, comma-separated,
+   into `PRO_TIP_ADDON_STORE_IDS`.
+3. **Promotional codes**: once the Pro add-on is published, **Attract →
+   Promotional codes** lets you generate single-use or capped multi-use codes
+   (1,600 redemptions per 6 months, 6-month expiry). A redeemed code appears in
+   the user's add-on licenses like a purchase; no app support needed. Use them
+   for testers and support cases.
+4. **Listing**: Store policy 10.8.4 requires the listing to name the in-app
+   purchase types and price range, and to describe the 15-day trial. In the
+   submission notes declare the external donation link (policy 10.8.2).
+
+### Dry run (last paid release, 1.x)
+
+Ship one paid release with the Phase 1–2 code and **no cutover**. Everything
+stays unlocked; the log records `store: in collection ... acquired=...` and the
+add-on query result. Confirm on your own machine that `AcquiredDate` is the
+original purchase date before you rely on it.
+
+### Cutover release (v2.0.0)
+
+1. Set `PRO_STORE_CUTOVER_UTC` to **your planned manual publish time + 72 h**.
+   Anyone who *buys* the paid app before the cutover is grandfathered; anyone
+   who installs the free app before it gets Pro too. The margin protects the
+   buyers, that is the right trade.
+2. Set `PRO_ADDON_STORE_ID` (and tips). Tag and build as usual.
+3. In the same submission change the price to **Free** and upload the MSIX.
+4. Choose **publish manually** on the submission. When certification passes,
+   publish inside the 72 h window. If it slips past the window, rebuild with a
+   later cutover and resubmit; never publish a binary whose cutover is in the
+   past relative to real purchases.
+5. Watch the first week's error reports and logs for `store:` HRESULTs.
+
+### Verifying a Store build
+
+Install the signed package from the Store on a machine signed in with a
+Microsoft account. The log must show `store: context ready`, a snapshot with
+`available=true` and a valid `acquired=` date, and one `entitlement: tier=...`
+line. A purchased or redeemed add-on shows `source=addOn`; a pre-cutover
+account shows `source=grandfathered`.
 
 ## Troubleshooting
 
@@ -191,6 +278,8 @@ Then do by hand:
 | `No '## Version 1.6.0' section found` | Heading typo, or notes not in the tagged commit. | Fix the heading in `docs/RELEASE_NOTES.md`. Match `## Version 1.6.0` exactly. |
 | `Expected a vMAJOR.MINOR.PATCH tag` | Tag has a suffix or missing `v`. | Use `v1.6.0`, not `1.6.0` or `v1.6.0-rc1`. |
 | MSIX step skipped | `STORE_IDENTITY_NAME` / `STORE_IDENTITY_PUBLISHER` repo variables missing. | Set them as described in `packaging/README.md`. |
+| Configure log says `Pro gating: off (no cutover)` on a Store release | `PRO_STORE_CUTOVER_UTC` repo variable unset or not ISO-8601. | Set it (see §7) and re-run the workflow for the same tag. |
+| Upgrade card never shows a price | `PRO_ADDON_STORE_ID` unset, or the add-on is not published yet. | Publish the add-on in Partner Center and set the variable. |
 | Wrong notes on the Release | Notes edited after tagging. | Fix the notes, then re-run the workflow for the same tag. A re-run replaces assets and notes. |
 
 ## Hotfix releases

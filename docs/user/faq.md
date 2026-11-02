@@ -28,7 +28,43 @@ to see it until you finish onboarding.
 ## The per-app mixer is missing from the volume flyout
 It is off by default from v1.1.0 on. Turn on the in-flyout mixer from the Volume
 flyout page in Settings, or use **Volume Mixer** in the tray menu for the
-standalone window.
+standalone window. In the Store version the mixer is a **Pro** feature (see
+below); after the trial the toggle is greyed out until you get Pro.
+
+## What is MediaFlyouts Pro?
+The Microsoft Store version is free. Five features are part of **Pro**: the
+audio visualizer, the per-app mixer, peripheral battery (widget, flyout and
+low-battery notification), the Now Playing styles and the media widget options
+(controls, pause/play all, layout, pause overlay, title scrolling, adaptive
+colors). Everything else is free. Pro is a one-time purchase through the
+Microsoft Store, made from the card on the **Home** page.
+
+## I bought MediaFlyouts when it was a paid app. Do I have to pay again?
+No. If your Microsoft account acquired the app before it became free, you have
+Pro for good on every PC where you sign in with that account. The app reads
+this from the Store; nothing to enter. If the Home page still shows an upgrade
+card, make sure you are signed in to the Microsoft Store app and online, then
+restart MediaFlyouts. Still wrong? **Report a Bug** with an error report; the
+log shows what the Store answered.
+
+## My trial ended and some features switched off
+Every new Store install gets 15 days of Pro, counted from the day your account
+acquired the app. When it ends the Pro features turn off quietly; their
+toggles stay visible but greyed out with a **PRO** badge, and your choices are
+kept. Getting Pro restores them exactly as they were. Reinstalling does not
+restart the trial.
+
+## I use the installer or portable ZIP. Is anything locked?
+No. Only the Store build has the paywall. The installer and portable builds
+include every feature, and the **Support** page in the dashboard shows how to
+leave a donation if you want to say thanks.
+
+## How do I donate?
+Open the dashboard and go to **Support**. Every build links to the donation
+page. The installer and portable builds also show a UPI QR code and bank
+transfer details with Copy buttons; the Store build offers one-time tips
+through the Microsoft Store instead. Donations are voluntary and unlock
+nothing.
 
 ## The taskbar widget disappears or moves
 It hides over fullscreen apps and re-anchors when the taskbar changes (monitor,

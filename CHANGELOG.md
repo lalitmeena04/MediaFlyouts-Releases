@@ -5,6 +5,57 @@ All notable changes to MediaFlyouts are documented here. This project follows
 
 ## [Unreleased]
 
+## [1.7.0] — 2026-11-02
+
+Eleven languages with a runtime switch, a Support page for donations, and the
+entitlement layer for MediaFlyouts Pro (not enabled in this release).
+
+### Added
+
+- **MediaFlyouts Pro entitlement layer.** The Store build can sell a one-time
+  **Pro** add-on covering the audio visualizer, the
+  per-app mixer, peripheral battery (widget, flyout, low-battery toast), the
+  Now Playing styles and the media widget options. New installs get a 15-day
+  trial anchored to the Store acquisition date; accounts that bought the app
+  while it was paid keep Pro for good. Locked settings stay visible but greyed
+  with a **PRO** badge and keep their stored values; a clickable card on the
+  Home page starts the purchase. Installer and portable builds are not gated.
+  The tier is resolved from the Store answer, a DPAPI-sealed local cache and
+  a clock-rollback guard (`Model/Entitlement*`, `Controllers/StoreLicensing`,
+  `Controllers/EntitlementController`, `Controllers/ProGate`). Build-time
+  variables `MEDIAFLYOUTS_STORE_CUTOVER_UTC`, `MEDIAFLYOUTS_PRO_ADDON_STORE_ID`,
+  `MEDIAFLYOUTS_TRIAL_DAYS`, `MEDIAFLYOUTS_TIP_ADDON_STORE_IDS`; debug builds
+  honour `MEDIAFLYOUTS_ENTITLEMENT=free|trial|pro`. See
+  `docs/developer/release-guide.md` §7. Gating is off unless a build carries
+  a cutover; 1.7.0 does not.
+- **Support page.** A new dashboard page for donations: a link to the donation
+  web page in every build, a UPI QR code and NEFT details with Copy buttons in
+  installer/portable builds, and one-time tip add-ons through the Microsoft
+  Store in the Store build. Payee details are stamped at build time
+  (`MEDIAFLYOUTS_DONATE_*`). QR codes use Nayuki's qrcodegen (MIT, fetched by
+  CMake). Donations unlock nothing.
+- **What's new after an update.** The first launch after an update shows a
+  short, plain-language note of what changed; **About → What's new** shows
+  it again. The text is `WHATS_NEW.md` at the repo root, embedded in the
+  binary and reused verbatim for the Store "What's new in this version"
+  field. `WhatsNewTest` fails when its `Version` line does not match
+  `VERSION.txt`, so it cannot go stale. New setting `lastSeenVersion`.
+- **Localization.** The app is now available in English, Spanish, Simplified
+  Chinese, Japanese, German, French, Korean, Brazilian Portuguese, Hindi,
+  Arabic and Indonesian. It follows the Windows display language by default;
+  **Additional Settings → Language** (also in the first-run wizard) pins a
+  language and switches the whole UI, including the tray menu, without a
+  restart. Translations live in `i18n/*.ts`; see
+  `docs/developer/localization.md`.
+
+### Changed
+
+- Building now needs Qt 6.7 or newer (`qt_add_translations` with
+  `SOURCE_TARGETS`). CI already uses 6.8.
+- `mediaflyouts.ps1 build|package` and `tools/release.ps1` accept
+  `-Define NAME=VALUE[,...]` for extra CMake cache entries. The release
+  workflow fills the Pro and donation variables from repository variables.
+
 ## [1.6.0] — 2026-10-30
 
 Backdrop-aware taskbar widget colors, a restore-defaults option, a new app
@@ -399,4 +450,5 @@ written from scratch in Qt 6 / C++ / QML.
 [1.4.1]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.1
 [1.4.2]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.2
 [1.5.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.5.0
+[1.7.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.7.0
 [1.6.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.6.0

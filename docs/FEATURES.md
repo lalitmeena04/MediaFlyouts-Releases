@@ -5,10 +5,7 @@ Qt 6 / C++ / QML: media, volume, lock-key, now-playing, peripheral-battery and
 charger flyouts, a per-app volume mixer, and taskbar widgets with an audio
 visualizer. This document describes the features that ship in the app.
 
-> Anything not listed here is not implemented yet. In particular there is **no
-> window acrylic/mica backdrop** (flyouts use solid, theme-matched surfaces with
-> dark title bars), **no localization** (English only for now) and **no
-> telemetry**.
+> Anything not listed here is not implemented yet.
 
 ## Media flyout
 
@@ -138,6 +135,14 @@ visualizer. This document describes the features that ship in the app.
   color.
 - Optional accent tint derived from the current album art.
 
+## Languages
+
+- English, Spanish, Simplified Chinese, Japanese, German, French, Korean,
+  Brazilian Portuguese, Hindi, Arabic and Indonesian.
+- Follows the Windows display language by default. **Additional Settings →
+  Language** (also offered in the first-run wizard) pins a language; the
+  whole UI including the tray menu switches at once, no restart needed.
+
 ## App filtering
 
 - Blacklist or whitelist mode to control which players may trigger flyouts,
@@ -150,6 +155,30 @@ visualizer. This document describes the features that ship in the app.
 - A status banner names any Windows subsystem (audio, media sessions, lock
   keys, media keys) that did not answer, and the related settings are
   disabled. The tray icon tooltip shows the same summary.
+
+## MediaFlyouts Pro (Microsoft Store build)
+
+- The Store app is free. Five features are **Pro**: the audio visualizer, the
+  per-app mixer (flyout expansion and the mixer window), peripheral battery
+  (widget, flyout and low-battery notification), Now Playing styles, and the
+  media widget options (transport controls, pause/play all, layout, pause
+  overlay, title scrolling, adaptive colors).
+- New users get a **15-day trial** of everything, anchored to the date the
+  Store account acquired the app. When it ends the Pro features switch off
+  silently; their toggles stay visible but greyed with a PRO badge, and the
+  home page shows an upgrade card. Buying Pro restores every stored choice.
+- Everyone who bought the app while it was paid keeps Pro for good.
+- The installer and portable builds are not gated.
+
+## Support page (donations)
+
+- A **Support** page in the Dashboard. Donations are voluntary and unlock
+  nothing; Microsoft is not the fundraiser or sponsor.
+- Every build links to the donation web page.
+- Installer and portable builds also show a UPI QR code and ID and the NEFT /
+  IMPS bank details, each with a Copy button.
+- The Store build offers one-time **tip** add-ons bought through the
+  Microsoft Store instead.
 
 ## System tray & single instance
 
