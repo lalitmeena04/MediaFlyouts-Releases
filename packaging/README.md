@@ -42,7 +42,7 @@ workflow.
 
 ## Icon assets
 
-The master logo is `packaging/assets/media-flyouts.png` (square PNG,
+The master logo is `packaging/assets/MediaFlyouts.png` (square PNG,
 transparent background). [`tools/generate_icon.ps1`](../tools/generate_icon.ps1)
 crops the mark and renders every derived asset from it:
 
@@ -59,6 +59,17 @@ Replace the master PNG and re-run the script to change the icon everywhere:
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools\generate_icon.ps1
 ```
+
+Two Pro masters, `MediaFlyoutsProBar.png` and `MediaFlyoutsProRibbon.png`,
+render with `-Variant pro-bar` / `-Variant pro-ribbon` into
+`MediaFlyoutsPro{Bar,Ribbon}.ico` and `icon-pro-{bar,ribbon}-256.png`. A
+licensed Pro user (`entitlement.licensed`: add-on, grandfathered or cached,
+never the always-unlocked installer build) gets one of those pairs at runtime
+for the tray icon, window frames and `AppLogo`, and picks which under
+Additional Settings → Pro icon (`settings.proIconStyle`, default: side bar).
+The style table lives in `Controllers/AppIcon.h`; `Views/AppLogo.qml` mirrors
+it. The MSIX tiles, Start menu and taskbar pin come from the manifest and
+always show the base mark.
 
 ## Local (sideload) MSIX
 
@@ -144,6 +155,34 @@ ships only the installer and ZIPs.
    must also name the in-app purchases (MediaFlyouts Pro, tips) with their
    price range and the 15-day trial, and the notes must declare the external
    donation link.
+
+### Store listing text and screenshots
+
+The listing (description, features, what's new, captions, search terms) is
+kept in all eleven languages in
+[`tools/store/make_listing_csv.py`](../tools/store/make_listing_csv.py).
+It turns a Partner Center **Export listings** CSV into the
+`tools/store/import/` folder for **Import listings → Upload folder**: the
+CSV with every text field filled, the screenshot rows and IDs kept from the
+export, plus one dashboard screenshot from `tools/store/screenshots/` for
+each language that has none yet (the Store needs at least one per listing).
+Image cells must name the path with the root folder
+(`import/dashboard-de.png`); a bare file name makes the whole import fail.
+[`tools/store/capture-dashboard.ps1`](../tools/store/capture-dashboard.ps1)
+produces those screenshots from a debug build at the Store's 1366×768
+desktop minimum; it runs the app on a scratch settings folder through the
+debug-only `MEDIAFLYOUTS_SETTINGS_DIR` variable. The generated folder is
+committed as a fallback. The export itself is gitignored: its name carries
+the submission id and it changes every submission.
+
+Add-on listings (Title, 200-character Description, 300×300 icon) follow the
+same path with
+[`tools/store/make_addon_listing_csv.py`](../tools/store/make_addon_listing_csv.py):
+export from the add-on's submission page, run
+`python tools\store\make_addon_listing_csv.py pro <export>.csv`, and upload
+`tools/store/addon-import/`. A fresh add-on exports only the `default`
+column; the script appends one column per language and the import creates
+those listings.
 
 ### Manifest rules the Store enforces
 

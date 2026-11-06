@@ -29,7 +29,7 @@ taskbar widgets for Windows, built with Qt 6 / C++ / QML.
 - **[Packaging](../packaging/README.md)** — installer / Store MSIX / release inputs
 
 ### Releases
-- **[Release Notes](RELEASE_NOTES.md)** — version history (v1.7.0)
+- **[Release Notes](RELEASE_NOTES.md)** — version history (v2.0.0)
 - **[Changelog](../CHANGELOG.md)** — concise change log
 
 ## 🚀 Quick start

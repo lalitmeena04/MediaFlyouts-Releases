@@ -116,14 +116,22 @@ The `entitlement` context property: the Pro paywall seen from QML (see
 feeds `mf::resolveEntitlement` with the install kind, the Store answer
 (`StoreSnapshot`) and the cached state, persists the result through
 `EntitlementStore`, and re-resolves at the trial end (and daily) so the UI
-flips without a restart.
+flips without a restart. A Store answer that settles nothing (no add-on, no
+acquisition date; typically the first launch after logon before the network
+is up) is retried after 1, 5, 15, then 60 minutes, so a buyer is recognised
+without a restart instead of running out the local trial.
 
 - `tier` / `source` / `unlocked` / `isPro` / `isTrial` / `trialDaysLeft`, plus
   `gatingEnabled`, `storeAvailable`, `canPurchase`, `price`, `purchasing`,
   `refreshing`, `lastPurchaseStatus`, `tipAddOnStoreIds`, `featureIds`.
-- `isUnlocked("visualizer")` for the gated features (`mf::allFeatureIds`). An
-  unknown id reads as unlocked and logs a warning: a typo must never lock a
-  feature.
+- `licensed` — Pro through a licence (add-on, grandfathered, cached), false
+  for the always-unlocked installer build and for trials. Switches the tray,
+  window and `AppLogo` icons to the Pro mark.
+- `locked` — map of feature id → bool (`entitlement.locked.visualizer`) with
+  `NOTIFY changed`, the thing Dashboard rows bind to. `isUnlocked(id)` is the
+  same answer as an invokable; it does not notify, so a binding on it would
+  freeze at the startup tier. An unknown id reads as unlocked and logs a
+  warning: a typo must never lock a feature.
 - `purchase(window)` buys the Pro add-on, `purchaseAddOn(id, window)` any
   add-on (tips). The QML `Window` becomes the owner of the Store dialog.
   `purchaseFinished(ok, statusId, storeId)` reports stable ids from
@@ -178,7 +186,9 @@ not match `VERSION.txt`.
 
 - **StoreLicensing** — the `StoreGateway` for packaged builds, over
   `Windows.Services.Store`. `refresh()` reads `GetAppLicenseAsync`
-  (add-on licenses), `GetUserCollectionAsync` (the app's `AcquiredDate`) and
+  (add-on licenses), `GetStoreProductForCurrentAppAsync` (the app's
+  `AcquiredDate` from its owned SKU; `GetUserCollectionAsync` does not list a
+  Desktop Bridge app itself) and
   `GetAssociatedStoreProductsAsync` (localized price) on a worker thread with
   a multi-threaded WinRT apartment, then answers with one `StoreSnapshot`.
   `purchase(id)` initializes the context with the owner HWND

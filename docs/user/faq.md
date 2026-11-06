@@ -37,15 +37,19 @@ audio visualizer, the per-app mixer, peripheral battery (widget, flyout and
 low-battery notification), the Now Playing styles and the media widget options
 (controls, pause/play all, layout, pause overlay, title scrolling, adaptive
 colors). Everything else is free. Pro is a one-time purchase through the
-Microsoft Store, made from the card on the **Home** page.
+Microsoft Store, made from the card on the **Home** page: ₹199 in India, the
+matching Store tier elsewhere (about USD 2.69). No subscription. Pro users
+also get a Pro app icon; pick its style under **Additional Settings → Pro
+icon**.
 
 ## I bought MediaFlyouts when it was a paid app. Do I have to pay again?
 No. If your Microsoft account acquired the app before it became free, you have
 Pro for good on every PC where you sign in with that account. The app reads
 this from the Store; nothing to enter. If the Home page still shows an upgrade
 card, make sure you are signed in to the Microsoft Store app and online, then
-restart MediaFlyouts. Still wrong? **Report a Bug** with an error report; the
-log shows what the Store answered.
+click **Already bought MediaFlyouts? Check your license** on the card (the app
+also retries on its own). Still wrong? **Report a Bug** with an error report;
+the log shows what the Store answered.
 
 ## My trial ended and some features switched off
 Every new Store install gets 15 days of Pro, counted from the day your account

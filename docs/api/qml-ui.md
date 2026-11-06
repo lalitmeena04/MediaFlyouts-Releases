@@ -65,7 +65,12 @@ properties and QML binds to their properties/signals.
 - **UpgradeCard.qml** — home-page card shown while `entitlement.gatingEnabled
   && !entitlement.isPro`. Shows the trial days left or "trial ended", the
   localized price, and maps `purchaseFinished` status ids to text. The whole
-  card is clickable and calls `entitlement.purchase(ownerWindow)`.
+  card is clickable and calls `entitlement.purchase(ownerWindow)`. A link at
+  the bottom ("Already bought MediaFlyouts? Check your license") calls
+  `entitlement.refresh()` for buyers the Store has not recognised yet; it
+  tracks `entitlement.refreshing` and reports a miss in words. The content
+  row sits at `z: 1` so the link receives its own clicks above the card-wide
+  purchase MouseArea.
 - **SupportPage.qml** — the Dashboard **Support** page. Shows the donation
   page link, and depending on `donate.showDirect` / `donate.showStoreTips`
   either the UPI QR + NEFT details with Copy buttons, or the Store tip
@@ -93,7 +98,11 @@ result to the available screen.
 
 Pro gating has two faces in QML. `entitlement` (tier, trial days, purchase) is
 for the Dashboard: toggles bind to `settings.*` and set
-`locked: !entitlement.isUnlocked("<feature>")`. `pro` (`ProGate`) holds the
+`locked: entitlement.locked.<feature>` (a notifying map, so rows lock the
+moment the tier changes). Controls that only matter while that feature runs
+(the peripheral flyout's event toggles, position, duration, the widget's
+device lists) set `parentLocked:` on the same key instead: disabled and
+dimmed, no badge of their own. `pro` (`ProGate`) holds the
 *effective* values — the stored setting when unlocked, the free-tier default
 when locked — and every flyout or widget binds its behaviour to `pro.*`
 (`pro.visualizerEnabled`, `pro.mixerEnabled`, `pro.nextUpStyle`, …), never to

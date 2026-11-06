@@ -1,5 +1,60 @@
 # MediaFlyouts Release Notes
 
+## Version 2.0.0 — Free on the Store, with MediaFlyouts Pro (November 2026)
+
+MediaFlyouts is now free on the Microsoft Store. Everything you had is still
+there: the five most advanced features become **MediaFlyouts Pro**, a one-time
+purchase, and every new install gets 15 days of all of them to try. If you
+bought MediaFlyouts while it was a paid app, you already own Pro — nothing
+changes for you, and thank you.
+
+### If you bought the paid app
+
+- Your Microsoft account keeps every feature for good, on every PC you sign
+  in to. No code to enter, nothing to do. The app recognises your purchase the
+  first time it reaches the Store; after that it works offline too.
+- If the Home page shows a trial card instead (for example because the app
+  started before your network was up), click **Already bought MediaFlyouts?
+  Check your license** on that card. The app also re-checks on its own.
+
+### MediaFlyouts Pro
+
+- **What is Pro:** the audio visualizer, the per-app volume mixer (in the
+  flyout and the standalone window), peripheral battery (widget, flyout and
+  low-battery notification), Now Playing styles, and the media widget options
+  (transport controls, pause/play all, layout, pause overlay, title scrolling,
+  adaptive colors). Everything else stays free.
+- **Trial:** 15 days of Pro from the day your account acquired the app. When
+  it ends the Pro features switch off quietly; their toggles stay visible but
+  greyed with a **PRO** badge, your choices are kept, and the Home page shows
+  a card with the price in your currency. Getting Pro restores everything as
+  it was.
+- **Price:** a one-time purchase through the Microsoft Store (₹199 in India,
+  the matching tier elsewhere). No subscription.
+- **Pro icon:** Pro users see a Pro mark in the tray, on window frames and in
+  the dashboard. Choose between a side bar and a corner ribbon under
+  **Additional Settings → Pro icon**.
+
+### Dashboard
+
+- A greyed Pro toggle now also disables the controls that depend on it (for
+  example the peripheral flyout's event toggles and position), so a page
+  reads at a glance.
+- Pro locks update the moment your tier changes, including right after a
+  purchase. No restart needed.
+- Hindi, Japanese, Korean and Arabic now write "Pro" in their own script.
+
+### Installer and portable builds
+
+- Not affected. They stay fully unlocked, as before.
+
+### Downloads
+
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
+`MediaFlyouts-2.0.0-setup.exe`, `MediaFlyouts-2.0.0-win64.zip`, and the
+unsigned Store package `MediaFlyouts-2.0.0.msix`. Install the signed MSIX from
+the Microsoft Store.
+
 ## Version 1.7.0 — Eleven languages and a Support page (November 2026)
 
 Version 1.7.0 speaks your language: the whole app, including the tray menu,

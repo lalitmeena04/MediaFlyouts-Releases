@@ -5,6 +5,78 @@ All notable changes to MediaFlyouts are documented here. This project follows
 
 ## [Unreleased]
 
+## [2.0.0] — 2026-11-05
+
+The Store app becomes free and sells **MediaFlyouts Pro** as a one-time
+add-on; accounts that bought the paid app keep Pro for good. Pro licence
+holders get a Pro app icon, and the Dashboard's Pro locks now follow the
+entitlement correctly.
+
+### Changed
+
+- **Store cutover.** The Microsoft Store listing changes from paid to free in
+  this release. The build carries `MEDIAFLYOUTS_STORE_CUTOVER_UTC` and
+  `MEDIAFLYOUTS_PRO_ADDON_STORE_ID`, so the entitlement layer shipped in 1.7.0
+  is active: accounts whose Store `AcquiredDate` precedes the cutover are
+  grandfathered, new installs get a 15-day trial from their acquisition date,
+  and the Home card sells the add-on. Installer and portable builds stay
+  unlocked. Procedure in `docs/developer/release-guide.md` §7.
+- **Acquisition date source.** `StoreLicensing` reads the app's
+  `AcquiredDate` from `GetStoreProductForCurrentAppAsync`, because
+  `GetUserCollectionAsync` never lists a Desktop Bridge app itself. Verified
+  on the Store build. Add-on licence and product lines log at INFO so a Store
+  build shows them.
+- **App icon** rendered from a new 1254 px master
+  (`packaging/assets/MediaFlyouts.png`); the `.ico`, in-app logo and MSIX
+  tiles are regenerated.
+- `tools/release.ps1` no longer compiles logging out, matching the CI release
+  build.
+
+### Added
+
+- **Pro icon.** A licence holder (add-on, grandfathered or the offline cache
+  of either; never the always-unlocked installer build or a trial) gets a Pro
+  mark in the tray, on window frames and in every `AppLogo`. Two styles ship,
+  side bar (default) and corner ribbon, chosen under **Additional Settings →
+  Pro icon** (`proIconStyle`). `EntitlementController::licensed` tells a
+  licence from the unlocked build; `Controllers/AppIcon.h` holds the style
+  table and `tools/generate_icon.ps1 -Variant pro-bar|pro-ribbon` renders
+  the assets. MSIX tiles come from the manifest and keep the base mark.
+- **Dependent-row locking.** `SettingRow`, `SettingCombo`, `SettingSlider`
+  and `PeripheralRow` gain `parentLocked`: controls that only matter while a
+  locked Pro feature runs (the peripheral flyout's event toggles, position,
+  monitor, duration; the widget's accent, device lists and wired toggle) are
+  disabled and dimmed without a badge of their own.
+- **Check your license.** The Home upgrade card gains a link for buyers the
+  Store has not recognised yet: it calls `entitlement.refresh()`, shows
+  progress while `refreshing`, and reports a miss in words. A Pro answer
+  hides the card.
+- **Add-on Store listing import.** `tools/store/make_addon_listing_csv.py`
+  builds the eleven-language Partner Center import for the Pro add-on
+  (`tools/store/addon-import/`).
+- `tools/install-local-msix.ps1` resolves the certificate path before
+  elevating. Release guide documents sideloading a package with the Store
+  identity to test licensing before publishing.
+
+### Fixed
+
+- **Store retry.** An indecisive Store answer (licence read, product query
+  failed; typical right after logon before the network is up) left the app
+  in the 15-day local trial without ever asking the Store again while it kept
+  running. A buyer with a long-running session could have lost Pro at day 15
+  until a restart. `EntitlementController` now retries after 1, 5, 15 and
+  then every 60 minutes until the answer settles the tier.
+- **Pro locks froze at startup.** Dashboard rows bound `locked:` to the
+  invokable `isUnlocked()`, which has no notify signal; QML evaluated it once
+  during the local trial granted until the Store answers, so every Pro toggle
+  stayed unlocked after the tier dropped. `EntitlementController` now exposes
+  a `locked` map on the `changed` signal and the rows bind to
+  `entitlement.locked.<feature>`.
+- **Native-script "Pro".** Hindi, Japanese, Korean and Arabic strings used a
+  Latin "Pro" inside native-script sentences; each now uses one native form
+  throughout (प्रो, プロ版, 프로, برو), matching Chinese (专业版). The PRO
+  badge and the product name stay Latin.
+
 ## [1.7.0] — 2026-11-02
 
 Eleven languages with a runtime switch, a Support page for donations, and the
@@ -450,5 +522,6 @@ written from scratch in Qt 6 / C++ / QML.
 [1.4.1]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.1
 [1.4.2]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.2
 [1.5.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.5.0
+[2.0.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v2.0.0
 [1.7.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.7.0
 [1.6.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.6.0

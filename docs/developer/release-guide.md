@@ -196,6 +196,19 @@ Then do by hand:
    [`packaging/README.md`](../../packaging/README.md#microsoft-store-submission).
    Paste `WHATS_NEW.md` (without the `Version` line if you prefer) into
    **What's new in this version**.
+5. Update the Store listing in every language: edit the text dicts in
+   [`tools/store/make_listing_csv.py`](../../tools/store/make_listing_csv.py)
+   (at least `ReleaseNotes`, matching `WHATS_NEW.md`), export the current
+   listing from Partner Center (**Store listings → Export listings**), run
+   `python tools\store\make_listing_csv.py <export>.csv`, and upload the
+   generated `tools\store\import` folder (**Import listings → Upload
+   folder**, select the folder itself). The folder holds the CSV plus one
+   dashboard screenshot per language that has none yet; image cells carry
+   the path with the root folder name (`import/dashboard-de.png`), which
+   Partner Center requires. Re-capture the screenshots when the dashboard
+   changed: `.\tools\store\capture-dashboard.ps1` (debug build, stops any
+   running MediaFlyouts). Commit the regenerated folder; it is the fallback
+   if Partner Center loses the listing.
 
 ## 7. Pro add-on, cutover and donations
 
@@ -226,9 +239,17 @@ upload: a Store build that says `off (no cutover)` sells nothing.
 ### One-time Partner Center setup (before v2.0.0)
 
 1. **Create the add-on**: Partner Center → the app → **Add-ons** → **Create a
-   new add-on** → *Durable*, product lifetime *Forever*, name
-   **MediaFlyouts Pro**. Set the base price and an India override of ₹200
-   (nearest tier). Publish it. Copy its **Store ID** into `PRO_ADDON_STORE_ID`.
+   new add-on** → *Durable*, product lifetime *Forever*, content type
+   *Electronic software download*, name **MediaFlyouts Pro**. Under
+   **Pricing** set the base currency to INR and the Default market group to
+   ₹199 (nearest tier); Microsoft converts it to local tiers for the other
+   markets. **Store listings**:
+   export, run `python tools\store\make_addon_listing_csv.py pro <export>.csv`
+   and upload `tools/store/addon-import/` (eleven languages, icon included).
+   Under **Pricing and availability → Visibility** restrict it (see *Test the
+   add-on before cutover*), discoverability *Available for purchase from
+   within the parent product only*, and publish. Copy its **Store ID** into
+   `PRO_ADDON_STORE_ID`.
 2. **Create the tips** (optional): one or more *Consumable* (developer-managed)
    add-ons, e.g. "Tip ₹100", "Tip ₹300". Publish. Copy the IDs, comma-separated,
    into `PRO_TIP_ADDON_STORE_IDS`.
@@ -244,9 +265,88 @@ upload: a Store build that says `off (no cutover)` sells nothing.
 ### Dry run (last paid release, 1.x)
 
 Ship one paid release with the Phase 1–2 code and **no cutover**. Everything
-stays unlocked; the log records `store: in collection ... acquired=...` and the
-add-on query result. Confirm on your own machine that `AcquiredDate` is the
-original purchase date before you rely on it.
+stays unlocked; the log records `store: app sku=... owned=... acquired=...` and
+the add-on query result. Confirm on your own machine that `AcquiredDate` is the
+original purchase date before you rely on it (done for 1.7.0: the Store build
+on a paid account reports `acquired=2026-10-12T06:08:33Z`, the purchase date).
+
+### Test the add-on before cutover
+
+Add-ons publish independently of the app package, and a sideloaded package
+with the Store identity gets real licence data (see *Verifying a Store build*).
+So the whole purchase path can be tested while retail still ships 1.x. The
+shipped 1.x binary has no add-on ID compiled in and never calls purchase, so a
+published-but-restricted add-on is invisible to users.
+
+Partner Center *Experiments* are not for this: they A/B-test remote variables
+through the old Store Services SDK and create no licences. Windows apps have no
+purchase sandbox either; the test uses the retail Store with a restricted
+audience.
+
+1. **Restrict who can buy.** On the add-on's **Pricing and availability** page
+   pick one:
+   - **Private Audience**: **Engage → Customer groups → Create new group →
+     Known user group**, add your Microsoft account e-mail, then select that
+     group as the audience, with discoverability *Available for purchase from
+     within the parent product only*. Only group members can see or buy the
+     add-on. This tests the real `RequestPurchaseAsync` dialog; you pay ₹200
+     to yourself and get it back at payout minus the Store fee.
+   - **Hidden in the Store → Stop acquisition**: nobody can buy, not even a
+     private audience, so `RequestPurchaseAsync` fails; only a promotional
+     code redeems. Tests licence detection, not the purchase dialog. Generate
+     a code under **Attract → Promotional codes** and redeem it in the Store
+     app (**Redeem a code**).
+2. **Publish the add-on** and wait until its status is *In the Store*. Copy the
+   Store ID from its **Product identity** page.
+3. **Build a 2.0.0 candidate** on the current branch with the real add-on ID
+   and a cutover **earlier than your own purchase date**. That makes your
+   account a normal free user (not grandfathered, trial already over), so the
+   Home upgrade card appears and the real purchase path runs:
+
+   ```powershell
+   .\mediaflyouts.ps1 build -Config release -NoTests `
+       -Define MEDIAFLYOUTS_PRO_ADDON_STORE_ID=9NXXXXXXXXXX,MEDIAFLYOUTS_STORE_CUTOVER_UTC=2026-10-01T00:00:00Z
+   ```
+
+   Check the configure log says `MediaFlyouts Pro gating: on ...`.
+4. **Stage, sign and sideload** with the Store identity exactly as in
+   *Verifying a Store build*. Remove any earlier Store-identity sideload or the
+   Store-installed copy first.
+5. **Before buying**, the log must show the price in your currency and the
+   free tier:
+
+   ```
+   store: add-on product 9NXXXXXXXXXX price='₹200.00' owned=false
+   store: snapshot available=true addOn=false acquired=2026-10-12T06:08:33Z price='₹200.00'
+   entitlement: tier=free source=expired ...
+   ```
+
+   `store: no associated add-on products` means the add-on is not published
+   yet or your account is outside its audience. Pro toggles in the Dashboard
+   must be greyed with the Pro badge and the upgrade card must show the price.
+6. **Buy or redeem.** Click the upgrade card (or a Support page tip for the
+   consumable path). After the Store dialog closes the log shows
+   `store: purchase 9NXXXXXXXXXX -> succeeded`, `store: offline licenses
+   changed`, `store: add-on license key=9NXXXXXXXXXX ... active=true`,
+   `snapshot ... addOn=true` and `entitlement: tier=pro source=addOn`. The
+   toggles unlock without a restart.
+7. **Restart the app offline** (disable the network first). `AddOnLicenses`
+   comes from the offline licence cache, so `addOn=true` and `source=addOn`
+   must survive without network. Then re-enable the network.
+8. **Grandfather check**: rebuild with the real planned cutover (after your
+   purchase date), sideload again, and confirm `source=grandfathered`. A real
+   Store-anchored trial needs a second Microsoft account that acquires the app
+   *after* it is free, so that path is checked right after cutover.
+9. **Clean up**: `Get-AppxPackage ScleaverZer0ne.MediaFlyouts |
+   Remove-AppxPackage`, reinstall from the Store, and leave the add-on
+   restricted until cutover day. A refunded or revoked test purchase shows up
+   as `addOn=false` on the next refresh; that is the expected path, nothing to
+   handle.
+
+Optionally **package-flight** the same candidate to a flight group holding
+your account instead of sideloading. That tests the Store-signed package
+through the real install path while retail stays 1.x; the Store updates your
+installed copy to the flight.
 
 ### Cutover release (v2.0.0)
 
@@ -254,13 +354,25 @@ original purchase date before you rely on it.
    Anyone who *buys* the paid app before the cutover is grandfathered; anyone
    who installs the free app before it gets Pro too. The margin protects the
    buyers, that is the right trade.
-2. Set `PRO_ADDON_STORE_ID` (and tips). Tag and build as usual.
-3. In the same submission change the price to **Free** and upload the MSIX.
+2. Set `PRO_ADDON_STORE_ID` (`9PM4LNF0XX1M`; tips are optional and can follow
+   in a later release). Check the workflow's configure log says
+   `MediaFlyouts Pro gating: cutover ...`. Tag and build as usual.
+3. In the same submission change the price to **Free**, upload the MSIX, and
+   import `tools/store/import/` (the Description now carries the
+   MEDIA FLYOUTS PRO section that policy 10.8.4 requires, and the 2.0.0
+   release notes). In the submission notes declare the in-app purchase and
+   the external donation link (policy 10.8.2).
 4. Choose **publish manually** on the submission. When certification passes,
    publish inside the 72 h window. If it slips past the window, rebuild with a
    later cutover and resubmit; never publish a binary whose cutover is in the
    past relative to real purchases.
-5. Watch the first week's error reports and logs for `store:` HRESULTs.
+5. Within the same hour, flip the add-on's **Pricing and availability →
+   Visibility** to *Public audience* (an add-on-only submission; no app
+   package needed). Until then the Home card shows the price but a purchase
+   fails for anyone outside the test group.
+6. Watch the first week's error reports and logs for `store:` HRESULTs, and
+   check the first new-user trial log (`source=storeTrial`, 15 days from
+   their `acquired=`), the one path a pre-cutover account cannot exercise.
 
 ### Verifying a Store build
 
@@ -269,6 +381,29 @@ Microsoft account. The log must show `store: context ready`, a snapshot with
 `available=true` and a valid `acquired=` date, and one `entitlement: tier=...`
 line. A purchased or redeemed add-on shows `source=addOn`; a pre-cutover
 account shows `source=grandfathered`.
+
+To test Store licensing **before** publishing, sideload a package that carries
+the Store identity. The Store answers by package family name, so the signed-in
+account's real license and `AcquiredDate` come back; a plain `-SignLocal`
+package (`CN=MediaFlyouts`) only gets `0x803F6107` (not associated with the
+Store). Remove the Store-installed copy first (same identity, different
+signer). After `.\mediaflyouts.ps1 package` (or any release build in `bin\`):
+
+```powershell
+$pub = 'CN=<Store Identity Publisher GUID>'
+.\tools\stage-msix.ps1 -Version <ver>.0 -Output release\MediaFlyouts-storeid.msix `
+    -IdentityName <Store Identity Name> -IdentityPublisher $pub `
+    -Layout build\msix-layout-storeid -Sideload
+.\tools\sign-msix-local.ps1 -Package release\MediaFlyouts-storeid.msix -Subject $pub `
+    -CerOutput release\MediaFlyouts-storeid.cer
+Get-AppxPackage <Store Identity Name> | Remove-AppxPackage
+.\tools\install-local-msix.ps1 -Package release\MediaFlyouts-storeid.msix `
+    -Certificate release\MediaFlyouts-storeid.cer
+```
+
+The log lives under
+`%LOCALAPPDATA%\Packages\<PackageFamilyName>\LocalCache\Roaming\MediaFlyouts\MediaFlyouts\logs\`.
+Reinstall from the Store when done.
 
 ## Troubleshooting
 

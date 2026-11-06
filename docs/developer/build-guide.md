@@ -85,7 +85,10 @@ The configure step prints `MediaFlyouts Pro gating: ...` so a release build
 without a cutover is visible in the log. A bad cutover string also reads as
 "off"; the app logs `pro config: ...` at startup. Debug builds accept
 `MEDIAFLYOUTS_ENTITLEMENT=free|trial|pro` in the environment to test the
-gated UI without a Store.
+gated UI without a Store. Debug builds also honour
+`MEDIAFLYOUTS_SETTINGS_DIR=<folder>` to run on a scratch settings folder
+(the app then reads `<folder>\MediaFlyouts\MediaFlyouts.ini`); the Store
+screenshot script uses it.
 
 ### Donation details
 
@@ -192,9 +195,11 @@ For the MSIX (packaging + signing) and the icon assets, see
 
 ## Icons
 
-The master logo is `packaging/assets/media-flyouts.png`.
+The master logo is `packaging/assets/MediaFlyouts.png`.
 [`tools/generate_icon.ps1`](../../tools/generate_icon.ps1) renders the app icon
 (`packaging/assets/MediaFlyouts.ico`, embedded via
 [`packaging/MediaFlyouts.rc`](../../packaging/MediaFlyouts.rc) and compiled in
 as `:/icons/MediaFlyouts.ico` for the tray and windows), the in-app logo
-(`icon-256.png`) and the MSIX tile logos from it.
+(`icon-256.png`) and the MSIX tile logos from it. `-Variant pro-bar` and
+`-Variant pro-ribbon` render the Pro marks a licence holder can pick; see
+[packaging/README.md](../../packaging/README.md#icon-assets).
