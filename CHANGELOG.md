@@ -5,6 +5,76 @@ All notable changes to MediaFlyouts are documented here. This project follows
 
 ## [Unreleased]
 
+## [2.1.0] — 2026-11-16
+
+The Dashboard groups the flyout and taskbar widget settings into expandable
+cards, **Pause all** follows a browser through its playing tabs, and the
+taskbar widget tracks the taskbar's screen edge. The app also gains the
+plumbing for an optional browser extension. The extension is not in the
+browser stores yet, so its install button stays disabled in this release.
+
+### Added
+
+- **Optional browser artwork extension.** A browser extension can supply the
+  website icon when a browser media session has no album art. The extension
+  (`browser-extension/`, Chromium and Firefox manifests) talks to
+  `MediaFlyoutsBrowserHost.exe` over native messaging; the host forwards to
+  `BrowserArtworkBridge` on a per-user local socket. `NowPlaying` uses the
+  icon only when `mf::matchesBrowserArtwork` ties the tab title to the
+  selected session. `BrowserIntegration` registers the native host and opens
+  the store listing from **Taskbar Widget → Browser artwork** and from the
+  first-run wizard. The listing comes from `MEDIAFLYOUTS_CHROME_EXTENSION_ID`,
+  `MEDIAFLYOUTS_EDGE_EXTENSION_ID` and `MEDIAFLYOUTS_FIREFOX_EXTENSION_URL`.
+  They are empty by default and the release workflow does not set them, so
+  the button is disabled and reads "The browser extension is not published
+  yet." Debug builds offer **Open development extension** instead. Setup in
+  `docs/developer/build-guide.md`; data handling in `docs/PRIVACY.md`.
+- **Expandable setting cards.** New `SettingSection` control: a card with a
+  header, a master switch that works while the card is collapsed, and
+  keyboard support (**Tab** to focus, **Space** to toggle).
+- **Startup timing.** The log records elapsed milliseconds after each startup
+  stage (`startup: ...`).
+
+### Changed
+
+- **One Flyouts page.** The Media Flyout, Volume, Lock Keys, Peripheral
+  Flyout and Charger Flyout pages become cards on a single **Flyouts** page.
+  Shared fullscreen, swipe and animation settings stay above the cards.
+  Search results and Home shortcuts expand the card they point at.
+  Capability checks and Pro locks are unchanged.
+- **Taskbar Widget page.** Media Widget and Peripheral Widget settings move
+  into two cards under the shared placement controls.
+- **Less work per frame.** The visualizer reuses its FFT buffers and a cached
+  Hann window (`mf::magnitudeSpectrumInPlace`, in-place `mf::frequencyBars`).
+  `TaskbarVisualizer` repaints only when the bands change. `NowPlaying`
+  signals an artwork change only when the displayed image differs, and
+  `WinMediaProvider` skips decoding a thumbnail whose bytes did not change.
+- **HID inventory cache.** `enumerateHidCollections` walks the HID devices
+  once and filters per vendor. A HID arrival or removal invalidates the
+  cache.
+- **Error reports** open the issue form of the public `MediaFlyouts-Releases`
+  repository.
+- The issue sync workflow also runs on `opened` and mirrors issues that carry
+  the `public` label.
+
+### Fixed
+
+- **Pause all pauses more browser tabs.** A browser exposes one media session
+  per app and promotes the next playing tab after a pause, so one press used
+  to stop only the first tab. `WinMediaProvider` now sweeps for up to six
+  rounds, 400 ms apart, and pauses sessions the browser promotes under an app
+  it already paused (`mf::pauseSweepTargets`). Play or resume cancels the
+  sweep. The app also asks the optional extension to pause media in all
+  audible tabs; the session pause remains the fallback when the extension is
+  absent.
+- **Taskbar widget on a moved taskbar** (#33). The widget position assumed a
+  bottom taskbar. `mf::detectTaskbarEdge` now finds the edge from the work
+  area, or from the taskbar window when it auto-hides, and
+  `mf::taskbarWidgetY` centres the widget in a top or bottom taskbar. The
+  widgets are horizontal strips, so they hide on a left or right taskbar.
+- CI test crashes: the test runner creates a `QApplication`, which widget
+  classes such as `QFileIconProvider` need.
+
 ## [2.0.0] — 2026-11-05
 
 The Store app becomes free and sells **MediaFlyouts Pro** as a one-time
@@ -522,6 +592,7 @@ written from scratch in Qt 6 / C++ / QML.
 [1.4.1]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.1
 [1.4.2]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.2
 [1.5.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.5.0
+[2.1.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v2.1.0
 [2.0.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v2.0.0
 [1.7.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.7.0
 [1.6.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.6.0

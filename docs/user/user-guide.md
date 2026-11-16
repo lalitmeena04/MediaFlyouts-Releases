@@ -24,18 +24,36 @@ Left-click behavior (open Settings vs. show the flyout) is configurable; with th
 
 ## Flyouts
 
+Open **Flyouts** in Settings for expandable Media, Volume, Lock Keys, Peripheral
+and Charger cards. Each card contains its own controls. Shared fullscreen,
+swipe and animation settings stay at the top. The shared position and monitor
+apply to Media, Now Playing and Lock Keys; Volume, Peripheral and Charger
+retain their own placement controls. Search results and Home shortcuts expand
+the relevant card. Each flyout and widget card has its master switch in the
+header. The switch works while the card is collapsed; click the title or
+chevron to expand its other controls.
+
 ### Media flyout
 Press a media key (or a volume key, unless excluded) while a player is active to
 show album art, title, artist and transport controls. The **seekbar** is
 draggable; the pin/close control keeps it on screen ("always display") until you
 dismiss it.
 
+For browser media without album art, the optional browser extension can supply
+the website's icon. In **Taskbar Widget** settings, select Chrome, Edge,
+Firefox, or Brave, then choose **Install browser extension** when its listing is
+available in that browser's store. Confirm the installation in the browser. The app uses the icon when a
+single audible tab, or a remembered or active tab when no tabs are audible,
+matches the selected media title. It keeps the icon while that media is paused.
+When the source cannot be identified, the usual placeholder remains. The extension
+stores are not yet published, so the install button is currently unavailable.
+
 ### Volume flyout
 Press a volume key to show the master volume slider (it replaces the native
 Windows OSD). Click the **chevron** to expand the **per-app mixer**, where each
 app has its own volume slider, mute toggle and icon. Changes apply immediately.
-The in-flyout mixer is **off by default** — switch it on from the Volume flyout
-page in Settings.
+The in-flyout mixer is **off by default** — switch it on in the Volume card on
+the Flyouts page in Settings.
 
 ### Lock-keys flyout
 Toggling Caps / Num / Scroll / Insert shows a brief indicator. Enable or disable
@@ -47,6 +65,11 @@ the **card** or **compact pill** style in Settings.
 
 ## Taskbar widget
 
+The Taskbar Widget settings page keeps shared placement controls at the top.
+Click the **Media Widget** or **Peripheral Widget** card header to expand its
+settings inside the same card. You can also focus a header with **Tab** and
+toggle it with **Space**.
+
 Enable the taskbar widget to show the current track next to the tray. On first
 run it docks to whichever edge your taskbar leaves free — left if your taskbar is
 center-aligned, right if it is left-aligned. You can:
@@ -54,9 +77,10 @@ center-aligned, right if it is left-aligned. You can:
 - dock it to the **left or right**, move it between **monitors**, and nudge it
   with an **offset**;
 - **scroll** or **swipe** across it to switch between multiple playing apps;
-- turn on the **Pause all button** to pause every playing app at once. With
-  **Play all after pausing** on, the same button resumes them once everything
-  is paused;
+- turn on the **Pause all button** to pause every playing app at once. With the
+  optional browser extension installed, it also pauses media in all audible
+  browser tabs. With **Play all after pausing** on, the same button resumes
+  media sessions once everything is paused;
 - pick a **Widget layout** — **Side by side** keeps the media and peripheral
   widgets next to each other, **Stack** puts them in one slot and lets you
   scroll between the media page and the 2.4 GHz, Bluetooth and wired pages;
@@ -76,7 +100,8 @@ or supported USB interfaces.
   breakdown.
 - The **Peripheral flyout** announces devices as they connect or disconnect and
   warns when a battery gets low. If several devices connect at once they appear
-  side by side. Turn individual events on or off on the Taskbar Widget page.
+  side by side. Turn individual events on or off in the Peripheral Flyout card
+  on the Flyouts page.
 - Rename a device from the peripheral settings list. The custom name is shown
   in the widget, dashboard and flyouts; hidden devices are left out of lists and
   alerts.
@@ -97,8 +122,8 @@ captures.
 
 ## The settings dashboard
 
-Open it from the tray menu. The sidebar groups settings into pages (Media Flyout,
-Volume, Lock Keys, Taskbar Widget, App Filtering, About, …). Use the **search
+Open it from the tray menu. The sidebar groups settings into pages (Flyouts,
+Taskbar Widget, App Filtering, About, …). Use the **search
 box** to jump to any setting. Highlights:
 
 - **Theme & accent** — light/dark/system, and a default / match-system / custom

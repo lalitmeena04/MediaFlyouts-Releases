@@ -61,8 +61,11 @@ visualizer. This document describes the features that ship in the app.
 - Hidden automatically over fullscreen apps.
 - Optional integrated playback controls.
 - Optional "Pause all" button that pauses every playing source at once. With
-  the follow-up option on, the same button becomes "Play all" whenever every
-  source is paused, and resumes them.
+  the optional browser extension installed, it also pauses media in every
+  audible browser tab. With the follow-up option on, the same button becomes
+  "Play all" whenever every source is paused, and resumes them.
+- Optional browser extension that supplies a browser tab's website icon when
+  its media session has no album art.
 
 ## Peripheral battery
 

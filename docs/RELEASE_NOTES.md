@@ -1,5 +1,64 @@
 # MediaFlyouts Release Notes
 
+## Version 2.1.0 — Tidier settings and a smarter Pause all (November 2026)
+
+Version 2.1.0 tidies the settings: every flyout now lives on one **Flyouts**
+page, each in its own expandable card. **Pause all** now follows a browser
+through its playing tabs, and the taskbar widget follows the taskbar when it
+is not at the bottom of the screen.
+
+### Dashboard
+
+- **One Flyouts page.** The Media, Volume, Lock Keys, Peripheral and Charger
+  flyouts each get an expandable card. The on/off switch sits in the card
+  header and works while the card is collapsed; click the title or the
+  chevron to see the rest. Fullscreen, swipe and animation settings that all
+  flyouts share stay at the top.
+- **Taskbar Widget page.** The **Media Widget** and **Peripheral Widget**
+  settings are grouped into two cards under the shared placement controls.
+- Search results and the Home shortcuts open the right card for you.
+- Cards work from the keyboard: **Tab** to a header, **Space** to expand or
+  collapse it.
+- Your settings are unchanged. Only their place in the Dashboard moved.
+
+### Taskbar widget
+
+- **Pause all reaches more browser tabs.** A browser shows Windows only one
+  playing tab at a time, so **Pause all** used to stop just that one. The app
+  now keeps pausing as the browser hands over the next tab.
+- **The widget follows the taskbar.** With the taskbar at the top of the
+  screen, the widget sits inside it. On a left or right taskbar the widgets
+  hide, because a horizontal widget does not fit there; they come back when
+  the taskbar returns to the top or bottom.
+- The audio visualizer does less work, most of all while nothing is playing.
+
+### Browser artwork (coming soon)
+
+- The **Taskbar Widget** page and the first-run wizard show a new **Browser
+  artwork** option. It belongs to an optional browser extension for Chrome,
+  Edge, Firefox and Brave that supplies the website's icon when a tab has no
+  album art, and lets **Pause all** pause media in every audible tab.
+- The extension is not in the browser stores yet. Until it is, **Install
+  browser extension** stays disabled and nothing about your browser changes.
+- The [Privacy Policy](PRIVACY.md) describes what the extension will read.
+
+### Fixed
+
+- The taskbar widget stayed where a bottom taskbar would be after the taskbar
+  moved to another edge. It now follows the taskbar.
+
+### Other
+
+- Error reports now open the issue form of the MediaFlyouts-Releases
+  repository, where the app's downloads live.
+
+### Downloads
+
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
+`MediaFlyouts-2.1.0-setup.exe`, `MediaFlyouts-2.1.0-win64.zip`, and the
+unsigned Store package `MediaFlyouts-2.1.0.msix`. Install the signed MSIX from
+the Microsoft Store.
+
 ## Version 2.0.0 — Free on the Store, with MediaFlyouts Pro (November 2026)
 
 MediaFlyouts is now free on the Microsoft Store. Everything you had is still

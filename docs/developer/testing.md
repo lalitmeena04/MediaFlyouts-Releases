@@ -25,6 +25,7 @@ The helper script forwards useful diagnostics to GoogleTest and CTest:
 .\mediaflyouts.ps1 test -Quiet
 .\mediaflyouts.ps1 test -FailFast
 .\mediaflyouts.ps1 test -Shuffle -Repeat -RepeatCount 5
+node --test tests/browser-extension.test.js
 ```
 
 Every test is listed as it runs. `-Filter` selects matching GoogleTest cases,
