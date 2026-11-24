@@ -6,7 +6,7 @@ channels (Microsoft Store, installer, portable ZIP).
 
 MediaFlyouts is a proprietary desktop utility published by ScleaverZer0ne.
 All rights to the source code are reserved. The Microsoft Store edition is
-free and offers a one-time **MediaFlyouts Pro** add-on and optional tips as
+free and offers a one-time **MediaFlyouts Pro** add-on
 in-app purchases, all processed by Microsoft. Buying any of them does not
 change anything in this policy: the app has no account and no licence server
 of its own.
@@ -102,7 +102,7 @@ the situations described here:
   [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement);
   the app sends nothing of its own and never talks to a server run by the
   developer. The installer and portable versions do not make this request.
-  Buying Pro or a tip opens the Microsoft Store purchase dialog; Microsoft
+  Buying Pro opens the Microsoft Store purchase dialog; Microsoft
   handles the payment and the developer receives no personal or payment data.
 - **Update check and download** — when "check for updates" is enabled (or
   triggered manually from the dashboard), the app sends an HTTPS `GET` to
@@ -150,7 +150,7 @@ If you install from the **Microsoft Store**, Microsoft may collect install and
 usage statistics under the
 [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement);
 the developer only sees aggregated, anonymous Store statistics. Your purchase
-of the app, of **MediaFlyouts Pro** or of a tip is processed entirely by
+of the app or of **MediaFlyouts Pro** is processed entirely by
 Microsoft: the developer never receives your name, email address or payment
 details, only anonymous sales totals. The app checks your licence through the
 Windows Store APIs (§3) and never contacts a developer server to verify it.

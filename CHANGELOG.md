@@ -5,6 +5,55 @@ All notable changes to MediaFlyouts are documented here. This project follows
 
 ## [Unreleased]
 
+## [2.2.0] — 2026-11-21
+
+MediaFlyouts adds a common monitor choice for all flyouts, a shortcut center,
+and bundled setup guides. This release also prepares the Store listing and
+localized showcase assets for the next update.
+
+### Added
+
+- **Common flyout monitor.** A **Use common monitor** toggle under shared
+  Flyout settings makes all flyouts use the selected display. Turn it off to
+  keep the Volume, Peripheral and Charger flyout monitor choices independent.
+- **Global shortcut center.** Additional Settings gains configurable system-wide
+  shortcuts for play/pause, next track, mute, opening the media flyout,
+  toggling the media or peripheral widget, and toggling focus mode. Invalid,
+  unsupported or already-used bindings are reported in the settings page.
+- **In-app guides.** About now opens the bundled user guide inside the app.
+  Taskbar Widget also has a browser-extension setup guide for Chromium-based
+  browsers and Firefox.
+- **Store marketing screenshots.** `tools/store/make-screenshots.ps1` renders
+  eight 2560×1440 posters per language with enlarged flyouts and widgets, a
+  backdrop and a headline. The `MediaFlyoutsShowcase` tool
+  (`MEDIAFLYOUTS_BUILD_SHOWCASE`, off by default, not shipped) loads the real
+  QML views with demo data and the app translations and grabs them
+  offscreen. Poster texts for all eleven languages are in
+  `tools/store/showcase/captions.json`. `ShowcaseSmokeTest` checks that file
+  for every shipped language, renders English and Arabic, and fails on a QML
+  warning. Details in `packaging/README.md`.
+
+### Changed
+
+- **Peripheral and Windows helper consolidation.** Battery providers share
+  PnP, HID and device-node helpers, and the PlayStation provider uses the
+  cached HID inventory. Shared Win32 window, COM and handle helpers reduce
+  duplicate platform code. Capability availability setters and source wiring
+  now use shared update and binding paths.
+- **Support and Store links.** The Microsoft Store consumable-tip flow is
+  removed. The Support page now leads only to voluntary donations or direct
+  web support, and the app no longer exposes Store tip purchase controls.
+- **Store listing for 2.2.0.** `tools/store/make_listing_csv.py` carries the
+  2.2.0 release notes in all eleven languages, matching `WHATS_NEW.md`, and
+  gives every language nine screenshots: its eight posters and its dashboard
+  capture. New `--replace-screenshots` option replaces every screenshot slot;
+  `--screenshots-only` does the same and leaves the other text as exported.
+  Captions come from `captions.json`.
+  The script now checks the Partner Center limits before it writes, and
+  stops when one is exceeded or a screenshot file is missing.
+  `tools/store/import/` holds the regenerated package (99 images) and the
+  dashboard captures are retaken for the Flyouts page.
+
 ## [2.1.0] — 2026-11-16
 
 The Dashboard groups the flyout and taskbar widget settings into expandable
@@ -166,14 +215,13 @@ entitlement layer for MediaFlyouts Pro (not enabled in this release).
   a clock-rollback guard (`Model/Entitlement*`, `Controllers/StoreLicensing`,
   `Controllers/EntitlementController`, `Controllers/ProGate`). Build-time
   variables `MEDIAFLYOUTS_STORE_CUTOVER_UTC`, `MEDIAFLYOUTS_PRO_ADDON_STORE_ID`,
-  `MEDIAFLYOUTS_TRIAL_DAYS`, `MEDIAFLYOUTS_TIP_ADDON_STORE_IDS`; debug builds
+  `MEDIAFLYOUTS_TRIAL_DAYS`; debug builds
   honour `MEDIAFLYOUTS_ENTITLEMENT=free|trial|pro`. See
   `docs/developer/release-guide.md` §7. Gating is off unless a build carries
   a cutover; 1.7.0 does not.
 - **Support page.** A new dashboard page for donations: a link to the donation
   web page in every build, a UPI QR code and NEFT details with Copy buttons in
-  installer/portable builds, and one-time tip add-ons through the Microsoft
-  Store in the Store build. Payee details are stamped at build time
+  installer/portable builds. Payee details are stamped at build time
   (`MEDIAFLYOUTS_DONATE_*`). QR codes use Nayuki's qrcodegen (MIT, fetched by
   CMake). Donations unlock nothing.
 - **What's new after an update.** The first launch after an update shows a
@@ -592,6 +640,7 @@ written from scratch in Qt 6 / C++ / QML.
 [1.4.1]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.1
 [1.4.2]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.4.2
 [1.5.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.5.0
+[2.2.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v2.2.0
 [2.1.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v2.1.0
 [2.0.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v2.0.0
 [1.7.0]: https://github.com/lalitmeena04/MediaFlyouts-Releases/releases/tag/v1.7.0

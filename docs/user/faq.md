@@ -66,8 +66,8 @@ leave a donation if you want to say thanks.
 ## How do I donate?
 Open the dashboard and go to **Support**. Every build links to the donation
 page. The installer and portable builds also show a UPI QR code and bank
-transfer details with Copy buttons; the Store build offers one-time tips
-through the Microsoft Store instead. Donations are voluntary and unlock
+transfer details with Copy buttons. The Store build offers the donation
+web page instead. Donations are voluntary and unlock
 nothing.
 
 ## The taskbar widget disappears or moves

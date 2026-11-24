@@ -72,9 +72,9 @@ properties and QML binds to their properties/signals.
   row sits at `z: 1` so the link receives its own clicks above the card-wide
   purchase MouseArea.
 - **SupportPage.qml** — the Dashboard **Support** page. Shows the donation
-  page link, and depending on `donate.showDirect` / `donate.showStoreTips`
-  either the UPI QR + NEFT details with Copy buttons, or the Store tip
-  buttons (`entitlement.purchaseAddOn`). States that Microsoft is not the
+  page link, and depending on `donate.showDirect`
+  either the UPI QR + NEFT details with Copy buttons, or the Store page link.
+  States that Microsoft is not the
   fundraiser and that donations unlock nothing.
 - **FlyoutBase.qml** — shared frameless flyout window chrome, positioning,
   animations and auto-hide methods (`present()`, `hideFlyout()`,

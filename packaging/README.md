@@ -158,22 +158,75 @@ ships only the installer and ZIPs.
 
 ### Store listing text and screenshots
 
-The listing (description, features, what's new, captions, search terms) is
+The listing (description, features, what's new, search terms) is
 kept in all eleven languages in
 [`tools/store/make_listing_csv.py`](../tools/store/make_listing_csv.py).
 It turns a Partner Center **Export listings** CSV into the
 `tools/store/import/` folder for **Import listings → Upload folder**: the
-CSV with every text field filled, the screenshot rows and IDs kept from the
-export, plus one dashboard screenshot from `tools/store/screenshots/` for
-each language that has none yet (the Store needs at least one per listing).
+CSV, the IDs kept from the export, and the screenshot files.
 Image cells must name the path with the root folder
 (`import/dashboard-de.png`); a bare file name makes the whole import fail.
+The export itself is gitignored: its name carries the submission id and it
+changes every submission.
+
+Every language gets the same nine screenshot slots, listed in `SCREENSHOTS`
+in the script: its eight marketing posters, then its dashboard capture. The
+script has three modes:
+
+| Run | Text fields | Screenshots |
+|-----|-------------|-------------|
+| `make_listing_csv.py <export>.csv` | Rewritten from the script | Only slots that hold no image yet; a URL in the export stays |
+| `make_listing_csv.py <export>.csv --replace-screenshots` | Rewritten from the script | Every slot replaced |
+| `make_listing_csv.py <export>.csv --screenshots-only` | Left as exported, except the screenshot captions | Every slot replaced |
+
+Use `--replace-screenshots` for a release that changed the screenshots, and
+`--screenshots-only` to change the images between releases without touching
+the text. Add `--languages <code> ...` (Partner Center codes, e.g.
+`--languages de-de ja`) to send the screenshot files of those languages only:
+Partner Center can answer a large burst of image uploads with 403 and then
+block the session with an "Access Denied" page. The other languages' image
+cells are left empty, which changes nothing there, so repeat the run and the
+upload per batch from the same export. Text is written for every language in
+each batch. Partner Center
+keeps an image whose cell is emptied, so a slot can only be replaced, not
+cleared, by an import. A poster's caption is its headline; the dashboard
+caption is `DashboardCaption` in the script. The script checks the Partner
+Center length limits first and writes nothing when one is exceeded.
+
 [`tools/store/capture-dashboard.ps1`](../tools/store/capture-dashboard.ps1)
-produces those screenshots from a debug build at the Store's 1366×768
+produces the dashboard captures from a debug build at the Store's 1366×768
 desktop minimum; it runs the app on a scratch settings folder through the
-debug-only `MEDIAFLYOUTS_SETTINGS_DIR` variable. The generated folder is
-committed as a fallback. The export itself is gitignored: its name carries
-the submission id and it changes every submission.
+debug-only `MEDIAFLYOUTS_SETTINGS_DIR` variable. It shows the app on the
+desktop and captures the Home page as it is, with your connected peripherals
+and anything that is playing. Run it again when the dashboard changed.
+
+[`tools/store/make-screenshots.ps1`](../tools/store/make-screenshots.ps1)
+renders the marketing posters: enlarged flyouts and widgets on a backdrop,
+each with a headline. It builds the `MediaFlyoutsShowcase` tool
+(`-DMEDIAFLYOUTS_BUILD_SHOWCASE=ON`, off by default and never shipped) and
+writes eight 2560×1440 PNGs per language to
+`tools/store/screenshots/showcase/<code>/`, about 56 MB in total. The tool
+loads the real QML views with demo data and grabs them offscreen, so nothing
+appears on the desktop and your own settings are not read. Track names,
+covers, app names and device names are invented; the backdrop and the
+taskbar strip are drawn by the tool. The flyouts use the app's own
+translations, so text the app does not translate stays English in every
+poster. What to edit, under `tools/store/showcase/`:
+
+| File | Holds |
+|------|-------|
+| `captions.json` | Headline and subtitle of each poster, per language. The listing script reads the headlines from here |
+| `qml/PartsDirector.qml` | Demo tracks, devices and the state of each grabbed view |
+| `qml/Fakes.qml` | Stand-ins for the Windows controllers the views read |
+| `qml/Scene*.qml` | Layout of each poster |
+| `qml/PostersDirector.qml` | The list of posters |
+
+All languages take about four minutes. `-Languages de,ja` renders a subset,
+and `-SkipBuild` skips the build after a QML or caption edit. The run fails
+when `captions.json` lacks a text for a shipped language, and on any QML
+warning. A warning usually means a view now reads a controller member that
+`Fakes.qml` lacks. The same checks run as `ShowcaseSmokeTest` while the
+option is on; it renders English and Arabic to stay short.
 
 Add-on listings (Title, 200-character Description, 300×300 icon) follow the
 same path with

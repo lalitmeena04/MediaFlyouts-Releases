@@ -142,10 +142,10 @@ through `QSaveFile`. `load()`, `save()`, `clear()`; `serializeEntitlementCache`
 
 The Store identifiers and gating policy compiled into the binary
 (`MEDIAFLYOUTS_PRO_ADDON_STORE_ID`, `MEDIAFLYOUTS_STORE_CUTOVER_UTC`,
-`MEDIAFLYOUTS_TRIAL_DAYS`, `MEDIAFLYOUTS_TIP_ADDON_STORE_IDS`).
+`MEDIAFLYOUTS_TRIAL_DAYS`).
 `parseProBuildConfig()` is the pure parser: trims, reads the cutover as UTC
 (a bare date-time counts as UTC, offsets are normalised), falls back to 15
-trial days on bad input, de-duplicates tip ids. A bad or empty cutover leaves
+trial days on bad input. A bad or empty cutover leaves
 gating off. `proBuildConfig()` returns the parsed build values and logs them
 once.
 

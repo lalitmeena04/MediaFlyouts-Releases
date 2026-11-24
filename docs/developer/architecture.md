@@ -50,7 +50,7 @@ Qt objects that wire the model to Windows and to QML:
 - **ProGate** — effective values of the gated settings (`pro`): stored value
   when unlocked, free-tier default when locked.
 - **DonationController** — the Support page (`donate`): page link, UPI/NEFT
-  details for unpackaged builds, Store tips for the Store build.
+  details for unpackaged builds and a web page for the Store build.
 - Windows-only: **VolumeController**, **VolumeMixer**, **AudioCapture**,
   **AccentWatcher**, **WindowEffects** (dark title bar), **LockKeysController**,
   **MediaKeyController**, **FullscreenDetector**, **NativeFlyoutSuppressor**,

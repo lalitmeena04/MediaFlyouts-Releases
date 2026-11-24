@@ -74,7 +74,6 @@ configured at build time. All four are CMake cache variables and default to
 | `MEDIAFLYOUTS_STORE_CUTOVER_UTC` | ISO-8601 UTC instant when the Store app went free. **Empty = gating off, everything unlocked.** |
 | `MEDIAFLYOUTS_PRO_ADDON_STORE_ID` | Store ID of the "MediaFlyouts Pro" durable add-on. Empty = no purchase button. |
 | `MEDIAFLYOUTS_TRIAL_DAYS` | Trial length (default `15`). |
-| `MEDIAFLYOUTS_TIP_ADDON_STORE_IDS` | Comma-separated consumable tip add-on IDs. |
 
 ```powershell
 cmake --preset msvc-release -D "MEDIAFLYOUTS_STORE_CUTOVER_UTC=2026-12-04T12:00:00Z" `
@@ -93,12 +92,21 @@ screenshot script uses it.
 ### Browser integration extension
 
 The build stages a native messaging host and unpacked extension packages under
-`bin\browser-extensions`. In a debug build, open **Taskbar Widget**, select a
-browser, and choose **Open development extension**. This registers the native
-host for the current Windows user and opens the package folder. Load it using
-`chrome://extensions`, `edge://extensions`, or `brave://extensions` (Developer mode, Load unpacked),
-or `about:debugging` in Firefox (Load Temporary Add-on, select `manifest.json`).
-Firefox removes temporary add-ons when it closes.
+`bin\browser-extensions`. In a debug build, **Open development extension**
+registers the native host for the current Windows user and opens the package
+folder for any supported browser.
+
+In release builds, when no Chromium store listing is configured, **Install
+browser extension** registers the native host, opens the browser's extensions
+page, and opens the bundled Chromium package folder. Enable Developer mode,
+select **Load unpacked**, and choose that folder. This is a manual installation;
+Chrome does not permit ordinary apps to silently install unpacked extensions.
+Keep the app in the same folder so the browser can find the extension and
+native host.
+
+For Firefox development, use `about:debugging` → **This Firefox** → **Load
+Temporary Add-on**, then select `manifest.json`. Firefox removes temporary
+add-ons when it closes.
 
 Each native host exits when its browser connection closes or MediaFlyouts is
 unavailable or disconnects. It does not keep retrying while the app is closed.
@@ -120,25 +128,30 @@ elements concurrently. This uses the extension's `scripting` permission and
 the existing site access. Pages that play sound without audio or video elements
 may not be controllable this way.
 
-For release, submit the Chromium and Firefox packages to their browser stores;
-Firefox requires Mozilla signing. The Chromium manifest's `key` is for local
-development. Store-issued extension IDs may differ; use the actual IDs after
-publication. Chromium install actions also register the published extension
-through the browser's external-install registry key, then open its official
-store page. The browser asks the user to confirm; restart it to detect the
-external registration. If registry access is denied, the store page still
-opens for a normal user-approved install. Firefox uses its store listing.
-Set these CMake cache variables before building to enable the dashboard install buttons:
+Firefox uses its AMO listing URL, configured by default. Chrome, Edge, and
+Brave use their official store listings when their IDs are configured. Those
+store install actions register the published extension through the browser's
+external-install registry key, then open its official store page. The browser
+asks the user to confirm; restart it to detect the external registration. If
+registry access is denied, the store page still opens for a normal user-approved
+install. When no Chromium listing is configured, the dashboard and onboarding
+route **Install browser extension** to the manual unpacked setup described
+above.
+
+The Chromium manifest's `key` keeps the unpacked extension ID stable for native
+messaging. If you publish it to a store, configure that store's actual ID.
+Set these CMake cache variables before building:
 
 | Variable | Meaning |
 |---|---|
 | `MEDIAFLYOUTS_CHROME_EXTENSION_ID` | Chrome Web Store extension ID |
 | `MEDIAFLYOUTS_EDGE_EXTENSION_ID` | Microsoft Edge Add-ons extension ID |
-| `MEDIAFLYOUTS_FIREFOX_EXTENSION_URL` | HTTPS listing URL on addons.mozilla.org |
+| `MEDIAFLYOUTS_FIREFOX_EXTENSION_URL` | HTTPS listing URL on addons.mozilla.org (defaults to the MediaFlyouts listing) |
 
 The dashboard registers the host and opens the appropriate listing; the user
-must confirm installation in the browser. Empty values leave the install action
-disabled. Validate native host registration separately for MSIX installations.
+must confirm installation in the browser. Empty Chromium IDs route the install
+action to manual setup. Validate native host registration separately for MSIX
+installations.
 
 ### Donation details
 
@@ -154,8 +167,7 @@ only the page URL has a default.
 | `MEDIAFLYOUTS_DONATE_BANK_NAME`, `…_BANK_ACCOUNT`, `…_BANK_IFSC`, `…_BANK_HOLDER` | NEFT / IMPS details. Account and IFSC are both required for the block to show. |
 
 The Store build never shows UPI or bank details in-app (Store policy
-§10.8.2); it shows the page link and, when `MEDIAFLYOUTS_TIP_ADDON_STORE_IDS`
-is set, the consumable tip add-ons.
+§10.8.2); it shows the configured donation page link.
 
 ## Release artifacts
 

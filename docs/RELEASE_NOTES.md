@@ -1,5 +1,31 @@
 # MediaFlyouts Release Notes
 
+## Version 2.2.0 — Common flyout display and more control (November 2026)
+
+MediaFlyouts 2.2.0 adds a common display choice for every flyout and a
+shortcut center for system-wide actions. It also adds bundled setup guides
+for users and contributors.
+
+### Flyouts
+
+- **Common monitor override.** Enable **Use common monitor** under shared
+  Flyout settings to show every flyout on the selected display. Turn it off
+  to keep individual Volume, Peripheral and Charger flyout monitor choices.
+
+### Shortcuts and guides
+
+- Additional Settings now offers configurable shortcuts for playback, mute,
+  opening a flyout, toggling widgets and toggling focus mode.
+- About opens the bundled user guide. Taskbar Widget settings include setup
+  guidance for the optional browser extension.
+
+### Downloads
+
+See the [Releases page](https://github.com/lalitmeena04/MediaFlyouts-Releases/releases):
+`MediaFlyouts-2.2.0-setup.exe`, `MediaFlyouts-2.2.0-win64.zip`, and the
+unsigned Store package `MediaFlyouts-2.2.0.msix`. Install the signed MSIX from
+the Microsoft Store.
+
 ## Version 2.1.0 — Tidier settings and a smarter Pause all (November 2026)
 
 Version 2.1.0 tidies the settings: every flyout now lives on one **Flyouts**

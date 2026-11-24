@@ -123,7 +123,7 @@ without a restart instead of running out the local trial.
 
 - `tier` / `source` / `unlocked` / `isPro` / `isTrial` / `trialDaysLeft`, plus
   `gatingEnabled`, `storeAvailable`, `canPurchase`, `price`, `purchasing`,
-  `refreshing`, `lastPurchaseStatus`, `tipAddOnStoreIds`, `featureIds`.
+  `refreshing`, `lastPurchaseStatus`, `featureIds`.
 - `licensed` — Pro through a licence (add-on, grandfathered, cached), false
   for the always-unlocked installer build and for trials. Switches the tray,
   window and `AppLogo` icons to the Pro mark.
@@ -132,8 +132,7 @@ without a restart instead of running out the local trial.
   same answer as an invokable; it does not notify, so a binding on it would
   freeze at the startup tier. An unknown id reads as unlocked and logs a
   warning: a typo must never lock a feature.
-- `purchase(window)` buys the Pro add-on, `purchaseAddOn(id, window)` any
-  add-on (tips). The QML `Window` becomes the owner of the Store dialog.
+- `purchase(window)` buys the Pro add-on. The QML `Window` becomes the owner of the Store dialog.
   `purchaseFinished(ok, statusId, storeId)` reports stable ids from
   `mf::purchase` (`succeeded`, `alreadyPurchased`, `notPurchased`,
   `networkError`, `serverError`, `unavailable`, `notConfigured`, `busy`);
@@ -145,8 +144,7 @@ without a restart instead of running out the local trial.
 - Debug builds honour `MEDIAFLYOUTS_ENTITLEMENT=free|trial|pro`
   (`source` = `override`, never cached).
 - Build constants come from `mf::proBuildConfig()` (`MEDIAFLYOUTS_PRO_ADDON_STORE_ID`,
-  `MEDIAFLYOUTS_STORE_CUTOVER_UTC`, `MEDIAFLYOUTS_TRIAL_DAYS`,
-  `MEDIAFLYOUTS_TIP_ADDON_STORE_IDS`; see the build guide).
+  `MEDIAFLYOUTS_STORE_CUTOVER_UTC`, `MEDIAFLYOUTS_TRIAL_DAYS`; see the build guide).
 
 ### ProGate
 The `pro` context property: the *effective* value of every gated setting.
@@ -163,8 +161,7 @@ settings are never modified, so a purchase brings the user's choices back.
 The `donate` context property behind the Dashboard **Support** page. Built
 from `mf::donationConfig()` (payee details stamped at build time) and the
 install kind. `showDirect` (UPI QR + NEFT details) is true only for
-installer/portable builds; the Store build gets `showStoreTips` (consumable
-tip add-ons bought through `entitlement.purchaseAddOn`) and the page link,
+installer/portable builds; the Store build gets the page link,
 which satisfies Store policy §10.8.2. `upiUri` is the `upi://pay` deep link,
 `upiQrSource` the `image://qr/<base64url>` URL served by `QrImageProvider`.
 `openPage()` opens the donation web page, `copyToClipboard(text)` backs the
@@ -193,8 +190,6 @@ not match `VERSION.txt`.
   a multi-threaded WinRT apartment, then answers with one `StoreSnapshot`.
   `purchase(id)` initializes the context with the owner HWND
   (`IInitializeWithWindow`) and runs `RequestPurchaseAsync` on the UI thread
-  with a `Completed` handler; a successful consumable (tip) purchase is then
-  reported with `ReportConsumableFulfillmentAsync` so it can be bought again.
   `OfflineLicensesChanged` is forwarded as
   `licensesChanged`. Unpackaged processes report `supported() == false` and
   answer every call with an unavailable snapshot. Every HRESULT is logged.
